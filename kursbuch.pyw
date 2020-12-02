@@ -14,7 +14,8 @@ from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
-  
+
+#main  
 # locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 
