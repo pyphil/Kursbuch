@@ -8,7 +8,6 @@ from datetime import datetime
 import locale
 import report
 import tutmod
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
