@@ -1,0 +1,160 @@
+
+0.5 Scrollbalken für Planungsfeld hinzufügen
+    Kursheftfelder füllend aufteilen
+    Nummerierung in Fehlzeitenansicht hinzufügen
+
+0.6 Weitere Spalte in Fehlzeiten für Schulveranstaltungen
+    + Wert 3 setzen
+    + tkcalender in neue Stunde einbauen
+
+0.7 Modul zur Schülerverwaltung erstellen
++ Gui-Aufbau mit Listbox, Hizufügen- und Entfernen-Buttons und weiterer Listbox
++ db create Table anpassen, sodass auch eine SuS Tabelle für die pk erstellt wird
++ db writeSuS..
++ Wiederaufrufen vorhandener SuS
+
++ 0.8 Darstellung des Datums in Listbox ändern: Montag, 02.04.2020 - 1. Stunde
+    + BUG: Nach Kurswechel wird erster Datensatz mit vorherigen Daten überschrieben
+    + BUG: Bei Kurswechsel immer aus Fehlzeitenansicht zurückgehen, sonst falsche SuS
+    
+0.8.1 Ferienmarkierung direkt anzeigen
+    + Methode fillListbox einführen
+    + binding für Checkbox zum Aufrufen der Methode -> einfach command des Checkbox widgets
+
+0.8.2
+    + BUG: vor dem Öffnen der Schülerverwaltung Fehlzeiten neu einlesen wenn in Fehlzeitenansicht
+    
+0.8.3 Schuljahr bei Kurserstellung abfragen und Kursnamen und Schuljahr in settings speichern
+    + Schuljahr in Gui einbauen
+    + db: Schuljahr abspeichern
+    + Spalte für Schuljahr anlegen
+    + Schuljahr in den Tabellennamen integrieren
+    + db: Liste der Kurse aus settings filtern für Optionsmenu 
+    + und nach SJ sortieren
+
+0.8.4 Umwandlung von whitespace / Tabellennamen und Azeigenamen speichern
+    + für Tabellennamen bei Kurserstellung: erst rstrip anwenden um führenden Whitespace zu Löschen
+    + Tabellennamen und Azeigenamen in settings speichern, Anzeigename enthält Schuljahr, aber zur Sortierung trotzdem in separatem Tabellenfeld
+    + Anzeigename ohne Kürzel
+    + Methoden für Kursauswahl anpassen für Tabellenname bei Auswahl
+    + Tests durchführen
+
+0.8.5 
+    + Test mit Ersteinrichtung
+    + Textumbruch bei Wort statt Zeichen
+    + Nach Kurswechel und Anlage neuer Kurs bleiben Daten des letzten Datensatzes stehen
+    + Wenn kein Kurs bzw. wenn keine Stunde geladen -> Felder inaktiv
+
+    Report für das Kursheft entwickeln
+    + Button für Ausgabe hinzufügen
+    + Datenbankabfragen einbauen und Liste für Inhalt einfügen
+        + Datum
+        + Stundennummer
+        + Stundeninhalt
+        + Hausaufgaben
+        + Paraphe
+        + Fehlzeiten
+    + Formatierung anpassen
+        + Überschrift Kurs und Kürzel
+        + grayStyle in reportlab für Ferienmarkierung nutzen: Dazu zusätzlich in DB abfragen und bei Paragraphs filtern
+
+0.8.6
+    + Tutorenmodus Buttton
+    + Test mit Netzwerkpfad lokal
+    + Test mit Netzwerkpfad Schule
+    
+
+0.8.7
+    + Sortierung der Stunden
+    + Delete Button Stunde
+    + !!BUG Schülerverwaltung Schülergruppenwechsel funktionert nicht
+    + BUG: Sortierung in report nach Datum
+    + BUG: Sortierung bei Umlauten in der Schülerverwaltung
+    + Kursbuch mit Kursnamen im Dateinamen ausgeben
+
+0.8.8 
+    + Dialog Ersteinrichtung verbessern + neue Methode focus + neue Methode Window placement
+    + Kompensation in Datumsliste farbig hinterlegen
+
+0.8.8.1
+    + Kursbuch PDF Anzeige auch ohne Fehlzeiten -> Abfragedialog
+    + Enable Disable Buttons für Topleiste
+
+
+0.8.8.2
+    + Einrichtung der zweiten zentralen Datenbank für SuS und Fehlzeiten 
+    + Pfade zum Speichern anpassen 
+        + Homedirectory für kurs.db und 
+        + ..// für sus.db
+
+0.8.8.3
+    + Pyqt-Oberfläche für Dialog Neue Stunde inkl. Kalender => kein langsames Laden von tkcalender mehr
+    + PDF-Exporte Pfad anpassen z.B.: U:\Kursbuch-Export  
+
+
+0.9 
+    - Komplettes Redesign mit PyQt5
+        + MainWindow
+        + PDFExport
+        + Neue Stunde
+        + Ersteinrichtung
+        - Schülerverwaltung
+    + BUG: Hinweisdialog wenn keine Stunde bei Neue Stunde erstellen ausgewählt, sonst Absturz
+
+
+
+0.9.1
+    - Delete Button für die Stunde löscht keine Fehlzeiten daher Hinweisdialog einbauen
+    - keine Nullen in neue Spalten schreiben aus Performacegründen -> anwesend bei NULL/"" ? und 0
+    - report: Seitenzahl
+    - report: Kompensation markieren
+    - Kurs löschen mit Hinweisdialog, dass Fehlzeiten nicht gelöscht werden
+
+1.1
+    - tutmod: Klassenliste und Schüler anzeigen
+    - tutmod: Fenstern positionieren
+    - tutmod: Abschnitte für Klassen festlegen
+    - tutmod: Fehlstundensummen im Abschnitt berechnen und anzeigen
+
+
+
+
+
+***BUGS***
+- Schüler können zweimal hinzugefügt werden
+- Man kann eine Stunde zweimal anlegen
+    -> Fehlermeldung einbauen
+
+
+
+
+
+***Features***
+- Vermeidung von leeren Datensätzen, wenn die App auf zwei Rechnern auf war:
+    - timestamp einführen
+        - Mit Erstellung des Datensatzes: INSERT INTO LOB_E_10_EK_2020_21 ("timestamp") VALUES (strftime('%s','now'))
+        - UPDATE LOB_E_10_EK_2020_21 SET timestamp = (strftime('%s','now')) WHERE pk=14
+        - Spalte timestamp bei Kurserstellung mit anlegen
+        - Letzte Änderung in GUI anzeigen
+- Nach Hinzufügen einer Stunde, diese direkt anzeigen
+- Nach Hinzufügen eines Kurses diesen direkt anzeigen
+- leading zero einfügen in Listendarstellung --> besser durch neue GUI mit treeview
+- Änderung des Datums auch im Datensatz ermöglichen (mit Warnung, alle Fehlzeiten zurücksetzen?)
+- Neuen Kurs über Auswahlmenü für Jahrgang und Klasse benennen
+- Entry-Felder auf Buchstabenanzahl begrenzen
+    -  Kürzel, Fach 
+- Was tun mit Kurshefteintrag und Hausaufgaben -> Textfeld ohne Scrollen -> UI redesign
+- Zentrierung der Fenster durch Berechnung lösen -> siehe pyDictator
+
+Code Verbeserungen
+- neue Methode focus + neue Methode Window placement überall
+- Methodendokumentation
+
+2.0
+- Zeitabschnitte für neue Kurse und automatische Stundenerstellung
+
+2.5
+- Notizen zu einzelnen Schülern
+
+3.0
+- Notenverwaltung
