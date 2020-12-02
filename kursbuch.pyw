@@ -799,6 +799,9 @@ class Gui(Ui_MainWindow):
                     self.radioButton4 = QtWidgets.QRadioButton(self.frame)
                     self.radioButton4.setGeometry(QtCore.QRect(350, 0, 82, 15))
                     self.radioButton4.setObjectName("3,"+str(i))
+                    self.radioButton5 = QtWidgets.QRadioButton(self.frame)
+                    self.radioButton5.setGeometry(QtCore.QRect(400, 0, 82, 15))
+                    self.radioButton5.setObjectName("4,"+str(i))
                     
                     self.verticalLayoutFehlzeiten.addWidget(self.frame)
                     
@@ -806,6 +809,7 @@ class Gui(Ui_MainWindow):
                     self.radioButton2.clicked.connect(self.fsSpeichern)
                     self.radioButton3.clicked.connect(self.fsSpeichern)
                     self.radioButton4.clicked.connect(self.fsSpeichern)
+                    self.radioButton5.clicked.connect(self.fsSpeichern)
 
                     if self.sus[i][3] == "0":
                         self.radioButton.setChecked(True)
@@ -815,6 +819,8 @@ class Gui(Ui_MainWindow):
                         self.radioButton3.setChecked(True)
                     if self.sus[i][3] == "3":
                         self.radioButton4.setChecked(True)
+                    if self.sus[i][3] == "4":
+                        self.radioButton5.setChecked(True)
                 
                 # Für wenige Einträge Höhe des Spacers unten anpassen
                 if len(self.sus) >= 15:

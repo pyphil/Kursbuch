@@ -57,6 +57,8 @@ def getData(tn):
                 f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
             if item[0][2] == "3":
                 f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+            if item[0][2] == "4":
+                f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
         fehlzeiten.append(f)
     #print(fehlzeiten)
     c.close()
