@@ -14,6 +14,7 @@ from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
  
+# mit pyQt nicht mehr notwendig
 # locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 
