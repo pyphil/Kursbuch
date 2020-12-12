@@ -25,6 +25,21 @@
      <height>481</height>
     </rect>
    </property>
+   <column>
+    <property name="text">
+     <string>Nr.</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Klasse</string>
+    </property>
+   </column>
   </widget>
   <widget class="QTableWidget" name="tableWidget_2">
    <property name="geometry">
@@ -35,6 +50,21 @@
      <height>481</height>
     </rect>
    </property>
+   <column>
+    <property name="text">
+     <string>Nr.</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Klasse</string>
+    </property>
+   </column>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
