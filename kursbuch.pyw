@@ -30,7 +30,7 @@ class Database:
         self.c = self.verbindung.cursor()
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
-        self.susverbindung = sqlite3.connect("..\\sus.db")
+        self.susverbindung = sqlite3.connect("sus.db")
         self.susc = self.susverbindung.cursor()
 
         # Austesten, ob die Ersteinrichtung angezeigt werden muss

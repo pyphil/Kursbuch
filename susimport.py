@@ -70,5 +70,5 @@ for i in guidlist:
                 (i[0],))
         verbindung.commit()
 
-print("Abgänger in db überprüfen.")
+print("Abgänger manuell in db überprüfen!")
 print("Fertig")

@@ -16,7 +16,7 @@ def getData(tn):
     c = verbindung.cursor()
 
     # Verbindung zur zentralen SuS-Datenbank herstellen
-    susverbindung = sqlite3.connect("..\\sus.db")
+    susverbindung = sqlite3.connect("sus.db")
     susc = susverbindung.cursor()
 
     # Daten aus der lokalen Datenbank lesen
