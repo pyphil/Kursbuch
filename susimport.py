@@ -2,7 +2,7 @@ import sqlite3
 
 # Exportdatei öffnen, Datenbank öffnen
 f = open('Export.txt','r',encoding="utf-8")
-verbindung = sqlite3.connect("kurs.db")
+verbindung = sqlite3.connect("sus.db")
 c = verbindung.cursor()
 
 exporttext = ""
@@ -14,29 +14,35 @@ for zeile in f:
     exporttext += zeile
     # Zeilen in Liste auftrennen
     item = zeile.split(";")
-
-    #  Wenn guid nicht in db -> [], dann anlegen, sonst updated
-    db = list(c.execute(""" SELECT guid FROM sus
-                       WHERE guid = ?
-                   """,
-                   (item[0],)))
-    if db == []:
-        # anlegen
-        c.execute(""" INSERT INTO sus
-                    ("Abgang", "guid", "Name", "Vorname", "Klasse")
-                    VALUES (0,?,?,?,?); """, 
-                    (item[0],item[1],item[2],item[3]))
-        verbindung.commit()           
+    # Kopfzeile ausnehmen
+    if "eindeutige Nummer" in item[0]:
+        pass
     else:
-        # updaten
-        c.execute(""" UPDATE sus
-                      SET Name = ?,
-                          Vorname = ?,
-                          Klasse = ?
-                      WHERE guid = ?
-                   """,
-                   (item[1],item[2],item[3],item[0]))
-        verbindung.commit()
+        #  Wenn guid nicht in db -> [], dann anlegen, sonst updated
+        db = list(c.execute(""" SELECT guid, Name, Vorname, Klasse FROM sus
+                                WHERE guid = ?
+                            """,
+                            (item[0],)))
+        if db == []:
+            # anlegen
+            c.execute(""" INSERT INTO sus
+                        ("Abgang", "guid", "Name", "Vorname", "Klasse")
+                        VALUES (0,?,?,?,?); """, 
+                        (item[0],item[1],item[2],item[3]))
+            verbindung.commit()           
+            print("Neuer Eintrag: "+item[1],item[2],item[3])
+        else:
+            if db[0][1] != item[1] or db[0][2] != item[2] or db[0][3] != item[3]:
+                # updaten
+                c.execute(""" UPDATE sus
+                            SET Name = ?,
+                                Vorname = ?,
+                                Klasse = ?
+                            WHERE guid = ?
+                        """,
+                        (item[1],item[2],item[3],item[0]))
+                verbindung.commit()
+                print("Aktualisierter Eintrag: "+item[1],item[2],item[3])
 
 f.close()
 
@@ -63,3 +69,6 @@ for i in guidlist:
                 """,
                 (i[0],))
         verbindung.commit()
+
+print("Abgänger in db überprüfen.")
+print("Fertig")
