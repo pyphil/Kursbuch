@@ -1,7 +1,7 @@
 import sqlite3
 import tkinter as tk
 from tkinter import ttk
-import susverw
+#import susverw
 from time import strftime, strptime
 import datetime
 from datetime import datetime
@@ -13,6 +13,7 @@ from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
+from Susverwgui import Ui_Susverwgui
 
 
  
@@ -468,6 +469,18 @@ class StundeAnlegen(Ui_Form):
         self.Form.close()    
 
 
+class SuSVerw(Ui_Susverwgui):
+    def __init__(self, gui, db, kurs):
+                
+        self.gui = gui
+        self.db = db
+        self.kurs = kurs
+
+        self.susverwgui = QtWidgets.QWidget()
+        self.setupUi(self.susverwgui)
+        self.susverwgui.show()
+
+
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):
         self.PdfExportieren = QtWidgets.QWidget()
@@ -701,7 +714,8 @@ class Gui(Ui_MainWindow):
         pass
 
     def schuelerVerw(self):
-        susverw.SuSVerwaltung(self, self.db, self.kurs)
+        #susverw.SuSVerwaltung(self, self.db, self.kurs)
+        self.susverw = SuSVerw(self, self.db, self.kurs)
 
     def neueStunde(self):
         """instanziiert das Objekt KursAnlegen und übergibt 
