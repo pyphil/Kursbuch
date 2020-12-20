@@ -481,7 +481,7 @@ class SuSVerw(Ui_Susverwgui):
         self.susverwgui.show()
 
         # Signals and slots
-        #self.comboBoxKurs.activated.connect()
+        self.comboBox.activated.connect(self.zeigeKlasse)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -492,7 +492,29 @@ class SuSVerw(Ui_Susverwgui):
                     "EF", "Q1", "Q2"]
         self.comboBox.addItems(klassen)
 
+    def zeigeKlasse(self):
+        """ Zeigt die Liste der Schüler der ausgewählten Klasse, bzw. wenn
+        noch keine Auswahl erfolgt ist, einen Hinweis
+        """
+        # Listbox leeren
+        
 
+        # gefilterte Liste bei jedem Aufruf leer bereitstellen
+        self.filtered = []
+
+        klasse = self.comboBox.currentText()
+
+        # Filtern ComboBox Eintrag
+        alle = self.db.getGesamtliste()
+        #self.tableWidget.setRowCount(len(self.db.getListe(self.kurs)))
+        z = 0
+        for i in alle:
+            if i[3] == klasse:
+                self.tableWidget.setRowCount(z+1)
+                self.tableWidget.setItem(z,0,QtWidgets.QTableWidgetItem(i[1]))
+                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[2]))
+                self.filtered.append([i[1], i[2], i[0]])
+                z += 1
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
