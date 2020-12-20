@@ -1,3 +1,0 @@
-"0001","Funder","Romina","Q1"
-"4587","Mustermann","Max","5a"
-"1254","Dreßen","Anna","Q2"
