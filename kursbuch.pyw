@@ -480,6 +480,20 @@ class SuSVerw(Ui_Susverwgui):
         self.setupUi(self.susverwgui)
         self.susverwgui.show()
 
+        # Signals and slots
+        #self.comboBoxKurs.activated.connect()
+
+        klassen = ["5a", "5b", "5c", "5d", "5e",
+                   "6a", "6b", "6c", "6d", "6e",
+                   "7a", "7b", "7c", "7d", "7e",
+                   "8a", "8b", "8c", "8d", "8e",
+                   "9a", "9b", "9c", "9d", "9e",
+                   "10a", "10b", "10c", "10d", "10e",
+                    "EF", "Q1", "Q2"]
+        self.comboBox.addItems(klassen)
+
+
+
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):

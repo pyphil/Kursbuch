@@ -102,6 +102,7 @@ class Ui_Susverwgui(object):
         self.label_2.setObjectName("label_2")
         self.comboBox = QtWidgets.QComboBox(Susverwgui)
         self.comboBox.setGeometry(QtCore.QRect(120, 50, 111, 20))
+        self.comboBox.setEditable(True)
         self.comboBox.setObjectName("comboBox")
         self.label_3 = QtWidgets.QLabel(Susverwgui)
         self.label_3.setGeometry(QtCore.QRect(40, 53, 75, 13))
