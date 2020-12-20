@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="toolTip">
-   <string>Markierte hinzufügen</string>
-  </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
@@ -25,8 +22,14 @@
      <height>481</height>
     </rect>
    </property>
-   <property name="rowCount">
-    <number>0</number>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
    </property>
    <attribute name="horizontalHeaderMinimumSectionSize">
     <number>40</number>
@@ -60,6 +63,15 @@
      <height>481</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
    <attribute name="horizontalHeaderMinimumSectionSize">
     <number>40</number>
    </attribute>
@@ -83,13 +95,13 @@
     </property>
    </column>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="labelLerngruppe">
    <property name="geometry">
     <rect>
      <x>410</x>
      <y>53</y>
-     <width>169</width>
-     <height>13</height>
+     <width>281</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="font">
@@ -298,6 +310,12 @@
    </property>
    <property name="editable">
     <bool>true</bool>
+   </property>
+   <property name="maxVisibleItems">
+    <number>15</number>
+   </property>
+   <property name="placeholderText">
+    <string>Bitte auswählen</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">

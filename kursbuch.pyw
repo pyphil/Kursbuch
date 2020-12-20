@@ -228,12 +228,12 @@ class Database:
                                    """))
         susliste = []
         for i in pkliste:
-            item = list(self.susc.execute("""SELECT pk,Name,Vorname 
+            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse 
                                           FROM "sus"
                                           WHERE pk = ?;
                                        """,
                                         (i[0],)))
-            susliste.append([item[0][1],item[0][2],item[0][0]])
+            susliste.append([item[0][1],item[0][2],item[0][0],item[0][3]])
         return susliste
 
     def getSuS(self, date, k):
@@ -480,6 +480,25 @@ class SuSVerw(Ui_Susverwgui):
         self.setupUi(self.susverwgui)
         self.susverwgui.show()
 
+        self.tableWidget.setColumnWidth(0,190)
+        self.tableWidget_2.setColumnWidth(0,190)
+
+        # Listen bereitstellen
+        self.liste2 = []
+        self.liste2sorted = []
+        
+        # Zeigt die Liste der Schüler im Kurs
+        self.labelLerngruppe.setText("Mitglieder der Lerngruppe: "+self.kurs)
+        self.liste2 = self.db.getSuSListe(self.kurs)
+        self.liste2sorted = self.liste2
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
         # Signals and slots
         self.comboBox.activated.connect(self.zeigeKlasse)
 
@@ -496,23 +515,22 @@ class SuSVerw(Ui_Susverwgui):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse, bzw. wenn
         noch keine Auswahl erfolgt ist, einen Hinweis
         """
-        # Listbox leeren
-        
 
         # gefilterte Liste bei jedem Aufruf leer bereitstellen
         self.filtered = []
 
+        # ausgewählte Klasse
         klasse = self.comboBox.currentText()
 
-        # Filtern ComboBox Eintrag
+        # Filtern nach Klasse
         alle = self.db.getGesamtliste()
-        #self.tableWidget.setRowCount(len(self.db.getListe(self.kurs)))
         z = 0
         for i in alle:
             if i[3] == klasse:
                 self.tableWidget.setRowCount(z+1)
-                self.tableWidget.setItem(z,0,QtWidgets.QTableWidgetItem(i[1]))
-                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[2]))
+                self.tableWidget.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
+                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
                 self.filtered.append([i[1], i[2], i[0]])
                 z += 1
 
