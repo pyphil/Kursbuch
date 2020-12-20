@@ -25,12 +25,13 @@ for zeile in f:
                             (item[0],)))
         if db == []:
             # anlegen
+            # Strip zur Entfernung des Zeilenumbruchs im letzten Feld
             c.execute(""" INSERT INTO sus
                         ("Abgang", "guid", "Name", "Vorname", "Klasse")
                         VALUES (0,?,?,?,?); """, 
-                        (item[0],item[1],item[2],item[3]))
+                        (item[0],item[1],item[2],item[3].strip()))
             verbindung.commit()           
-            print("Neuer Eintrag: "+item[1],item[2],item[3])
+            print("Neuer Eintrag: "+item[1],item[2],item[3].strip())
         else:
             if db[0][1] != item[1] or db[0][2] != item[2] or db[0][3] != item[3]:
                 # updaten
@@ -40,9 +41,9 @@ for zeile in f:
                                 Klasse = ?
                             WHERE guid = ?
                         """,
-                        (item[1],item[2],item[3],item[0]))
+                        (item[1],item[2],item[3].strip(),item[0]))
                 verbindung.commit()
-                print("Aktualisierter Eintrag: "+item[1],item[2],item[3])
+                print("Aktualisierter Eintrag: "+item[1],item[2],item[3].strip())
 
 f.close()
 
