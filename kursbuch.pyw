@@ -502,6 +502,7 @@ class SuSVerw(Ui_Susverwgui):
         # Signals and slots
         self.comboBox.activated.connect(self.zeigeKlasse)
         self.pushButtonAddSelected.clicked.connect(self.susadd)
+        self.pushButtonDeleteSelected.clicked.connect(self.susdel)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -552,7 +553,36 @@ class SuSVerw(Ui_Susverwgui):
             self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
             z += 1
 
+        # Auswahl wieder aufheben
         self.tableWidget.clearSelection()
+
+        self.save()
+
+    def susdel(self):
+        selection = self.tableWidget_2.selectionModel().selectedRows()
+
+        for i in selection:
+            del self.liste2sorted[i.row()]
+            self.liste2 = self.liste2sorted
+        
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget_2.clearSelection()
+
+        self.save()
+
+    def save(self):
+        self.db.writeSuSListe(self.kurs,self.liste2sorted)
+        # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
+        if self.gui.tabWidget.currentIndex() == 1:
+            self.gui.fehlzeitenAnzeige(1)
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):
