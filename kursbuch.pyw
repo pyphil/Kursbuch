@@ -243,7 +243,7 @@ class Database:
         
         liste = []
         for i in pkliste:
-            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse"""+date+""" 
+            item = list(self.susc.execute("""SELECT pk,Name,Vorname,"""+date+""" 
                                           FROM "sus"
                                           WHERE pk = ?;
                                        """,
@@ -877,7 +877,7 @@ class Gui(Ui_MainWindow):
                     self.frame.setObjectName("frame"+str(i))
                     self.label = QtWidgets.QLabel(self.frame)
                     self.label.setGeometry(QtCore.QRect(20, 0, 200, 15))
-                    self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2]+" ("+self.sus[i][3]+")")
+                    self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2])
                     self.radioButton = QtWidgets.QRadioButton(self.frame)
                     self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 15))
                     self.radioButton.setObjectName("0,"+str(i))
