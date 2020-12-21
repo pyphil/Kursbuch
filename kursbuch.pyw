@@ -17,8 +17,8 @@ from Susverwgui import Ui_Susverwgui
 
 
  
-# mit pyQt nicht mehr notwendig
-# locale.setlocale(locale.LC_ALL, 'deu_deu')
+# nur für das alphabetisch richtige Sortieren der Kursmitglieder
+locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 
 class Database:
@@ -513,9 +513,7 @@ class SuSVerw(Ui_Susverwgui):
         self.comboBox.addItems(klassen)
 
     def zeigeKlasse(self):
-        """ Zeigt die Liste der Schüler der ausgewählten Klasse, bzw. wenn
-        noch keine Auswahl erfolgt ist, einen Hinweis
-        """
+        """ Zeigt die Liste der Schüler der ausgewählten Klasse """
 
         # gefilterte Liste bei jedem Aufruf leer bereitstellen
         self.filtered = []
@@ -532,16 +530,27 @@ class SuSVerw(Ui_Susverwgui):
                 self.tableWidget.setItem(
                     z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
                 self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
-                self.filtered.append([i[1], i[2], i[0]])
+                self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
 
     def susadd(self):
         selection = self.tableWidget.selectionModel().selectedRows()
-        rows = []
+
         for i in selection:
-            print(i)
-            rows.append(i.row())
-        print(rows)
+            self.liste2.append(self.filtered[i.row()])
+            print(self.liste2)
+        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
+        # labmda Funktion für jede Liste in der Liste
+        self.liste2sorted = sorted(self.liste2, key=lambda i: locale.strxfrm(i[0]))
+
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):
