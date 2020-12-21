@@ -243,7 +243,7 @@ class Database:
         
         liste = []
         for i in pkliste:
-            item = list(self.susc.execute("""SELECT pk,Name,Vorname,"""+date+""" 
+            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse"""+date+""" 
                                           FROM "sus"
                                           WHERE pk = ?;
                                        """,
@@ -552,6 +552,8 @@ class SuSVerw(Ui_Susverwgui):
             msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
             msg.setWindowTitle("Mitglieder hinzufügen")
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
             retval = msg.exec_()
 
             if retval == 1024:
@@ -595,6 +597,8 @@ class SuSVerw(Ui_Susverwgui):
             msg.setText("Sollen alle Schüler*innen gelöscht werden?")
             msg.setWindowTitle("Mitglieder löschen")
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
             retval = msg.exec_()
 
             if retval == 1024:
@@ -876,7 +880,7 @@ class Gui(Ui_MainWindow):
                     self.frame.setObjectName("frame"+str(i))
                     self.label = QtWidgets.QLabel(self.frame)
                     self.label.setGeometry(QtCore.QRect(20, 0, 200, 15))
-                    self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2])
+                    self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2]+" ("+self.sus[i][3]+")")
                     self.radioButton = QtWidgets.QRadioButton(self.frame)
                     self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 15))
                     self.radioButton.setObjectName("0,"+str(i))
