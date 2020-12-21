@@ -538,8 +538,10 @@ class SuSVerw(Ui_Susverwgui):
         selection = self.tableWidget.selectionModel().selectedRows()
 
         for i in selection:
-            self.liste2.append(self.filtered[i.row()])
-            print(self.liste2)
+            if self.filtered[i.row()] in self.liste2:
+                pass
+            else:
+                self.liste2.append(self.filtered[i.row()])
         # Liste mit Umlauten korrekt sortieren: üblicherweise 
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
         # labmda Funktion für jede Liste in der Liste

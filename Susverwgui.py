@@ -14,6 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Susverwgui(object):
     def setupUi(self, Susverwgui):
         Susverwgui.setObjectName("Susverwgui")
+        Susverwgui.setWindowModality(QtCore.Qt.ApplicationModal)
         Susverwgui.resize(702, 570)
         self.tableWidget = QtWidgets.QTableWidget(Susverwgui)
         self.tableWidget.setGeometry(QtCore.QRect(10, 78, 279, 481))
