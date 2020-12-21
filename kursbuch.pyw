@@ -503,6 +503,8 @@ class SuSVerw(Ui_Susverwgui):
         self.comboBox.activated.connect(self.zeigeKlasse)
         self.pushButtonAddSelected.clicked.connect(self.susadd)
         self.pushButtonDeleteSelected.clicked.connect(self.susdel)
+        self.pushButtonAddAll.clicked.connect(self.susaddall)
+        self.pushButtonDeleteAll.clicked.connect(self.susdelall)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -560,6 +562,25 @@ class SuSVerw(Ui_Susverwgui):
 
         self.save()
 
+    def susaddall(self):
+        try:
+            self.tableWidget.clearSelection()
+            for i in range(len(self.filtered)):
+                self.tableWidget.selectRow(i)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
+            msg.setWindowTitle("Mitglieder hinzufügen")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            retval = msg.exec_()
+
+            if retval == 1024:
+                self.susadd()
+            else:
+                self.tableWidget.clearSelection()
+        except:
+            pass
+
     def susdel(self):
         selection = self.tableWidget_2.selectionModel().selectedRows()
 
@@ -579,6 +600,25 @@ class SuSVerw(Ui_Susverwgui):
         self.tableWidget_2.clearSelection()
 
         self.save()
+
+    def susdelall(self):
+        try:
+            self.tableWidget_2.clearSelection()
+            for i in range(len(self.liste2sorted)):
+                self.tableWidget_2.selectRow(i)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setText("Sollen alle Schüler*innen gelöscht werden?")
+            msg.setWindowTitle("Mitglieder löschen")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            retval = msg.exec_()
+
+            if retval == 1024:
+                self.susdel()
+            else:
+                self.tableWidget_2.clearSelection()
+        except:
+            pass
 
     def save(self):
         self.db.writeSuSListe(self.kurs,self.liste2sorted)
