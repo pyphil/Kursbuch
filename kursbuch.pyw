@@ -583,10 +583,10 @@ class SuSVerw(Ui_Susverwgui):
 
     def susdel(self):
         selection = self.tableWidget_2.selectionModel().selectedRows()
-
-        for i in selection:
+        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        for i in sorted(selection, reverse = True):
             del self.liste2sorted[i.row()]
-            self.liste2 = self.liste2sorted
+        self.liste2 = self.liste2sorted
         
         z = 0
         for i in self.liste2sorted:
@@ -598,6 +598,10 @@ class SuSVerw(Ui_Susverwgui):
 
         # Auswahl wieder aufheben
         self.tableWidget_2.clearSelection()
+        
+        # Wenn liste2sorted leer, verbleibende rows entfernen
+        if self.liste2sorted == []:
+            self.tableWidget_2.setRowCount(0)
 
         self.save()
 
