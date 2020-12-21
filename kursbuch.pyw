@@ -1,7 +1,6 @@
 import sqlite3
 import tkinter as tk
 from tkinter import ttk
-#import susverw
 from time import strftime, strptime
 import datetime
 from datetime import datetime
@@ -99,19 +98,9 @@ class Database:
         self.verbindung.commit()
 
     def getKurse(self):
-        """ ALTE VERSION: Gibt eine Liste der Tabellen zurück, die 
-        mit dem Kürzel beginnen.
-        
-        NEUE VERSION: Filtert aus settings die Kursnamen in
+        ''' Filtert aus settings die Kursnamen in
         absteigender Reihenfolge der Schuljahre
-        """
-        # kurse = list(self.c.execute(""" SELECT name FROM sqlite_master WHERE 
-        #                                 name like '"""+self.krzl+"""_%'
-        #                             """))
-        
-        # Die Liste muss den Anzeigenamen, aber auch den Tabellennamen 
-        # ausgeben, oder der Tabellenname wird erst im OptionMenu 
-        # zusammengesetzt
+        '''
         kurse = list(self.c.execute(""" SELECT Inhalt, Schuljahr FROM settings
                                         WHERE Kategorie = "Kurs"
                                         ORDER BY Schuljahr DESC;
@@ -120,7 +109,6 @@ class Database:
         kursliste = []
 
         for i in kurse:
-            #kursliste.append(i[0] + " " + i[1])
             kursliste.append(i[0])
         return kursliste
 
@@ -131,14 +119,6 @@ class Database:
                                       """,
                                       (k,)))
         return tabellenname[0][0]
-
-    # def getListeRaw(self, k):
-    #     """Liste aus Datenbank holen und unformatiert zurückgeben"""
-    #     tn = self.get_tn(k)
-    #     liste = list(self.c.execute(""" SELECT pk, Datum FROM """+tn+""" 
-    #                                     ORDER BY Datum DESC;
-    #                                 """))
-    #     return liste
 
     def getDateOfPk(self, k, pk):
         """Datum zum Primary Key ausgeben"""
@@ -689,15 +669,6 @@ class Gui(Ui_MainWindow):
         # Kürzel in Fenstertitel anzeigen
         self.MainWindow.setWindowTitle("Kursbuch von "+self.db.krzl)  
 
-        # Window Deletion abfangen, speichern und Datenbank schließen
-        # def on_closing():
-        #     if self.kurs != "":
-        #         self.datensatzSpeichern()
-        #     self.db.close()
-        #     self.master.destroy()
-
-
-
         # Methoden aurufen
         self.kursauswahlMenue()
 
@@ -735,11 +706,7 @@ class Gui(Ui_MainWindow):
         self.checkBox.setChecked(0)
         self.checkBox_2.setEnabled(False)
         self.checkBox_2.setChecked(0)
-        # self.pushButtonDelKurs.setEnabled(False)
-        # self.pushButtonKursmitglieder.setEnabled(False)
-        # self.pushButtonNeueStd.setEnabled(False)
         self.pushButtonDelStd.setEnabled(False)
-        # self.pushButtonKursheftAnzeigen.setEnabled(False)
 
     def enableFieldsStd(self):
         self.textEditKurshefteintrag.setEnabled(True)
@@ -761,22 +728,6 @@ class Gui(Ui_MainWindow):
         """
         self.disableFieldsStd()
         self.kurs = self.comboBoxKurs.currentText()
-        # Wenn bereits ein Kurs angezeigt wird, vorher speichern und Variable
-        # kurwechsel auf 1 setzen
-        # if self.kurs != "":
-            #self.datensatzSpeichern()
-            # self.kurswechel = 1
-            # Felder leeren
-            #self.disableFields()
-
-        # # Wenn noch in Fehlzeitenasicht, erst zurückwechseln
-        # if self.fehlzeitenansicht == 1:
-        #     self.back()
-
-        # if type(k) is tuple:
-        #     self.kurs = k[0]
-        # else:
-        #     self.kurs = k
 
         self.fillListbox()
 
@@ -818,15 +769,13 @@ class Gui(Ui_MainWindow):
         self.enableFieldsStd()
         # Aktuelle Datumsauswahl in Variable speichern
         auswahl = self.tableWidget.currentRow()
-        # auswahl = self.evt.widget.curselection()[0]
+
         # Zugehörigen Primary Key der Auswahl setzen
         self.pk = self.db.getListe(self.kurs)[auswahl][0]
         # Datensatz als liste holen
         liste = self.db.getDatensatz(self.pk, self.kurs)      
         # # Textvariable mit Text aus Datenbankfeld füllen
         self.textEditKurshefteintrag.setText(liste[0][2])
-        # self.feldInhalt.delete('1.0', tk.END)
-        # self.feldInhalt.insert('1.0', liste[0][2])
         
         # Ferien/Ausfall:
         if liste[0][3] == 1:
@@ -854,16 +803,10 @@ class Gui(Ui_MainWindow):
     def kursNeu(self):
         self.kurs_neu = KursAnlegen(self, self.db)
 
-    def updateMenuKurse(self):
-        pass
-        # self.menuKurse.destroy()
-        # self.kursauswahlMenue()
-
     def kursDel(self):
         pass
 
     def schuelerVerw(self):
-        #susverw.SuSVerwaltung(self, self.db, self.kurs)
         self.susverw = SuSVerw(self, self.db, self.kurs)
 
     def neueStunde(self):
@@ -879,26 +822,8 @@ class Gui(Ui_MainWindow):
         self.db.deleteDatensatz(self.kurs, self.pk)
         self.kursAnzeigen()
 
-    def datensatz_wechseln(self, evt):
-        """ Zeigt den Inhalt des auswählten Datums und speichert
-        vorher den aktuellen Eintrag (in der Fehlzeitenansicht wird direkt
-        gespeichert)
-        """
-        pass
-        # # Event Variable aus Listbox verfügbar machen
-        # self.evt = evt
-        # # nur beim Wechseln speichern, wenn im gleichen Datensatz
-        # if self.kurswechel == 0:
-        #     self.datensatzSpeichern()
-        # else:
-        #     # Felder aktivieren, wenn Wechsel in neuen Datensatz
-        #     self.enableFields()
-        #     self.kurswechel = 0
-        # self.datensatzAnzeigen()
-
     def datensatzSpeichern(self):
-        # Inhalt der aktuellen Felder speichern, rstrip löscht die automatische
-        # neue Zeile der tkinter Textbox
+        # Inhalt der aktuellen Felder speichern
         inhaltNeu = self.textEditKurshefteintrag.toPlainText()
         
         # Checkbox State abfragen. Durch die Migration von tkinter gibt es in
@@ -1001,20 +926,9 @@ class Gui(Ui_MainWindow):
     def fsSpeichern(self):
         sender = self.radioButton.sender().objectName()
         sender = sender.split(",")
-        # print("Entschuldigungsstatus: "+sender[0]+"\n"+
-        #       "Datensatz-Nr.:"+sender[1]+"\n"+
-        #       "Datensatz:"+str(self.sus[int(sender[1])])+"\n"+
-        #       "PK:"+str(self.sus[int(sender[1])][0]))
         fstatus = sender[0]
         pk = self.sus[int(sender[1])][0]
         self.db.writeFehlzeiten(pk,fstatus,self.kurs, self.datum)
-    
-    def back(self):
-        pass
-        # Fehlzeitenansicht aus
-        # self.fehlzeitenansicht = 0
-        # self.frameFehlzeiten.pack_forget()
-        # self.frameRechts.pack(fill="both", expand=1)
 
     def tutmod(self):
         pass
@@ -1023,10 +937,8 @@ class Gui(Ui_MainWindow):
         app.run()
 
     def kursheftAnzeigen(self):
-        # self.datensatzSpeichern()
-        # Kursbuch Dialog instantiieren
+        # Kursbuch Dialog instanziieren
         self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl)
-        #report.makeKursbuch(self.db.get_tn(self.kurs), self.kurs, self.db.krzl)
 
 
 if __name__ == "__main__":
