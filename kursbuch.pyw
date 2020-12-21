@@ -501,6 +501,7 @@ class SuSVerw(Ui_Susverwgui):
 
         # Signals and slots
         self.comboBox.activated.connect(self.zeigeKlasse)
+        self.pushButtonAddSelected.clicked.connect(self.susadd)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -534,6 +535,13 @@ class SuSVerw(Ui_Susverwgui):
                 self.filtered.append([i[1], i[2], i[0]])
                 z += 1
 
+    def susadd(self):
+        selection = self.tableWidget.selectionModel().selectedRows()
+        rows = []
+        for i in selection:
+            print(i)
+            rows.append(i.row())
+        print(rows)
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):

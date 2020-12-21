@@ -115,7 +115,7 @@
     <string>Mitglieder der Lernguppe ...</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="pushButtonAddSelected">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -153,7 +153,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_4">
+  <widget class="QPushButton" name="pushButtonAddAll">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -191,7 +191,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_5">
+  <widget class="QPushButton" name="pushButtonDeleteSelected">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -229,7 +229,7 @@
     </size>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_6">
+  <widget class="QPushButton" name="pushButtonDeleteAll">
    <property name="geometry">
     <rect>
      <x>320</x>
