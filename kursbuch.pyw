@@ -377,9 +377,6 @@ class KursAnlegen(Ui_KursAnlegen):
         # # Umwandlung in Großbuchstaben mit upper und whitespace enternen
         fach = self.lineEditFachkrzl.text().upper().lstrip().rstrip()
         klasse = self.lineEditKlasse.text().upper().lstrip().rstrip()
-        print(fach)
-        print(klasse)
-        print(self.comboBoxSchuljahr.currentText())
 
         schuljahr = self.comboBoxSchuljahr.currentText()
         anzeigename = fach + " " + klasse + " " + schuljahr
