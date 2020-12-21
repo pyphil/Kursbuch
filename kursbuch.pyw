@@ -552,6 +552,8 @@ class SuSVerw(Ui_Susverwgui):
             self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
             z += 1
 
+        self.tableWidget.clearSelection()
+
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):
         self.PdfExportieren = QtWidgets.QWidget()
