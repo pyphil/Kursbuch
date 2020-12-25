@@ -225,21 +225,24 @@ class Database:
                                    FROM """+kurssus+""" 
                                    """))
         
-        # Prüfen, ob es schon eine Spalte für das Datum gibt
         try:
+            # Prüfen, ob es schon eine Spalte für das Datum gibt und ggf.
             # versuchen, die Spalte hinzuzufügen
             self.susc.execute("""ALTER TABLE sus ADD """+date+""" VARCHAR(12)
                            """)
             self.susverbindung.commit()
         except:
             pass
-        else:
+        
+        # else:
             # Wenn die Spalte neu erstellt wird, alles mit Nullen füllen
-            self.susc.execute("""UPDATE sus
-                              SET """+date+""" = ?;
-                           """,
-                           (0,))
-            self.susverbindung.commit()               
+            # ungünstig für DB-Performance, daher 0 oder Null für 
+            # "anwesende" akzeptieren
+            # self.susc.execute("""UPDATE sus
+                            #   SET """+date+""" = ?;
+                        #    """,
+                        #    (0,))
+            # self.susverbindung.commit()               
         
         liste = []
         for i in pkliste:
@@ -902,7 +905,7 @@ class Gui(Ui_MainWindow):
                     self.radioButton4.clicked.connect(self.fsSpeichern)
                     self.radioButton5.clicked.connect(self.fsSpeichern)
 
-                    if self.sus[i][3] == "0":
+                    if self.sus[i][3] == "0" or "NULL":
                         self.radioButton.setChecked(True)
                     if self.sus[i][3] == "1":
                         self.radioButton2.setChecked(True)
