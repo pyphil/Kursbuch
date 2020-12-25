@@ -18,7 +18,7 @@ for zeile in f:
     if "eindeutige Nummer" in item[0]:
         pass
     else:
-        #  Wenn guid nicht in db -> [], dann anlegen, sonst update
+        #  Wenn guid nicht in db -> [], dann anlegen, sonst updated
         db = list(c.execute(""" SELECT guid, Name, Vorname, Klasse FROM sus
                                 WHERE guid = ?
                             """,
@@ -33,7 +33,7 @@ for zeile in f:
             verbindung.commit()           
             print("Neuer Eintrag: "+item[1],item[2],item[3].strip())
         else:
-            if db[0][1] != item[1] or db[0][2] != item[2] or db[0][3] != item[3].strip():
+            if db[0][1] != item[1] or db[0][2] != item[2] or db[0][3] != item[3]:
                 # updaten
                 c.execute(""" UPDATE sus
                             SET Name = ?,

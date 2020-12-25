@@ -1,7 +1,6 @@
 import sqlite3
 import tkinter as tk
 from tkinter import ttk
-import susverw
 from time import strftime, strptime
 import datetime
 from datetime import datetime
@@ -13,11 +12,12 @@ from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
+from Susverwgui import Ui_Susverwgui
 
 
  
-# mit pyQt nicht mehr notwendig
-# locale.setlocale(locale.LC_ALL, 'deu_deu')
+# nur für das alphabetisch richtige Sortieren der Kursmitglieder
+locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 
 class Database:
@@ -98,19 +98,9 @@ class Database:
         self.verbindung.commit()
 
     def getKurse(self):
-        """ ALTE VERSION: Gibt eine Liste der Tabellen zurück, die 
-        mit dem Kürzel beginnen.
-        
-        NEUE VERSION: Filtert aus settings die Kursnamen in
+        ''' Filtert aus settings die Kursnamen in
         absteigender Reihenfolge der Schuljahre
-        """
-        # kurse = list(self.c.execute(""" SELECT name FROM sqlite_master WHERE 
-        #                                 name like '"""+self.krzl+"""_%'
-        #                             """))
-        
-        # Die Liste muss den Anzeigenamen, aber auch den Tabellennamen 
-        # ausgeben, oder der Tabellenname wird erst im OptionMenu 
-        # zusammengesetzt
+        '''
         kurse = list(self.c.execute(""" SELECT Inhalt, Schuljahr FROM settings
                                         WHERE Kategorie = "Kurs"
                                         ORDER BY Schuljahr DESC;
@@ -119,7 +109,6 @@ class Database:
         kursliste = []
 
         for i in kurse:
-            #kursliste.append(i[0] + " " + i[1])
             kursliste.append(i[0])
         return kursliste
 
@@ -130,14 +119,6 @@ class Database:
                                       """,
                                       (k,)))
         return tabellenname[0][0]
-
-    # def getListeRaw(self, k):
-    #     """Liste aus Datenbank holen und unformatiert zurückgeben"""
-    #     tn = self.get_tn(k)
-    #     liste = list(self.c.execute(""" SELECT pk, Datum FROM """+tn+""" 
-    #                                     ORDER BY Datum DESC;
-    #                                 """))
-    #     return liste
 
     def getDateOfPk(self, k, pk):
         """Datum zum Primary Key ausgeben"""
@@ -227,12 +208,12 @@ class Database:
                                    """))
         susliste = []
         for i in pkliste:
-            item = list(self.susc.execute("""SELECT pk,Name,Vorname 
+            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse 
                                           FROM "sus"
                                           WHERE pk = ?;
                                        """,
                                         (i[0],)))
-            susliste.append([item[0][1],item[0][2],item[0][0]])
+            susliste.append([item[0][1],item[0][2],item[0][0],item[0][3]])
         return susliste
 
     def getSuS(self, date, k):
@@ -396,9 +377,6 @@ class KursAnlegen(Ui_KursAnlegen):
         # # Umwandlung in Großbuchstaben mit upper und whitespace enternen
         fach = self.lineEditFachkrzl.text().upper().lstrip().rstrip()
         klasse = self.lineEditKlasse.text().upper().lstrip().rstrip()
-        print(fach)
-        print(klasse)
-        print(self.comboBoxSchuljahr.currentText())
 
         schuljahr = self.comboBoxSchuljahr.currentText()
         anzeigename = fach + " " + klasse + " " + schuljahr
@@ -468,6 +446,171 @@ class StundeAnlegen(Ui_Form):
         self.Form.close()    
 
 
+class SuSVerw(Ui_Susverwgui):
+    def __init__(self, gui, db, kurs):
+                
+        self.gui = gui
+        self.db = db
+        self.kurs = kurs
+
+        self.susverwgui = QtWidgets.QWidget()
+        self.setupUi(self.susverwgui)
+        self.susverwgui.show()
+
+        self.tableWidget.setColumnWidth(0,190)
+        self.tableWidget_2.setColumnWidth(0,190)
+
+        # Listen bereitstellen
+        self.liste2 = []
+        self.liste2sorted = []
+        
+        # Zeigt die Liste der Schüler im Kurs
+        self.labelLerngruppe.setText("Mitglieder der Lerngruppe: "+self.kurs)
+        self.liste2 = self.db.getSuSListe(self.kurs)
+        self.liste2sorted = self.liste2
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Signals and slots
+        self.comboBox.activated.connect(self.zeigeKlasse)
+        self.pushButtonAddSelected.clicked.connect(self.susadd)
+        self.pushButtonDeleteSelected.clicked.connect(self.susdel)
+        self.pushButtonAddAll.clicked.connect(self.susaddall)
+        self.pushButtonDeleteAll.clicked.connect(self.susdelall)
+
+        klassen = ["5a", "5b", "5c", "5d", "5e",
+                   "6a", "6b", "6c", "6d", "6e",
+                   "7a", "7b", "7c", "7d", "7e",
+                   "8a", "8b", "8c", "8d", "8e",
+                   "9a", "9b", "9c", "9d", "9e",
+                   "10a", "10b", "10c", "10d", "10e",
+                    "EF", "Q1", "Q2"]
+        self.comboBox.addItems(klassen)
+
+    def zeigeKlasse(self):
+        """ Zeigt die Liste der Schüler der ausgewählten Klasse """
+
+        # gefilterte Liste bei jedem Aufruf leer bereitstellen
+        self.filtered = []
+
+        # ausgewählte Klasse
+        klasse = self.comboBox.currentText()
+
+        # Filtern nach Klasse
+        alle = self.db.getGesamtliste()
+        z = 0
+        for i in alle:
+            if i[3] == klasse:
+                self.tableWidget.setRowCount(z+1)
+                self.tableWidget.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
+                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+                self.filtered.append([i[1], i[2], i[0], i[3]])
+                z += 1
+
+    def susadd(self):
+        selection = self.tableWidget.selectionModel().selectedRows()
+
+        for i in selection:
+            if self.filtered[i.row()] in self.liste2:
+                pass
+            else:
+                self.liste2.append(self.filtered[i.row()])
+        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
+        # labmda Funktion für jede Liste in der Liste
+        self.liste2sorted = sorted(self.liste2, key=lambda i: locale.strxfrm(i[0]))
+
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget.clearSelection()
+
+        self.save()
+
+    def susaddall(self):
+        try:
+            self.tableWidget.clearSelection()
+            for i in range(len(self.filtered)):
+                self.tableWidget.selectRow(i)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
+            msg.setWindowTitle("Mitglieder hinzufügen")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
+            retval = msg.exec_()
+
+            if retval == 1024:
+                self.susadd()
+            else:
+                self.tableWidget.clearSelection()
+        except:
+            pass
+
+    def susdel(self):
+        selection = self.tableWidget_2.selectionModel().selectedRows()
+        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        for i in sorted(selection, reverse = True):
+            del self.liste2sorted[i.row()]
+        self.liste2 = self.liste2sorted
+        
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget_2.clearSelection()
+        
+        # Wenn liste2sorted leer, verbleibende rows entfernen
+        if self.liste2sorted == []:
+            self.tableWidget_2.setRowCount(0)
+
+        self.save()
+
+    def susdelall(self):
+        try:
+            self.tableWidget_2.clearSelection()
+            for i in range(len(self.liste2sorted)):
+                self.tableWidget_2.selectRow(i)
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setText("Sollen alle Schüler*innen gelöscht werden?")
+            msg.setWindowTitle("Mitglieder löschen")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
+            retval = msg.exec_()
+
+            if retval == 1024:
+                self.susdel()
+            else:
+                self.tableWidget_2.clearSelection()
+        except:
+            pass
+
+    def save(self):
+        self.db.writeSuSListe(self.kurs,self.liste2sorted)
+        # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
+        if self.gui.tabWidget.currentIndex() == 1:
+            self.gui.fehlzeitenAnzeige(1)
+
 class Kursbuch_Dialog(Ui_PdfExportieren):
     def __init__(self, tn, kurs, krzl):
         self.PdfExportieren = QtWidgets.QWidget()
@@ -527,15 +670,6 @@ class Gui(Ui_MainWindow):
         # Kürzel in Fenstertitel anzeigen
         self.MainWindow.setWindowTitle("Kursbuch von "+self.db.krzl)  
 
-        # Window Deletion abfangen, speichern und Datenbank schließen
-        # def on_closing():
-        #     if self.kurs != "":
-        #         self.datensatzSpeichern()
-        #     self.db.close()
-        #     self.master.destroy()
-
-
-
         # Methoden aurufen
         self.kursauswahlMenue()
 
@@ -573,11 +707,7 @@ class Gui(Ui_MainWindow):
         self.checkBox.setChecked(0)
         self.checkBox_2.setEnabled(False)
         self.checkBox_2.setChecked(0)
-        # self.pushButtonDelKurs.setEnabled(False)
-        # self.pushButtonKursmitglieder.setEnabled(False)
-        # self.pushButtonNeueStd.setEnabled(False)
         self.pushButtonDelStd.setEnabled(False)
-        # self.pushButtonKursheftAnzeigen.setEnabled(False)
 
     def enableFieldsStd(self):
         self.textEditKurshefteintrag.setEnabled(True)
@@ -599,22 +729,6 @@ class Gui(Ui_MainWindow):
         """
         self.disableFieldsStd()
         self.kurs = self.comboBoxKurs.currentText()
-        # Wenn bereits ein Kurs angezeigt wird, vorher speichern und Variable
-        # kurwechsel auf 1 setzen
-        # if self.kurs != "":
-            #self.datensatzSpeichern()
-            # self.kurswechel = 1
-            # Felder leeren
-            #self.disableFields()
-
-        # # Wenn noch in Fehlzeitenasicht, erst zurückwechseln
-        # if self.fehlzeitenansicht == 1:
-        #     self.back()
-
-        # if type(k) is tuple:
-        #     self.kurs = k[0]
-        # else:
-        #     self.kurs = k
 
         self.fillListbox()
 
@@ -656,15 +770,13 @@ class Gui(Ui_MainWindow):
         self.enableFieldsStd()
         # Aktuelle Datumsauswahl in Variable speichern
         auswahl = self.tableWidget.currentRow()
-        # auswahl = self.evt.widget.curselection()[0]
+
         # Zugehörigen Primary Key der Auswahl setzen
         self.pk = self.db.getListe(self.kurs)[auswahl][0]
         # Datensatz als liste holen
         liste = self.db.getDatensatz(self.pk, self.kurs)      
         # # Textvariable mit Text aus Datenbankfeld füllen
         self.textEditKurshefteintrag.setText(liste[0][2])
-        # self.feldInhalt.delete('1.0', tk.END)
-        # self.feldInhalt.insert('1.0', liste[0][2])
         
         # Ferien/Ausfall:
         if liste[0][3] == 1:
@@ -692,16 +804,11 @@ class Gui(Ui_MainWindow):
     def kursNeu(self):
         self.kurs_neu = KursAnlegen(self, self.db)
 
-    def updateMenuKurse(self):
-        pass
-        # self.menuKurse.destroy()
-        # self.kursauswahlMenue()
-
     def kursDel(self):
         pass
 
     def schuelerVerw(self):
-        susverw.SuSVerwaltung(self, self.db, self.kurs)
+        self.susverw = SuSVerw(self, self.db, self.kurs)
 
     def neueStunde(self):
         """instanziiert das Objekt KursAnlegen und übergibt 
@@ -716,26 +823,8 @@ class Gui(Ui_MainWindow):
         self.db.deleteDatensatz(self.kurs, self.pk)
         self.kursAnzeigen()
 
-    def datensatz_wechseln(self, evt):
-        """ Zeigt den Inhalt des auswählten Datums und speichert
-        vorher den aktuellen Eintrag (in der Fehlzeitenansicht wird direkt
-        gespeichert)
-        """
-        pass
-        # # Event Variable aus Listbox verfügbar machen
-        # self.evt = evt
-        # # nur beim Wechseln speichern, wenn im gleichen Datensatz
-        # if self.kurswechel == 0:
-        #     self.datensatzSpeichern()
-        # else:
-        #     # Felder aktivieren, wenn Wechsel in neuen Datensatz
-        #     self.enableFields()
-        #     self.kurswechel = 0
-        # self.datensatzAnzeigen()
-
     def datensatzSpeichern(self):
-        # Inhalt der aktuellen Felder speichern, rstrip löscht die automatische
-        # neue Zeile der tkinter Textbox
+        # Inhalt der aktuellen Felder speichern
         inhaltNeu = self.textEditKurshefteintrag.toPlainText()
         
         # Checkbox State abfragen. Durch die Migration von tkinter gibt es in
@@ -838,20 +927,9 @@ class Gui(Ui_MainWindow):
     def fsSpeichern(self):
         sender = self.radioButton.sender().objectName()
         sender = sender.split(",")
-        # print("Entschuldigungsstatus: "+sender[0]+"\n"+
-        #       "Datensatz-Nr.:"+sender[1]+"\n"+
-        #       "Datensatz:"+str(self.sus[int(sender[1])])+"\n"+
-        #       "PK:"+str(self.sus[int(sender[1])][0]))
         fstatus = sender[0]
         pk = self.sus[int(sender[1])][0]
         self.db.writeFehlzeiten(pk,fstatus,self.kurs, self.datum)
-    
-    def back(self):
-        pass
-        # Fehlzeitenansicht aus
-        # self.fehlzeitenansicht = 0
-        # self.frameFehlzeiten.pack_forget()
-        # self.frameRechts.pack(fill="both", expand=1)
 
     def tutmod(self):
         pass
@@ -860,10 +938,8 @@ class Gui(Ui_MainWindow):
         app.run()
 
     def kursheftAnzeigen(self):
-        # self.datensatzSpeichern()
-        # Kursbuch Dialog instantiieren
+        # Kursbuch Dialog instanziieren
         self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl)
-        #report.makeKursbuch(self.db.get_tn(self.kurs), self.kurs, self.db.krzl)
 
 
 if __name__ == "__main__":
