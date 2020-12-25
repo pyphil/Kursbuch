@@ -20,7 +20,7 @@ def getData(tn):
     susc = susverbindung.cursor()
 
     # Daten aus der lokalen Datenbank lesen
-    text = list(c.execute("""SELECT Datum, Inhalt, Hausaufgabe, Ausfall 
+    text = list(c.execute("""SELECT Datum, Inhalt, Hausaufgabe, Ausfall, Kompensation 
                              FROM """+tn+"""
                              ORDER BY Datum ASC;
                           """))
@@ -66,13 +66,15 @@ def getData(tn):
 
 
     liste = []
-    liste.append(["Datum", "Stundeninhalt", "Hausaufgabe", "Fehlzeiten", "Krzl", "Ausf."])
+    liste.append(["Datum", "Stundeninhalt", "Lernzeit- /<br/>Hausaufgabe", "Fehlzeiten", "Krzl", "Ausf."])
     z = 0
     for i in text:
         string = str(i[0]).split("_")
         datum = datetime.strptime(string[0], '%Y-%m-%d')
         datum = datum.strftime('%a, %d. %b %Y')
         datum = datum + "<br/> - " + string[1] +". Std. -"
+        if i[4] == 1:
+            datum = datum + "<br/><b/>KOMPENSATION"
         liste.append([datum,i[1],i[2],fehlzeiten[z],'',i[3]])
         z += 1
 
