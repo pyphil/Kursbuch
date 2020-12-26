@@ -934,8 +934,6 @@ class Gui(Ui_MainWindow):
     def tutmod(self):
         pass
         """ Objekt für Tutorenmodus instanziieren und starten"""
-        app = tutmod.Tutmod01App()
-        app.run()
 
     def kursheftAnzeigen(self):
         # Kursbuch Dialog instanziieren
