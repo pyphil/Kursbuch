@@ -102,7 +102,7 @@ def makeKursbuch(tn, k, krz, var):
         if i[5] != 1:
             # Ggf. Kompensation kennzeichnen
             if i[6] == 1:
-                P1 = Paragraph(i[0]+"<br/>"+"<b>KOMPENSATION</b>", smallerStyle)
+                P1 = Paragraph(i[0]+"<br/>"+"<b><font color=green>KOMPENSATION</font></b>", smallerStyle)
             else:
                 P1 = Paragraph(i[0], smallerStyle)
             P2 = Paragraph(i[1], smallerStyle)
@@ -120,7 +120,7 @@ def makeKursbuch(tn, k, krz, var):
         if i[5] == 1:
             # Ggf. Kompensation kennzeichnen
             if i[6] == 1:
-                P1 = Paragraph(i[0]+"<br/>"+"<b>KOMPENSATION</b>", grayStyle)
+                P1 = Paragraph(i[0]+"<br/>"+"<b><font color=green>KOMPENSATION</font></b>", grayStyle)
             else:
                 P1 = Paragraph(i[0], grayStyle)
             P2 = Paragraph(i[1], grayStyle)
