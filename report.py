@@ -66,16 +66,16 @@ def getData(tn):
 
 
     liste = []
-    liste.append(["Datum", "Stundeninhalt", "Lernzeit- /<br/>Hausaufgabe", "Fehlzeiten", "Krzl", "Ausf."])
+    liste.append(["Datum", "Stundeninhalt", "Lernzeit- /<br/>Hausaufgabe", "Fehlzeiten", "Krzl", "Ausf.",""])
     z = 0
     for i in text:
         string = str(i[0]).split("_")
         datum = datetime.strptime(string[0], '%Y-%m-%d')
         datum = datum.strftime('%a, %d. %b %Y')
         datum = datum + "<br/> - " + string[1] +". Std. -"
-        if i[4] == 1:
-            datum = datum + "<br/><b/>KOMPENSATION"
-        liste.append([datum,i[1],i[2],fehlzeiten[z],'',i[3]])
+        # if i[4] == 1:
+        #     datum = datum + "<br/><b/>KOMPENSATION"
+        liste.append([datum,i[1],i[2],fehlzeiten[z],'',i[3],i[4]])
         z += 1
 
     return liste
@@ -98,9 +98,13 @@ def makeKursbuch(tn, k, krz, var):
 
     my_data = []
     
-    for i in my_data_raw:  
+    for i in my_data_raw: 
         if i[5] != 1:
-            P1 = Paragraph(i[0], smallerStyle)
+            # Ggf. Kompensation kennzeichnen
+            if i[6] == 1:
+                P1 = Paragraph(i[0]+"<br/>"+"<b>KOMPENSATION</b>", smallerStyle)
+            else:
+                P1 = Paragraph(i[0], smallerStyle)
             P2 = Paragraph(i[1], smallerStyle)
             P3 = Paragraph(i[2], smallerStyle)
             # Wenn ohne Fehlzeiten:
@@ -112,8 +116,13 @@ def makeKursbuch(tn, k, krz, var):
 
             my_data.append([P1,P2,P3,P4,P5])
 
+        # Bei Ausfall graue Schrift
         if i[5] == 1:
-            P1 = Paragraph(i[0], grayStyle)
+            # Ggf. Kompensation kennzeichnen
+            if i[6] == 1:
+                P1 = Paragraph(i[0]+"<br/>"+"<b>KOMPENSATION</b>", grayStyle)
+            else:
+                P1 = Paragraph(i[0], grayStyle)
             P2 = Paragraph(i[1], grayStyle)
             P3 = Paragraph(i[2], grayStyle)
             P4 = Paragraph(i[3], grayStyle)
