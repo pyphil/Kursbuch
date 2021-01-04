@@ -1,10 +1,12 @@
 import sqlite3
-import tkinter as tk
-from tkinter import ttk
+# import tkinter as tk
+# from tkinter import ttk
 from time import strftime, strptime
 import datetime
 from datetime import datetime
 import locale
+import sys
+
 import report
 #import tutmod
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -13,6 +15,7 @@ from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
 from Susverwgui import Ui_Susverwgui
+from Ersteinrichtung import Ui_Ersteinrichtung
 
 
  
@@ -33,6 +36,12 @@ class Database:
         self.susverbindung = sqlite3.connect("sus.db")
         self.susc = self.susverbindung.cursor()
 
+        # Database übergibt sich selbst dem Gui Objekt und instanziiert es
+        # import sys
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.app.setStyle("Fusion")
+        
+        
         # Austesten, ob die Ersteinrichtung angezeigt werden muss
         try:
             self.krzl = list(self.c.execute("""SELECT Inhalt FROM settings
@@ -41,12 +50,11 @@ class Database:
         except:
             # Database übergibt sich selbst dem Objekt Ersteinrichtung 
             # und instanziiert es
-            Ersteinrichtung(self)
+            self.firstrun = Ersteinrichtung(self)
+            sys.exit(self.app.exec_())
         else:
-            # Database übergibt sich selbst dem Gui Objekt und instanziiert es
-            import sys
-            self.app = QtWidgets.QApplication(sys.argv)
-            self.app.setStyle("Fusion")
+            # Gui Objekt instanziieren, Database übergeben und event loop
+            # starten
             self.ui = Gui(self)
             sys.exit(self.app.exec_())
 
@@ -285,76 +293,27 @@ class Database:
         self.susc.close()
         self.susverbindung.close()
 
-class Ersteinrichtung:
+class Ersteinrichtung(Ui_Ersteinrichtung):
     def __init__(self, db):
 
         self.db = db
 
-        # build ui
-        ersteinrichtung = tk.Tk()
-        frame1 = ttk.Frame(ersteinrichtung)
-        heading = ttk.Label(frame1)
-        heading.config(font='{Segoe UI} 12 {bold}', text='Ersteinrichtung')
-        heading.pack(pady='10', side='top')
-        subheading = ttk.Label(frame1)
-        subheading.config(justify='center', text='Zur Ersteinrichtung von pyKursbuch brauchen wir dein Lehrerkürzel.', wraplength='200')
-        subheading.pack(side='top')
-        frame2 = ttk.Frame(frame1)
-        Label_krz = ttk.Label(frame2)
-        Label_krz.config(font='{Segoe UI} 9 {bold}', text='Kürzel: ')
-        Label_krz.pack(side='left')
-        self.krzEntry = ttk.Entry(frame2)
-        self.krzEntry.config(font='TkDefaultFont', validate='none')
-        self.krzEntry.pack(side='left')
-        frame2.config(height='200', width='200')
-        frame2.pack(pady='10', side='top')
-        frame3 = ttk.Frame(frame1)
-        self.buttonOK = ttk.Button(frame3)
-        self.buttonOK.config(text='OK')
-        self.buttonOK.pack(padx='10', side='left')
-        self.buttonOK.configure(command=self.ok)
-        self.buttonAbbrechen = ttk.Button(frame3)
-        self.buttonAbbrechen.config(text='Abbrechen')
-        self.buttonAbbrechen.pack(padx='10', side='left')
-        self.buttonAbbrechen.configure(command=self.abbrechen)
-        frame3.config(height='200', width='200')
-        frame3.pack(pady='10', side='top')
-        frame1.config(height='200', width='200')
-        frame1.pack(expand='true', side='top')
-        ersteinrichtung.config(height='180', width='280')
-        ersteinrichtung.geometry('280x180')
-        ersteinrichtung.title('pyKursbuch')
+        self.Ersteinrichtung = QtWidgets.QWidget()
+        self.setupUi(self.Ersteinrichtung)
+        self.Ersteinrichtung.show()
 
-        # Main widget
-        self.mainwindow = ersteinrichtung
-
-        # Fenster positionieren
-        # Gets the requested values of the height and widht.
-        windowWidth = self.mainwindow.winfo_reqwidth()
-        windowHeight = self.mainwindow.winfo_reqheight()
-        # Gets both half the screen width/height and window width/height
-        positionRight = int(self.mainwindow.winfo_screenwidth()/2 - windowWidth/2)
-        positionDown = int(self.mainwindow.winfo_screenheight()/2 - windowHeight/2-15)
-        # Positions the window in the center of the page.
-        self.mainwindow.geometry("+{}+{}".format(positionRight, positionDown))
-
-        # Grab window + focus
-        self.mainwindow.grab_set()
-        self.mainwindow.focus_set()      
-
-        # mainloop
-        self.mainwindow.mainloop()
+        self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+        self.pushButtonEinrichten.clicked.connect(self.ok)
 
     def ok(self):
-        self.db.createSettings(self.krzEntry.get())
-        self.mainwindow.destroy()
-
-        import sys
-        self.app = QtWidgets.QApplication(sys.argv)
+        krzl = self.lineEditKrzl.text().upper().lstrip().rstrip()
+        self.db.createSettings(krzl)
+        self.Ersteinrichtung.close()
+        # Gui Objekt instanziieren und Database übergeben
         self.ui = Gui(self.db)
 
     def abbrechen(self):
-        self.mainwindow.destroy()
+        self.Ersteinrichtung.close()
 
 class KursAnlegen(Ui_KursAnlegen):
     def __init__(self, gui, db):
