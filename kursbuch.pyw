@@ -1,6 +1,6 @@
 import sqlite3
-import tkinter as tk
-from tkinter import ttk
+# import tkinter as tk
+# from tkinter import ttk
 from time import strftime, strptime
 import datetime
 from datetime import datetime
