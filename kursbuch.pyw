@@ -427,9 +427,7 @@ class StundeAnlegen(Ui_Form):
             # Datum an Datenbankobjekt übergeben und 
             # new row und new pk erhalten
             newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
-            print(newrow)
             self.gui.kursAnzeigen()
-            # self.gui.tableWidget.setItem(newrow)
             self.gui.tableWidget.selectRow(newrow)
             self.gui.datensatzAnzeigen()
             self.Form.close()
