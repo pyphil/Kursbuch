@@ -421,6 +421,7 @@ class StundeAnlegen(Ui_Form):
             self.message = QtWidgets.QMessageBox()
             self.message.setIcon(QtWidgets.QMessageBox.Critical)
             self.message.setWindowTitle("Fehler")
+            self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             self.message.setText("Bitte eine Stunde angeben.")
             self.message.exec_()
         else:
@@ -538,6 +539,7 @@ class SuSVerw(Ui_Susverwgui):
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
             msg.setWindowTitle("Mitglieder hinzufügen")
+            msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
             abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
             abbrbutton.setText("Abbrechen")
@@ -583,6 +585,7 @@ class SuSVerw(Ui_Susverwgui):
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen gelöscht werden?")
             msg.setWindowTitle("Mitglieder löschen")
+            msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
             abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
             abbrbutton.setText("Abbrechen")
@@ -813,6 +816,7 @@ class Gui(Ui_MainWindow):
         msg.setText("Soll die Stunde "+'"'+str(self.db.getCurrentDate(self.kurs, self.pk))+'"'+" gelöscht werden?\n\n"+
                     "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
         msg.setWindowTitle("Stunde löschen")
+        msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
         loeschbutton = msg.button(QtWidgets.QMessageBox.Ok)
         loeschbutton.setText("Löschen")
