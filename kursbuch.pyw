@@ -634,8 +634,8 @@ class Gui(Ui_MainWindow):
         # Variable für den aktuellen Primary Key
         self.pk = ""
         
-        self.fehlzeitenansicht = 0
-        self.kurswechel = 0
+        # self.fehlzeitenansicht = 0
+        # self.kurswechel = 0
 
         self.tableWidget.setColumnWidth(0,140)
 
