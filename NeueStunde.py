@@ -79,7 +79,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Neue Stunde"))
         self.groupBox.setTitle(_translate("Form", "Datum"))
         self.groupBox_2.setTitle(_translate("Form", "Stunde"))
         self.radioButton.setText(_translate("Form", "1"))
