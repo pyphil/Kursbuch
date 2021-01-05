@@ -330,6 +330,15 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
         self.pushButtonEinrichten.clicked.connect(self.ok)
 
+        # Key Press Events
+        self.Ersteinrichtung.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.ok()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
+
     def ok(self):
         krzl = self.lineEditKrzl.text().upper().lstrip().rstrip()
         self.db.createSettings(krzl)
