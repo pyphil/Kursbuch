@@ -137,6 +137,15 @@ class Database:
                                     (pk,)))
         datum = liste[0][0]
         return datum
+
+    def getCurrentDate(self, k, pk):
+        """gibt das aktulle Datum mit der Stunde formatiert zurück"""
+        string = self.getDateOfPk(k,pk)
+        string = string.split("_")
+        datum = datetime.strptime(string[0], '%Y-%m-%d')
+        datum = datum.strftime('%a, %d. %b %Y')
+        datum = datum +", "+ string[1] +" . Std."
+        return datum
     
     def getListe(self, k):
         """Liste aus Datenbank holen und formatiert zurückgeben"""
@@ -179,6 +188,7 @@ class Database:
                            WHERE pk = ?;
                            """,
                            (pk,))
+        self.verbindung.commit()            
 
     def writeSuSListe(self,k,s):
         """ Löscht die alte Tabelle und erstellt eine neue mit den aktuellen
@@ -776,14 +786,24 @@ class Gui(Ui_MainWindow):
         """instanziiert das Objekt KursAnlegen und übergibt 
         sich selbst, db und kurs
         """
-        self.neuestd = StundeAnlegen(self, self.db, self.kurs)
-        
-        
+        self.neuestd = StundeAnlegen(self, self.db, self.kurs)    
 
     def stundeDel(self):
         """Löscht die aktuelle Stunde ohne die eingetragenen Fehlzeiten"""
-        self.db.deleteDatensatz(self.kurs, self.pk)
-        self.kursAnzeigen()
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setText("Soll die Stunde "+'"'+str(self.db.getCurrentDate(self.kurs, self.pk))+'"'+" gelöscht werden?\n\n"+
+                    "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
+        msg.setWindowTitle("Stunde löschen")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        loeschbutton = msg.button(QtWidgets.QMessageBox.Ok)
+        loeschbutton.setText("Löschen")
+        abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+        abbrbutton.setText("Abbrechen")
+        retval = msg.exec_()
+        if retval == 1024:
+            self.db.deleteDatensatz(self.kurs, self.pk)
+            self.kursAnzeigen()
 
     def datensatzSpeichern(self):
         # Inhalt der aktuellen Felder speichern
