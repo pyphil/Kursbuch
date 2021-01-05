@@ -358,7 +358,14 @@ class KursAnlegen(Ui_KursAnlegen):
         self.pushButtonAnlegen.clicked.connect(self.neu)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
+        # Key Press Events
+        self.kursneudialog.keyPressEvent = self.keyPressEvent
 
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.neu()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
 
     def neu(self):
         # # Umwandlung in Großbuchstaben mit upper und whitespace enternen
@@ -630,6 +637,15 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
 
         self.pushButtonExport.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+
+        # Key Press Events
+        self.PdfExportieren.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.ok()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
 
     def ok(self):
         if self.radioButtonMitFs.isChecked() == True:
