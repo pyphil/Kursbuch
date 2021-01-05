@@ -138,6 +138,19 @@ class Database:
         datum = liste[0][0]
         return datum
 
+    def getRowOfDate(self,k,d):
+        tn = self.get_tn(k)
+        listedb = list(self.c.execute(""" SELECT Datum 
+                                          FROM """+tn+"""
+                                          ORDER BY Datum DESC;
+                                      """))
+        i = 0
+        for datum in listedb:
+            if datum[0] == d:
+                return i
+            else:
+                i += 1
+
     def getCurrentDate(self, k, pk):
         """gibt das aktulle Datum mit der Stunde formatiert zurück"""
         string = self.getDateOfPk(k,pk)
@@ -291,6 +304,8 @@ class Database:
                             VALUES (NULL,?,"",0,0,"","");""", 
                             (datum,))
         self.verbindung.commit()
+        newrow = self.getRowOfDate(k,datum)
+        return newrow
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
@@ -314,6 +329,15 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
 
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
         self.pushButtonEinrichten.clicked.connect(self.ok)
+
+        # Key Press Events
+        self.Ersteinrichtung.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.ok()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
 
     def ok(self):
         krzl = self.lineEditKrzl.text().upper().lstrip().rstrip()
@@ -343,7 +367,14 @@ class KursAnlegen(Ui_KursAnlegen):
         self.pushButtonAnlegen.clicked.connect(self.neu)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
+        # Key Press Events
+        self.kursneudialog.keyPressEvent = self.keyPressEvent
 
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.neu()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
 
     def neu(self):
         # # Umwandlung in Großbuchstaben mit upper und whitespace enternen
@@ -365,6 +396,11 @@ class KursAnlegen(Ui_KursAnlegen):
         self.gui.kursauswahlMenue()
         self.kursneudialog.close()
 
+        # Kurs einstellen, anzeigen und Dialog neue Stunde öffnen
+        self.gui.comboBoxKurs.setCurrentText(anzeigename)
+        self.gui.kursAnzeigen()
+        self.gui.neueStunde()
+
     def abbrechen(self):
         self.kursneudialog.close()
 
@@ -383,6 +419,15 @@ class StundeAnlegen(Ui_Form):
         
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
+
+        # Key Press Events von Form umleiten
+        self.Form.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.neueStundeAnlegen()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen()   
 
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
@@ -406,12 +451,16 @@ class StundeAnlegen(Ui_Form):
             self.message = QtWidgets.QMessageBox()
             self.message.setIcon(QtWidgets.QMessageBox.Critical)
             self.message.setWindowTitle("Fehler")
+            self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             self.message.setText("Bitte eine Stunde angeben.")
             self.message.exec_()
         else:
-            # Datum an Datenbankobjekt übergeben
-            self.db.writeNeueStunde(datum, stunde, self.kurs)
+            # Datum an Datenbankobjekt übergeben und 
+            # new row und new pk erhalten
+            newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
             self.gui.kursAnzeigen()
+            self.gui.tableWidget.selectRow(newrow)
+            self.gui.datensatzAnzeigen()
             self.Form.close()
 
     def abbrechen(self):
@@ -520,6 +569,7 @@ class SuSVerw(Ui_Susverwgui):
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
             msg.setWindowTitle("Mitglieder hinzufügen")
+            msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
             abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
             abbrbutton.setText("Abbrechen")
@@ -565,6 +615,7 @@ class SuSVerw(Ui_Susverwgui):
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen gelöscht werden?")
             msg.setWindowTitle("Mitglieder löschen")
+            msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
             msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
             abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
             abbrbutton.setText("Abbrechen")
@@ -595,6 +646,15 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
 
         self.pushButtonExport.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+
+        # Key Press Events
+        self.PdfExportieren.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
+            self.ok()
+        elif e.key() == QtCore.Qt.Key_Escape :   
+            self.abbrechen() 
 
     def ok(self):
         if self.radioButtonMitFs.isChecked() == True:
@@ -634,8 +694,8 @@ class Gui(Ui_MainWindow):
         # Variable für den aktuellen Primary Key
         self.pk = ""
         
-        self.fehlzeitenansicht = 0
-        self.kurswechel = 0
+        # self.fehlzeitenansicht = 0
+        # self.kurswechel = 0
 
         self.tableWidget.setColumnWidth(0,140)
 
@@ -795,6 +855,7 @@ class Gui(Ui_MainWindow):
         msg.setText("Soll die Stunde "+'"'+str(self.db.getCurrentDate(self.kurs, self.pk))+'"'+" gelöscht werden?\n\n"+
                     "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
         msg.setWindowTitle("Stunde löschen")
+        msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
         loeschbutton = msg.button(QtWidgets.QMessageBox.Ok)
         loeschbutton.setText("Löschen")

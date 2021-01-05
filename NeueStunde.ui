@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Neue Stunde</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -118,6 +118,9 @@
      <widget class="QPushButton" name="pushButton">
       <property name="text">
        <string>OK</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
