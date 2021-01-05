@@ -138,6 +138,19 @@ class Database:
         datum = liste[0][0]
         return datum
 
+    def getRowOfDate(self,k,d):
+        tn = self.get_tn(k)
+        listedb = list(self.c.execute(""" SELECT Datum 
+                                          FROM """+tn+"""
+                                          ORDER BY Datum DESC;
+                                      """))
+        i = 0
+        for datum in listedb:
+            if datum[0] == d:
+                return i
+            else:
+                i += 1
+
     def getCurrentDate(self, k, pk):
         """gibt das aktulle Datum mit der Stunde formatiert zurück"""
         string = self.getDateOfPk(k,pk)
@@ -291,6 +304,8 @@ class Database:
                             VALUES (NULL,?,"",0,0,"","");""", 
                             (datum,))
         self.verbindung.commit()
+        newrow = self.getRowOfDate(k,datum)
+        return newrow
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
@@ -409,9 +424,14 @@ class StundeAnlegen(Ui_Form):
             self.message.setText("Bitte eine Stunde angeben.")
             self.message.exec_()
         else:
-            # Datum an Datenbankobjekt übergeben
-            self.db.writeNeueStunde(datum, stunde, self.kurs)
+            # Datum an Datenbankobjekt übergeben und 
+            # new row und new pk erhalten
+            newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+            print(newrow)
             self.gui.kursAnzeigen()
+            # self.gui.tableWidget.setItem(newrow)
+            self.gui.tableWidget.selectRow(newrow)
+            self.gui.datensatzAnzeigen()
             self.Form.close()
 
     def abbrechen(self):
