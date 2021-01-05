@@ -404,6 +404,16 @@ class StundeAnlegen(Ui_Form):
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
 
+        # Key Events von Forms abfangen
+        self.Form.keyPressEvent = self.keyPressEvent
+
+    def keyPressEvent(self, e):
+        print("event", e)
+        if e.key()  == QtCore.Qt.Key_Return :
+            print(' return')
+        elif e.key() == QtCore.Qt.Key_Enter :   
+            print(' enter')   
+
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
         stunde = 0
