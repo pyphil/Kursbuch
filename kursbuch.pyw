@@ -380,6 +380,11 @@ class KursAnlegen(Ui_KursAnlegen):
         self.gui.kursauswahlMenue()
         self.kursneudialog.close()
 
+        # Kurs einstellen, anzeigen und Dialog neue Stunde öffnen
+        self.gui.comboBoxKurs.setCurrentText(anzeigename)
+        self.gui.kursAnzeigen()
+        self.gui.neueStunde()
+
     def abbrechen(self):
         self.kursneudialog.close()
 
