@@ -436,7 +436,6 @@ class StundeAnlegen(Ui_Form):
         self.pushButton_2.clicked.connect(self.abbrechen)
         self.changeDatesSeries()
         self.calendarWidget.clicked.connect(self.changeDatesSeries)
-        self.comboBoxSerie.addItem("keine Wiederholung")
         self.comboBoxSerie.setCurrentIndex(0)
 
         # Key Press Events von Form umleiten
