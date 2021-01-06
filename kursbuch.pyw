@@ -178,6 +178,18 @@ class Database:
             # liste.append([str(i[0]),(datum+", "+string[1]+". Std."),i[2],i[3]])
             liste.append([str(i[0]), datum, string[1]+". Std.",i[2],i[3]])
         return liste
+
+    def getDatelist(self, k):
+        """ Datumsliste aus Datenbank holen """
+        tn = self.get_tn(k)
+        listedb = list(self.c.execute(""" SELECT Datum 
+                                          FROM """+tn+"""
+                                          ORDER BY Datum DESC;
+                                      """))
+        dbdatetxt = ""
+        for i in range(len(listedb)):
+            dbdatetxt += listedb[i][0]
+        return dbdatetxt
     
     def writeDatensatz(self, k, inh, ausf, komp, ha, plan, pk):
         tn = self.get_tn(k)
@@ -458,6 +470,7 @@ class StundeAnlegen(Ui_Form):
 
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
+        dbdatelist = self.db.getDatelist(self.kurs)
         stunde = 0
         if self.radioButton.isChecked() == True:
             stunde = "1"
@@ -484,24 +497,27 @@ class StundeAnlegen(Ui_Form):
         else:
             # Datum an Datenbankobjekt übergeben und 
             # new row und new pk erhalten
-            if self.comboBoxSerie.currentText() == "keine Wiederholung":
+            
+            # Duplikate filtern
+            if str(datum+"_"+stunde) in dbdatelist:
+                print("Duplikat")
+            else:
                 newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
             # Serientermine
-            else:
+            if self.comboBoxSerie.currentText() != "keine Wiederholung":
                 for i in range(self.comboBoxSerie.currentIndex()):
                     repeatdate = self.datelist[i].split(".")
                     repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
                                   repeatdate[0])
-                    # seriendatum_exisitert = list(c.execute(""" 
-                    #                 SELECT EXISTS (SELECT * from """+self.app.tn+"""
-                    #                    WHERE date = ?);
-                    #                 """,
-                    #                 (repeatdate,)))
-                    # if seriendatum_exisitert[0][0] == 1:
-                    #     besetzt.append(self.longlist[i])
-                    newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
+                    if str(repeatdate+"_"+stunde) in dbdatelist:
+                        print("Duplikat")
+                    else:
+                        newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
-            self.gui.tableWidget.selectRow(newrow)
+            try:
+                self.gui.tableWidget.selectRow(newrow)
+            except:
+                pass
             self.gui.datensatzAnzeigen()
             self.Form.close()
 
@@ -820,10 +836,11 @@ class Gui(Ui_MainWindow):
         # self.fillListbox()
 
     def fillListbox(self):
-        self.tableWidget.setRowCount(len(self.db.getListe(self.kurs)))
+        self.stdliste = self.db.getListe(self.kurs)
+        self.tableWidget.setRowCount(len(self.stdliste))
     
         z = 0
-        for i in self.db.getListe(self.kurs):
+        for i in self.stdliste:
             self.tableWidget.setItem(z,0,QtWidgets.QTableWidgetItem(i[1]))
             self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[2]))
             if i[3] == 1:
