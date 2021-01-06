@@ -117,6 +117,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.textEdit.setFont(font)
         self.textEdit.setAutoFormatting(QtWidgets.QTextEdit.AutoNone)
+        self.textEdit.setAcceptRichText(False)
         self.textEdit.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByKeyboard|QtCore.Qt.LinksAccessibleByMouse|QtCore.Qt.TextBrowserInteraction|QtCore.Qt.TextEditable|QtCore.Qt.TextEditorInteraction|QtCore.Qt.TextSelectableByKeyboard|QtCore.Qt.TextSelectableByMouse)
         self.textEdit.setObjectName("textEdit")
         self.gridLayout.addWidget(self.textEdit, 5, 0, 1, 3)
