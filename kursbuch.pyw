@@ -3,7 +3,7 @@ import sqlite3
 # from tkinter import ttk
 from time import strftime, strptime
 import datetime
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import locale
 import sys
 import subprocess
@@ -422,6 +422,9 @@ class StundeAnlegen(Ui_Form):
         
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
+        self.calendarWidget.clicked.connect(self.changeDatesSeries)
+        self.comboBoxSerie.addItem("keine Wiederholung")
+        self.comboBoxSerie.setCurrentIndex(0)
 
         # Key Press Events von Form umleiten
         self.Form.keyPressEvent = self.keyPressEvent
@@ -431,6 +434,26 @@ class StundeAnlegen(Ui_Form):
             self.neueStundeAnlegen()
         elif e.key() == QtCore.Qt.Key_Escape :   
             self.abbrechen()   
+
+    def changeDatesSeries(self):
+        # Combobox mit Daten füllen
+        datum = str(self.calendarWidget.selectedDate().toPyDate())
+        datum_std = datum.split("_")
+        datum = datum_std[0].split("-")
+        day = datum[2]
+        month = datum[1]
+        year = datum[0]
+        thedate = date(int(year), int(month.lstrip("0")), int(day.lstrip("0")))
+        datelist = []
+        i = 1
+        while i <= 24:
+            thedate = thedate + timedelta(days=7)
+            datelist.append(thedate.strftime("%d.%m.%Y"))
+            i += 1
+        self.comboBoxSerie.clear()
+        self.comboBoxSerie.addItem("keine Wiederholung")
+        self.comboBoxSerie.setCurrentIndex(0)
+        self.comboBoxSerie.addItems(datelist)
 
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())

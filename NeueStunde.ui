@@ -189,6 +189,12 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
+    </property>
     <property name="placeholderText">
      <string>keine Wiederholung</string>
     </property>

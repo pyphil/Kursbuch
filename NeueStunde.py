@@ -79,6 +79,8 @@ class Ui_Form(object):
         self.groupBox_3.setObjectName("groupBox_3")
         self.comboBoxSerie = QtWidgets.QComboBox(self.groupBox_3)
         self.comboBoxSerie.setGeometry(QtCore.QRect(170, 30, 171, 22))
+        self.comboBoxSerie.setInputMethodHints(QtCore.Qt.ImhNone)
+        self.comboBoxSerie.setEditable(True)
         self.comboBoxSerie.setObjectName("comboBoxSerie")
         self.label = QtWidgets.QLabel(self.groupBox_3)
         self.label.setGeometry(QtCore.QRect(9, 31, 161, 20))
