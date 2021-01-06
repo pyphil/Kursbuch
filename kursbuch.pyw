@@ -6,7 +6,7 @@ import datetime
 from datetime import datetime
 import locale
 import sys
-
+import subprocess
 import report
 #import tutmod
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -31,6 +31,8 @@ class Database:
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
         self.c = self.verbindung.cursor()
+        # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
+        subprocess.check_call(["attrib","+H","U:\\kurs.db"])
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
         self.susverbindung = sqlite3.connect("sus.db")
