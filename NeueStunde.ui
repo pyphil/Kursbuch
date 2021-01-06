@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>371</width>
-    <height>398</height>
+    <height>460</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,7 +108,7 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>360</y>
+     <y>420</y>
      <width>211</width>
      <height>25</height>
     </rect>
@@ -167,6 +167,45 @@
    <property name="margin">
     <number>0</number>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>351</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Serie</string>
+   </property>
+   <widget class="QComboBox" name="comboBoxSerie">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>30</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>keine Wiederholung</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>31</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wöchentlich wiederholen bis zum </string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
