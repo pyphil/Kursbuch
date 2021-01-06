@@ -422,6 +422,7 @@ class StundeAnlegen(Ui_Form):
         
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
+        self.changeDatesSeries()
         self.calendarWidget.clicked.connect(self.changeDatesSeries)
         self.comboBoxSerie.addItem("keine Wiederholung")
         self.comboBoxSerie.setCurrentIndex(0)
@@ -444,16 +445,16 @@ class StundeAnlegen(Ui_Form):
         month = datum[1]
         year = datum[0]
         thedate = date(int(year), int(month.lstrip("0")), int(day.lstrip("0")))
-        datelist = []
+        self.datelist = []
         i = 1
         while i <= 24:
             thedate = thedate + timedelta(days=7)
-            datelist.append(thedate.strftime("%d.%m.%Y"))
+            self.datelist.append(thedate.strftime("%d.%m.%Y"))
             i += 1
         self.comboBoxSerie.clear()
         self.comboBoxSerie.addItem("keine Wiederholung")
         self.comboBoxSerie.setCurrentIndex(0)
-        self.comboBoxSerie.addItems(datelist)
+        self.comboBoxSerie.addItems(self.datelist)
 
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
@@ -483,7 +484,22 @@ class StundeAnlegen(Ui_Form):
         else:
             # Datum an Datenbankobjekt übergeben und 
             # new row und new pk erhalten
-            newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+            if self.comboBoxSerie.currentText() == "keine Wiederholung":
+                newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+            # Serientermine
+            else:
+                for i in range(self.comboBoxSerie.currentIndex()):
+                    repeatdate = self.datelist[i].split(".")
+                    repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
+                                  repeatdate[0])
+                    # seriendatum_exisitert = list(c.execute(""" 
+                    #                 SELECT EXISTS (SELECT * from """+self.app.tn+"""
+                    #                    WHERE date = ?);
+                    #                 """,
+                    #                 (repeatdate,)))
+                    # if seriendatum_exisitert[0][0] == 1:
+                    #     besetzt.append(self.longlist[i])
+                    newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
             self.gui.tableWidget.selectRow(newrow)
             self.gui.datensatzAnzeigen()
