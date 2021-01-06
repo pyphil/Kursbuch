@@ -66,6 +66,7 @@ class Database:
                             "Inhalt" VARCHAR(20),
                             "Schuljahr" VARCHAR(10),
                             "tname" VARCHAR(20),
+                            "Sortierung" INTEGER,
                             PRIMARY KEY("pk")
                         )""")
         self.c.execute("""INSERT INTO "settings"
