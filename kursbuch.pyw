@@ -500,7 +500,12 @@ class StundeAnlegen(Ui_Form):
             
             # Duplikate filtern
             if str(datum+"_"+stunde) in dbdatelist:
-                print("Duplikat")
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Critical)
+                msg.setWindowTitle("Fehler")
+                msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg.setText("Diese Stunde existiert bereits.")
+                msg.exec_()                
             else:
                 newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
             # Serientermine
@@ -509,8 +514,8 @@ class StundeAnlegen(Ui_Form):
                     repeatdate = self.datelist[i].split(".")
                     repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
                                   repeatdate[0])
+                    # Duplikate filtern
                     if str(repeatdate+"_"+stunde) in dbdatelist:
-                        print("Duplikat")
                     else:
                         newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
