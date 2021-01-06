@@ -516,6 +516,7 @@ class StundeAnlegen(Ui_Form):
                                   repeatdate[0])
                     # Duplikate filtern
                     if str(repeatdate+"_"+stunde) in dbdatelist:
+                        pass
                     else:
                         newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
