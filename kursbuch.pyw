@@ -218,6 +218,25 @@ class Database:
                            (pk,))
         self.verbindung.commit()            
 
+    def deleteKurs(self, k):
+        tn = self.get_tn(k)
+        self.c.execute(""" DELETE FROM settings
+                           WHERE tname = ?;
+                           """,
+                           (tn,))
+        self.verbindung.commit()    
+
+        self.c.execute(""" DROP TABLE """+tn+""";
+                           """
+                           )
+        self.verbindung.commit()    
+
+        tnsus = tn + "_sus"
+        self.c.execute(""" DROP TABLE """+tnsus+""";
+                           """
+                           )
+        self.verbindung.commit()    
+
     def writeSuSListe(self,k,s):
         """ Löscht die alte Tabelle und erstellt eine neue mit den aktuellen
         SuS-PKs aus der Gesamtliste ohne Namen
@@ -772,6 +791,7 @@ class Gui(Ui_MainWindow):
         self.comboBoxKurs.activated.connect(self.kursAnzeigen)
         self.tableWidget.clicked.connect(self.datensatzAnzeigen)
         self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
+        self.pushButtonDelKurs.clicked.connect(self.kursDel)
         self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
         self.pushButtonNeueStd.clicked.connect(self.neueStunde)
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
@@ -817,6 +837,12 @@ class Gui(Ui_MainWindow):
         self.pushButtonKursmitglieder.setEnabled(True)
         self.pushButtonNeueStd.setEnabled(True)
         self.pushButtonKursheftAnzeigen.setEnabled(True)
+    
+    def disableFieldsKurs(self):
+        self.pushButtonDelKurs.setEnabled(False)
+        self.pushButtonKursmitglieder.setEnabled(False)
+        self.pushButtonNeueStd.setEnabled(False)
+        self.pushButtonKursheftAnzeigen.setEnabled(False)
 
     def kursAnzeigen(self):
         """ setzt die aktuelle Combobox-Auswahl als Kursvariable
@@ -901,7 +927,43 @@ class Gui(Ui_MainWindow):
         self.kurs_neu = KursAnlegen(self, self.db)
 
     def kursDel(self):
-        pass
+        """Löscht einen Kurs ohne die eingetragenen Fehlzeiten"""
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setText("Soll der Kurs "+self.kurs+" gelöscht werden?\n\n"+
+                    "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
+        msg.setWindowTitle("Kurs löschen")
+        msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        loeschbutton = msg.button(QtWidgets.QMessageBox.Ok)
+        loeschbutton.setText("Löschen")
+        abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+        abbrbutton.setText("Abbrechen")
+        retval = msg.exec_()
+        if retval == 1024:
+            warn = QtWidgets.QMessageBox()
+            warn.setIcon(QtWidgets.QMessageBox.Warning)
+            warn.setText("Achtung! Der Kurs und alle Stundeninhalte werden gelöscht.\n\n"+
+                        "Wirklich löschen?")
+            warn.setWindowTitle("Kurs löschen")
+            warn.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+            warn.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            loeschbutton = warn.button(QtWidgets.QMessageBox.Ok)
+            loeschbutton.setText("Löschen")
+            abbrbutton = warn.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
+            retval = warn.exec_()
+            if retval == 1024:
+                self.db.deleteKurs(self.kurs)
+                self.kurs = ""
+                self.pk = ""
+                self.kursauswahlMenue()
+                self.tableWidget.clear()
+                self.tableWidget.setRowCount(0)
+                self.disableFieldsStd()
+                self.disableFieldsKurs()
+                if self.tabWidget.currentIndex() == 1:
+                    self.fehlzeitenAnzeige(1)
 
     def schuelerVerw(self):
         self.susverw = SuSVerw(self, self.db, self.kurs)
