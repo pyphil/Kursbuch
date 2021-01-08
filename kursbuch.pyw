@@ -958,7 +958,6 @@ class Gui(Ui_MainWindow):
                 self.kurs = ""
                 self.pk = ""
                 self.kursauswahlMenue()
-                self.tableWidget.clear()
                 self.tableWidget.setRowCount(0)
                 self.disableFieldsStd()
                 self.disableFieldsKurs()
