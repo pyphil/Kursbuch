@@ -527,16 +527,18 @@ class StundeAnlegen(Ui_Form):
             else:
                 newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
             # Serientermine
+            x = int(self.spinBox.text())
             if self.comboBoxSerie.currentText() != "keine Wiederholung":
                 for i in range(self.comboBoxSerie.currentIndex()):
-                    repeatdate = self.datelist[i].split(".")
-                    repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
-                                  repeatdate[0])
-                    # Duplikate filtern
-                    if str(repeatdate+"_"+stunde) in dbdatelist:
-                        pass
-                    else:
-                        newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
+                    if i+1 in range(0,60,x):
+                        repeatdate = self.datelist[i].split(".")
+                        repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
+                                    repeatdate[0])
+                        # Duplikate filtern
+                        if str(repeatdate+"_"+stunde) in dbdatelist:
+                            pass
+                        else:
+                            newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
             try:
                 self.gui.tableWidget.selectRow(newrow)
