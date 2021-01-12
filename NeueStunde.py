@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(371, 398)
+        Form.resize(371, 460)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -51,7 +51,7 @@ class Ui_Form(object):
         self.radioButton_7.setObjectName("radioButton_7")
         self.horizontalLayout.addWidget(self.radioButton_7)
         self.layoutWidget = QtWidgets.QWidget(Form)
-        self.layoutWidget.setGeometry(QtCore.QRect(150, 360, 211, 25))
+        self.layoutWidget.setGeometry(QtCore.QRect(150, 420, 211, 25))
         self.layoutWidget.setObjectName("layoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -74,6 +74,17 @@ class Ui_Form(object):
         self.label_2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
+        self.groupBox_3 = QtWidgets.QGroupBox(Form)
+        self.groupBox_3.setGeometry(QtCore.QRect(10, 350, 351, 61))
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.comboBoxSerie = QtWidgets.QComboBox(self.groupBox_3)
+        self.comboBoxSerie.setGeometry(QtCore.QRect(170, 30, 171, 22))
+        self.comboBoxSerie.setInputMethodHints(QtCore.Qt.ImhNone)
+        self.comboBoxSerie.setEditable(True)
+        self.comboBoxSerie.setObjectName("comboBoxSerie")
+        self.label = QtWidgets.QLabel(self.groupBox_3)
+        self.label.setGeometry(QtCore.QRect(9, 31, 161, 20))
+        self.label.setObjectName("label")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -93,6 +104,9 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "OK"))
         self.pushButton_2.setText(_translate("Form", "Abbrechen"))
         self.label_2.setText(_translate("Form", "Neue Stunde anlegen"))
+        self.groupBox_3.setTitle(_translate("Form", "Serie"))
+        self.comboBoxSerie.setPlaceholderText(_translate("Form", "keine Wiederholung"))
+        self.label.setText(_translate("Form", "Wöchentlich wiederholen bis zum "))
 
 
 if __name__ == "__main__":

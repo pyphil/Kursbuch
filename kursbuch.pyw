@@ -3,10 +3,10 @@ import sqlite3
 # from tkinter import ttk
 from time import strftime, strptime
 import datetime
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import locale
 import sys
-
+import subprocess
 import report
 #import tutmod
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -31,6 +31,8 @@ class Database:
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
         self.c = self.verbindung.cursor()
+        # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
+        subprocess.check_call(["attrib","+H","U:\\kurs.db"])
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
         self.susverbindung = sqlite3.connect("sus.db")
@@ -66,6 +68,7 @@ class Database:
                             "Inhalt" VARCHAR(20),
                             "Schuljahr" VARCHAR(10),
                             "tname" VARCHAR(20),
+                            "Sortierung" INTEGER,
                             PRIMARY KEY("pk")
                         )""")
         self.c.execute("""INSERT INTO "settings"
@@ -175,6 +178,18 @@ class Database:
             # liste.append([str(i[0]),(datum+", "+string[1]+". Std."),i[2],i[3]])
             liste.append([str(i[0]), datum, string[1]+". Std.",i[2],i[3]])
         return liste
+
+    def getDatelist(self, k):
+        """ Datumsliste aus Datenbank holen """
+        tn = self.get_tn(k)
+        listedb = list(self.c.execute(""" SELECT Datum 
+                                          FROM """+tn+"""
+                                          ORDER BY Datum DESC;
+                                      """))
+        dbdatetxt = ""
+        for i in range(len(listedb)):
+            dbdatetxt += listedb[i][0]
+        return dbdatetxt
     
     def writeDatensatz(self, k, inh, ausf, komp, ha, plan, pk):
         tn = self.get_tn(k)
@@ -202,6 +217,25 @@ class Database:
                            """,
                            (pk,))
         self.verbindung.commit()            
+
+    def deleteKurs(self, k):
+        tn = self.get_tn(k)
+        self.c.execute(""" DELETE FROM settings
+                           WHERE tname = ?;
+                           """,
+                           (tn,))
+        self.verbindung.commit()    
+
+        self.c.execute(""" DROP TABLE """+tn+""";
+                           """
+                           )
+        self.verbindung.commit()    
+
+        tnsus = tn + "_sus"
+        self.c.execute(""" DROP TABLE """+tnsus+""";
+                           """
+                           )
+        self.verbindung.commit()    
 
     def writeSuSListe(self,k,s):
         """ Löscht die alte Tabelle und erstellt eine neue mit den aktuellen
@@ -419,6 +453,9 @@ class StundeAnlegen(Ui_Form):
         
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
+        self.changeDatesSeries()
+        self.calendarWidget.clicked.connect(self.changeDatesSeries)
+        self.comboBoxSerie.setCurrentIndex(0)
 
         # Key Press Events von Form umleiten
         self.Form.keyPressEvent = self.keyPressEvent
@@ -429,8 +466,29 @@ class StundeAnlegen(Ui_Form):
         elif e.key() == QtCore.Qt.Key_Escape :   
             self.abbrechen()   
 
+    def changeDatesSeries(self):
+        # Combobox mit Daten füllen
+        datum = str(self.calendarWidget.selectedDate().toPyDate())
+        datum_std = datum.split("_")
+        datum = datum_std[0].split("-")
+        day = datum[2]
+        month = datum[1]
+        year = datum[0]
+        thedate = date(int(year), int(month.lstrip("0")), int(day.lstrip("0")))
+        self.datelist = []
+        i = 1
+        while i <= 24:
+            thedate = thedate + timedelta(days=7)
+            self.datelist.append(thedate.strftime("%d.%m.%Y"))
+            i += 1
+        self.comboBoxSerie.clear()
+        self.comboBoxSerie.addItem("keine Wiederholung")
+        self.comboBoxSerie.setCurrentIndex(0)
+        self.comboBoxSerie.addItems(self.datelist)
+
     def neueStundeAnlegen(self):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
+        dbdatelist = self.db.getDatelist(self.kurs)
         stunde = 0
         if self.radioButton.isChecked() == True:
             stunde = "1"
@@ -457,9 +515,33 @@ class StundeAnlegen(Ui_Form):
         else:
             # Datum an Datenbankobjekt übergeben und 
             # new row und new pk erhalten
-            newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+            
+            # Duplikate filtern
+            if str(datum+"_"+stunde) in dbdatelist:
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Critical)
+                msg.setWindowTitle("Fehler")
+                msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg.setText("Diese Stunde existiert bereits.")
+                msg.exec_()                
+            else:
+                newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+            # Serientermine
+            if self.comboBoxSerie.currentText() != "keine Wiederholung":
+                for i in range(self.comboBoxSerie.currentIndex()):
+                    repeatdate = self.datelist[i].split(".")
+                    repeatdate = (repeatdate[2]+"-"+repeatdate[1]+"-"+
+                                  repeatdate[0])
+                    # Duplikate filtern
+                    if str(repeatdate+"_"+stunde) in dbdatelist:
+                        pass
+                    else:
+                        newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
             self.gui.kursAnzeigen()
-            self.gui.tableWidget.selectRow(newrow)
+            try:
+                self.gui.tableWidget.selectRow(newrow)
+            except:
+                pass
             self.gui.datensatzAnzeigen()
             self.Form.close()
 
@@ -709,6 +791,7 @@ class Gui(Ui_MainWindow):
         self.comboBoxKurs.activated.connect(self.kursAnzeigen)
         self.tableWidget.clicked.connect(self.datensatzAnzeigen)
         self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
+        self.pushButtonDelKurs.clicked.connect(self.kursDel)
         self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
         self.pushButtonNeueStd.clicked.connect(self.neueStunde)
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
@@ -754,6 +837,12 @@ class Gui(Ui_MainWindow):
         self.pushButtonKursmitglieder.setEnabled(True)
         self.pushButtonNeueStd.setEnabled(True)
         self.pushButtonKursheftAnzeigen.setEnabled(True)
+    
+    def disableFieldsKurs(self):
+        self.pushButtonDelKurs.setEnabled(False)
+        self.pushButtonKursmitglieder.setEnabled(False)
+        self.pushButtonNeueStd.setEnabled(False)
+        self.pushButtonKursheftAnzeigen.setEnabled(False)
 
     def kursAnzeigen(self):
         """ setzt die aktuelle Combobox-Auswahl als Kursvariable
@@ -778,10 +867,11 @@ class Gui(Ui_MainWindow):
         # self.fillListbox()
 
     def fillListbox(self):
-        self.tableWidget.setRowCount(len(self.db.getListe(self.kurs)))
+        self.stdliste = self.db.getListe(self.kurs)
+        self.tableWidget.setRowCount(len(self.stdliste))
     
         z = 0
-        for i in self.db.getListe(self.kurs):
+        for i in self.stdliste:
             self.tableWidget.setItem(z,0,QtWidgets.QTableWidgetItem(i[1]))
             self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[2]))
             if i[3] == 1:
@@ -837,7 +927,42 @@ class Gui(Ui_MainWindow):
         self.kurs_neu = KursAnlegen(self, self.db)
 
     def kursDel(self):
-        pass
+        """Löscht einen Kurs ohne die eingetragenen Fehlzeiten"""
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setText("Soll der Kurs "+self.kurs+" gelöscht werden?\n\n"+
+                    "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
+        msg.setWindowTitle("Kurs löschen")
+        msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        loeschbutton = msg.button(QtWidgets.QMessageBox.Ok)
+        loeschbutton.setText("Löschen")
+        abbrbutton = msg.button(QtWidgets.QMessageBox.Cancel)
+        abbrbutton.setText("Abbrechen")
+        retval = msg.exec_()
+        if retval == 1024:
+            warn = QtWidgets.QMessageBox()
+            warn.setIcon(QtWidgets.QMessageBox.Warning)
+            warn.setText("Achtung! Der Kurs und alle Stundeninhalte werden gelöscht.\n\n"+
+                        "Wirklich löschen?")
+            warn.setWindowTitle("Kurs löschen")
+            warn.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+            warn.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            loeschbutton = warn.button(QtWidgets.QMessageBox.Ok)
+            loeschbutton.setText("Löschen")
+            abbrbutton = warn.button(QtWidgets.QMessageBox.Cancel)
+            abbrbutton.setText("Abbrechen")
+            retval = warn.exec_()
+            if retval == 1024:
+                self.db.deleteKurs(self.kurs)
+                self.kurs = ""
+                self.pk = ""
+                self.kursauswahlMenue()
+                self.tableWidget.setRowCount(0)
+                self.disableFieldsStd()
+                self.disableFieldsKurs()
+                if self.tabWidget.currentIndex() == 1:
+                    self.fehlzeitenAnzeige(1)
 
     def schuelerVerw(self):
         self.susverw = SuSVerw(self, self.db, self.kurs)
