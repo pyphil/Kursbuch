@@ -329,14 +329,14 @@ class Database:
                           (f,pk))
         self.susverbindung.commit()
 
-    def writeNeueStunde(self, date, std, k):
+    def writeNeueStunde(self, date, std, k, komp):
         tn = self.get_tn(k)
         datum = date+"_"+str(std)
         self.c.execute("""INSERT INTO """+tn+"""
                             ("pk","Datum","Inhalt","Ausfall","Kompensation",
                             "Hausaufgabe","Planung") 
-                            VALUES (NULL,?,"",0,0,"","");""", 
-                            (datum,))
+                            VALUES (NULL,?,"",0,?,"","");""", 
+                            (datum,komp))
         self.verbindung.commit()
         newrow = self.getRowOfDate(k,datum)
         return newrow
@@ -528,9 +528,14 @@ class StundeAnlegen(Ui_Form):
                 msg.setText("Diese Stunde existiert bereits.")
                 msg.exec_()                
             else:
-                newrow = self.db.writeNeueStunde(datum, stunde, self.kurs)
+                komp = 0
+                newrow = self.db.writeNeueStunde(datum, stunde, self.kurs, komp)
             # Serientermine
             x = int(self.spinBox.text())
+            if self.checkBox.isChecked() == True:
+                komp = 1
+            else:
+                komp = 0
             if self.comboBoxSerie.currentText() != "keine Wiederholung":
                 for i in range(self.comboBoxSerie.currentIndex()):
                     if i+1 in range(0,60,x):
@@ -541,7 +546,10 @@ class StundeAnlegen(Ui_Form):
                         if str(repeatdate+"_"+stunde) in dbdatelist:
                             pass
                         else:
-                            newrow = self.db.writeNeueStunde(repeatdate, stunde, self.kurs)            
+                            newrow = self.db.writeNeueStunde(repeatdate, 
+                                                             stunde, 
+                                                             self.kurs,
+                                                             komp)            
             self.gui.kursAnzeigen()
             try:
                 self.gui.tableWidget.selectRow(newrow)
@@ -803,7 +811,7 @@ class Gui(Ui_MainWindow):
         self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
 
-        # self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
+        self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
 
         # alle focusChanged Events der App an self.leave leiten
         self.db.app.focusChanged.connect(self.leave)
