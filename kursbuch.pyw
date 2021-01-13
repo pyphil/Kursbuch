@@ -457,6 +457,9 @@ class StundeAnlegen(Ui_Form):
         self.calendarWidget.clicked.connect(self.changeDatesSeries)
         self.comboBoxSerie.setCurrentIndex(0)
 
+        # let non editable combobox in fusion style still respect maxitems
+        self.comboBoxSerie.setStyleSheet("combobox-popup: 0;")
+
         # Key Press Events von Form umleiten
         self.Form.keyPressEvent = self.keyPressEvent
 
@@ -799,6 +802,8 @@ class Gui(Ui_MainWindow):
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
         self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
+
+        # self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
 
         # alle focusChanged Events der App an self.leave leiten
         self.db.app.focusChanged.connect(self.leave)
