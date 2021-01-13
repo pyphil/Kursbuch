@@ -1005,6 +1005,7 @@ class Gui(Ui_MainWindow):
         if retval == 1024:
             self.db.deleteDatensatz(self.kurs, self.pk)
             self.kursAnzeigen()
+            self.tableWidget.clearSelection()
 
     def datensatzSpeichern(self):
         # Inhalt der aktuellen Felder speichern
