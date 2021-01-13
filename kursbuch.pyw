@@ -415,25 +415,35 @@ class KursAnlegen(Ui_KursAnlegen):
         fach = self.lineEditFachkrzl.text().upper().lstrip().rstrip()
         klasse = self.lineEditKlasse.text().upper().lstrip().rstrip()
 
-        schuljahr = self.comboBoxSchuljahr.currentText()
-        anzeigename = fach + " " + klasse + " " + schuljahr
-        schuljahr_ = schuljahr.replace("/","_")
-        tabellenname = (self.db.krzl + "_" + fach + "_" + klasse + "_" + schuljahr_)
+        # bei leerem Feld warnen
+        if fach  == "" or klasse == "":
+            # WARNUNG
+            warn = QtWidgets.QMessageBox()
+            warn.setIcon(QtWidgets.QMessageBox.Warning)
+            warn.setText("Bitte beide Felder füllen.")
+            warn.setWindowTitle("Warnung")
+            warn.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+            warn.exec_()
+        else:
+            schuljahr = self.comboBoxSchuljahr.currentText()
+            anzeigename = fach + " " + klasse + " " + schuljahr
+            schuljahr_ = schuljahr.replace("/","_")
+            tabellenname = (self.db.krzl + "_" + fach + "_" + klasse + "_" + schuljahr_)
 
-        # Sonderzeichen und Leerzeichen entfernen
-        tabellenname = tabellenname.replace("-","_")
-        tabellenname = tabellenname.replace("/","_")
-        tabellenname = tabellenname.replace(" ","_")
+            # Sonderzeichen und Leerzeichen entfernen
+            tabellenname = tabellenname.replace("-","_")
+            tabellenname = tabellenname.replace("/","_")
+            tabellenname = tabellenname.replace(" ","_")
 
-        # Namen und Schuljahr an Datenbankobjekt übergeben
-        self.db.createKurs(anzeigename, tabellenname, schuljahr)
-        self.gui.kursauswahlMenue()
-        self.kursneudialog.close()
+            # Namen und Schuljahr an Datenbankobjekt übergeben
+            self.db.createKurs(anzeigename, tabellenname, schuljahr)
+            self.gui.kursauswahlMenue()
+            self.kursneudialog.close()
 
-        # Kurs einstellen, anzeigen und Dialog neue Stunde öffnen
-        self.gui.comboBoxKurs.setCurrentText(anzeigename)
-        self.gui.kursAnzeigen()
-        self.gui.neueStunde()
+            # Kurs einstellen, anzeigen und Dialog neue Stunde öffnen
+            self.gui.comboBoxKurs.setCurrentText(anzeigename)
+            self.gui.kursAnzeigen()
+            self.gui.neueStunde()
 
     def abbrechen(self):
         self.kursneudialog.close()
