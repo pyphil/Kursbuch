@@ -529,14 +529,17 @@ class StundeAnlegen(Ui_Form):
             # Datum an Datenbankobjekt übergeben und 
             # new row und new pk erhalten
             
-            # Duplikate filtern
+            # Duplikate filtern und Hinweis, wenn kein Serientermin
             if str(datum+"_"+stunde) in dbdatelist:
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Critical)
-                msg.setWindowTitle("Fehler")
-                msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-                msg.setText("Diese Stunde existiert bereits.")
-                msg.exec_()                
+                if self.comboBoxSerie.currentText() == "keine Wiederholung":
+                    msg = QtWidgets.QMessageBox()
+                    msg.setIcon(QtWidgets.QMessageBox.Critical)
+                    msg.setWindowTitle("Fehler")
+                    msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                    msg.setText("Diese Stunde existiert bereits.")
+                    msg.exec_()
+                else:
+                    pass
             else:
                 komp = 0
                 newrow = self.db.writeNeueStunde(datum, stunde, self.kurs, komp)
