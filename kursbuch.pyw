@@ -216,7 +216,7 @@ class Database:
                            WHERE pk = ?;
                            """,
                            (pk,))
-        self.verbindung.commit()            
+        self.verbindung.commit()
 
     def deleteKurs(self, k):
         tn = self.get_tn(k)
@@ -332,14 +332,34 @@ class Database:
     def writeNeueStunde(self, date, std, k, komp):
         tn = self.get_tn(k)
         datum = date+"_"+str(std)
-        self.c.execute("""INSERT INTO """+tn+"""
-                            ("pk","Datum","Inhalt","Ausfall","Kompensation",
-                            "Hausaufgabe","Planung") 
-                            VALUES (NULL,?,"",0,?,"","");""", 
-                            (datum,komp))
+        ferientext = self.getFerienext(date)
+        if ferientext == []:
+            self.c.execute("""INSERT INTO """+tn+"""
+                                ("pk","Datum","Inhalt","Ausfall","Kompensation",
+                                "Hausaufgabe","Planung") 
+                                VALUES (NULL,?,"",0,?,"","");""", 
+                                (datum,komp))
+        else:
+            ferientext = "– "+ferientext[0][0]+" –"
+            self.c.execute("""INSERT INTO """+tn+"""
+                                ("pk","Datum","Inhalt","Ausfall","Kompensation",
+                                "Hausaufgabe","Planung") 
+                                VALUES (NULL,?,?,1,?,"","");""", 
+                                (datum,ferientext,komp))
+        
         self.verbindung.commit()
         newrow = self.getRowOfDate(k,datum)
         return newrow
+
+    def getFerienext(self, date):
+        
+        ferientext = list(self.susc.execute("""SELECT Ferientext 
+                                          FROM "ferien"
+                                          WHERE Datum = ?;
+                                       """,
+                                        (date,)))
+        
+        return ferientext
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""

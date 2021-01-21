@@ -14,7 +14,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Mitgliederverwaltung</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>kursbuch.ico</normaloff>kursbuch.ico</iconset>
   </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
