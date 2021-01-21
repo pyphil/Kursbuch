@@ -182,7 +182,7 @@ selection-color: rgb(255, 255, 255);</string>
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Ferien/Feiertag</string>
+             <string>Ferien/Feiertag/Ausfall</string>
             </property>
            </widget>
           </item>

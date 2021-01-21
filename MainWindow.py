@@ -232,7 +232,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Stunde"))
         self.labelKurshefteintrag.setText(_translate("MainWindow", "Kurshefteintrag"))
         self.labelHausaufgaben.setText(_translate("MainWindow", "Hausaufgaben/Lernzeitaufgaben"))
-        self.checkBox.setText(_translate("MainWindow", "Ferien/Feiertag"))
+        self.checkBox.setText(_translate("MainWindow", "Ferien/Feiertag/Ausfall"))
         self.checkBox_2.setText(_translate("MainWindow", "Kompensationsstunde"))
         self.label.setText(_translate("MainWindow", "Planungsnotizen"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_Unterricht), _translate("MainWindow", "Unterricht"))
