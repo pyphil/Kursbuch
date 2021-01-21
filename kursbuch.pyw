@@ -27,6 +27,7 @@ class Database:
     def __init__(self):
         
         self.krzl = ""
+        self.feriendaten = ""
         
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
@@ -332,33 +333,44 @@ class Database:
     def writeNeueStunde(self, date, std, k, komp):
         tn = self.get_tn(k)
         datum = date+"_"+str(std)
-        ferientext = self.getFerienext(date)
-        if ferientext == []:
-            self.c.execute("""INSERT INTO """+tn+"""
-                                ("pk","Datum","Inhalt","Ausfall","Kompensation",
-                                "Hausaufgabe","Planung") 
-                                VALUES (NULL,?,"",0,?,"","");""", 
-                                (datum,komp))
-        else:
+        if self.feriendaten == "":
+            self.feriendaten = self.getFerienDaten()
+        
+        if date in self.feriendaten:
+            ferientext = self.getFerientext(date)
             ferientext = "– "+ferientext[0][0]+" –"
             self.c.execute("""INSERT INTO """+tn+"""
                                 ("pk","Datum","Inhalt","Ausfall","Kompensation",
                                 "Hausaufgabe","Planung") 
                                 VALUES (NULL,?,?,1,?,"","");""", 
                                 (datum,ferientext,komp))
+        else:
+            self.c.execute("""INSERT INTO """+tn+"""
+                                ("pk","Datum","Inhalt","Ausfall","Kompensation",
+                                "Hausaufgabe","Planung") 
+                                VALUES (NULL,?,"",0,?,"","");""", 
+                                (datum,komp))
         
         self.verbindung.commit()
         newrow = self.getRowOfDate(k,datum)
         return newrow
 
-    def getFerienext(self, date):
-        
+    def getFerienDaten(self):
+        liste = list(self.susc.execute("""SELECT Datum 
+                                                FROM "ferien";
+                                                """,
+                                       ))
+        feriendaten = ""
+        for i in liste:
+            feriendaten += i[0]+" "
+        return feriendaten
+
+    def getFerientext(self, date):      
         ferientext = list(self.susc.execute("""SELECT Ferientext 
                                           FROM "ferien"
                                           WHERE Datum = ?;
                                        """,
-                                        (date,)))
-        
+                                        (date,)))     
         return ferientext
 
     def getGesamtliste(self):
