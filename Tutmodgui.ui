@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Susverwgui</class>
- <widget class="QWidget" name="Susverwgui">
+ <class>Tutmodgui</class>
+ <widget class="QWidget" name="Tutmodgui">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>

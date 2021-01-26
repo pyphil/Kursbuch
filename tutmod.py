@@ -1,12 +1,15 @@
 
 import calendar
+from PyQt5 import QtCore, QtGui, QtWidgets
+from Tutmodgui import Ui_Tutmodgui
 
 
-
-class Tutmod01App:
+class Tutmod(Ui_Tutmodgui):
     def __init__(self, master=None):
-        
-
+    
+        self.Tutmodgui = QtWidgets.QWidget()
+        self.setupUi(self.Tutmodgui)
+        self.Tutmodgui.show()
 
     def setMonth(self):
         y = int(self.combo_jahr.get())
