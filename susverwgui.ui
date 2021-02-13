@@ -10,8 +10,20 @@
     <x>0</x>
     <y>0</y>
     <width>702</width>
-    <height>570</height>
+    <height>640</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>702</width>
+    <height>638</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>702</width>
+    <height>640</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Mitgliederverwaltung</string>
@@ -26,7 +38,7 @@
      <x>10</x>
      <y>78</y>
      <width>279</width>
-     <height>481</height>
+     <height>551</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -67,7 +79,7 @@
      <x>410</x>
      <y>78</y>
      <width>279</width>
-     <height>481</height>
+     <height>421</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -300,7 +312,7 @@
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>Mitgliederverwaltung</string>
+    <string>Verwaltung der Mitglieder im Kurs</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -309,7 +321,7 @@
   <widget class="QComboBox" name="comboBox">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>126</x>
      <y>50</y>
      <width>111</width>
      <height>20</height>
@@ -328,7 +340,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>43</x>
      <y>53</y>
      <width>75</width>
      <height>13</height>
@@ -345,6 +357,108 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAbgangAdd">
+   <property name="geometry">
+    <rect>
+     <x>414</x>
+     <y>504</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>zu Abgängern verschieben</string>
+   </property>
+   <property name="text">
+    <string>▼</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>540</y>
+     <width>281</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::MultiSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
+   <attribute name="horizontalHeaderMinimumSectionSize">
+    <number>40</number>
+   </attribute>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>40</number>
+   </attribute>
+   <attribute name="horizontalHeaderStretchLastSection">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="verticalHeaderDefaultSectionSize">
+    <number>23</number>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Klasse</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>485</x>
+     <y>512</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>als Abgänger/Kurswechsler führen</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAbgangDel">
+   <property name="geometry">
+    <rect>
+     <x>449</x>
+     <y>504</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>zurück zur Lerngruppe verschieben</string>
+   </property>
+   <property name="text">
+    <string>▲</string>
    </property>
   </widget>
  </widget>
