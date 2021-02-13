@@ -104,7 +104,9 @@ class Database:
         # kurs_sus Tabelle für die Schüler Primary keys erstellen
         kurssus = tn+"_sus"
         self.c.execute("""CREATE TABLE """ + kurssus + """ (
-                       "pk"    INTEGER       
+                       "pk"    INTEGER,
+                       "Abgang" INTEGER,
+                       "Abgangsdatum" DATE
                        );""")
 
         self.verbindung.commit()
