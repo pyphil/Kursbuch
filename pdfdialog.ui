@@ -13,6 +13,18 @@
     <height>184</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>304</width>
+    <height>184</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>304</width>
+    <height>184</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>PDF Export</string>
   </property>

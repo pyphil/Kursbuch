@@ -16,6 +16,8 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.setWindowModality(QtCore.Qt.ApplicationModal)
         Form.resize(371, 496)
+        Form.setMinimumSize(QtCore.QSize(371, 496))
+        Form.setMaximumSize(QtCore.QSize(371, 496))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
