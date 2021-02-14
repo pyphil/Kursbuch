@@ -104,7 +104,9 @@ class Database:
         # kurs_sus Tabelle für die Schüler Primary keys erstellen
         kurssus = tn+"_sus"
         self.c.execute("""CREATE TABLE """ + kurssus + """ (
-                       "pk"    INTEGER       
+                       "pk"    INTEGER,
+                       "Abgang" INTEGER,
+                       "Abgangsdatum" DATE
                        );""")
 
         self.verbindung.commit()
@@ -255,23 +257,47 @@ class Database:
         # Tabelle neu erstellen. Ohne primary key Angabe, da nur 
         # Speicherung der SuS-pks aus Gesamtliste
         self.c.execute("""CREATE TABLE """ + kurssus + """ (
-                            "pk"    INTEGER       
+                            "pk"    INTEGER,
+                            "zuab"     INTEGER,
+                            "Datum"  DATE   
                         );""")
         
         for i in s:
             self.c.execute("""INSERT INTO """ + kurssus + """
-                                ("pk")
-                                VALUES (?);""", 
-                                (i[2],))
+                                ("pk", "zuab")
+                                VALUES (?,?);""", 
+                                (i[2],0))
         self.verbindung.commit()
 
-    def getSuSListe(self,k):
+    def addAbgaenger(self,k,s):
         tn = self.get_tn(k)
         kurssus = tn+"_sus"
 
-        pkliste = list(self.c.execute("""SELECT pk 
-                                   FROM """+kurssus+""" 
-                                   """))
+        for i in s:
+            self.c.execute("""INSERT INTO """ + kurssus + """
+                                ("pk", "zuab")
+                                VALUES (?,?);""", 
+                                (i[2],1))
+        self.verbindung.commit()
+
+    def getSuSListe(self,k,m):
+        """ Über diese Methode erhält die Mitgliederverwaltung die
+        Listen der aktiven (mode=normal) oder Abgänger (mode=abg)
+        """
+        tn = self.get_tn(k)
+        kurssus = tn+"_sus"
+        mode = m
+
+        if mode == "normal":
+            pkliste = list(self.c.execute("""SELECT pk
+                                    FROM """+kurssus+""" 
+                                    WHERE zuab = 0
+                                    """))
+        if mode == "abg":
+            pkliste = list(self.c.execute("""SELECT pk 
+                                    FROM """+kurssus+"""
+                                    WHERE zuab = 1 
+                                    """))
         susliste = []
         for i in pkliste:
             item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse 
@@ -283,14 +309,20 @@ class Database:
         return susliste
 
     def getSuS(self, date, k):
+        """ Über diese Methode erhält die Fehlzeitenanzeige die Daten zu einem
+        bestimmten Datum ohne Abgänger
+        """
+        
         tn = self.get_tn(k)
         # Anführungsstriche um das Datum setzen
         date='"'+date+'"'
         kurssus = tn+"_sus"
-        pkliste = list(self.c.execute("""SELECT pk 
-                                   FROM """+kurssus+""" 
-                                   """))
-        
+
+        pkliste = list(self.c.execute("""SELECT pk
+                                FROM """+kurssus+""" 
+                                WHERE zuab = 0
+                                """))
+ 
         try:
             # Prüfen, ob es schon eine Spalte für das Datum gibt und ggf.
             # versuchen, die Spalte hinzuzufügen
@@ -299,16 +331,6 @@ class Database:
             self.susverbindung.commit()
         except:
             pass
-        
-        # else:
-            # Wenn die Spalte neu erstellt wird, alles mit Nullen füllen
-            # ungünstig für DB-Performance, daher 0 oder Null für 
-            # "anwesende" akzeptieren
-            # self.susc.execute("""UPDATE sus
-                            #   SET """+date+""" = ?;
-                        #    """,
-                        #    (0,))
-            # self.susverbindung.commit()               
         
         liste = []
         for i in pkliste:
@@ -616,18 +638,34 @@ class SuSVerw(Ui_Susverwgui):
 
         self.susverwgui = QtWidgets.QWidget()
         self.setupUi(self.susverwgui)
+
+        # Auf dem Desktop zentrieren
+        # geometry of the main window
+        qr = self.susverwgui.frameGeometry()
+        # center point of screen
+        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
+        # move rectangle's center point to screen's center point
+        qr.moveCenter(cp)
+        # Taskleiste abziehen
+        qr.setTop(qr.top()-15)
+        # top left of rectangle becomes top left of window centering it
+        self.susverwgui.move(qr.topLeft())
+
         self.susverwgui.show()
 
         self.tableWidget.setColumnWidth(0,190)
         self.tableWidget_2.setColumnWidth(0,190)
+        self.tableWidget_3.setColumnWidth(0,190)
 
         # Listen bereitstellen
         self.liste2 = []
         self.liste2sorted = []
+        self.liste3 = []
+        self.liste3sorted = []
         
         # Zeigt die Liste der Schüler im Kurs
         self.labelLerngruppe.setText("Mitglieder der Lerngruppe: "+self.kurs)
-        self.liste2 = self.db.getSuSListe(self.kurs)
+        self.liste2 = self.db.getSuSListe(self.kurs, "normal")
         self.liste2sorted = self.liste2
         z = 0
         for i in self.liste2sorted:
@@ -637,12 +675,27 @@ class SuSVerw(Ui_Susverwgui):
             self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
             z += 1
 
+        # Zeigt die Liste der Abgänger im Kurs
+        self.liste3 = self.db.getSuSListe(self.kurs, "abg")
+        self.liste3sorted = self.liste3
+        z = 0
+        for i in self.liste3sorted:
+            self.tableWidget_3.setRowCount(z+1)
+            self.tableWidget_3.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_3.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+
+
         # Signals and slots
         self.comboBox.activated.connect(self.zeigeKlasse)
         self.pushButtonAddSelected.clicked.connect(self.susadd)
         self.pushButtonDeleteSelected.clicked.connect(self.susdel)
         self.pushButtonAddAll.clicked.connect(self.susaddall)
         self.pushButtonDeleteAll.clicked.connect(self.susdelall)
+        self.pushButtonAbgangAdd.clicked.connect(self.abgangAdd)
+        self.pushButtonAbgangDel.clicked.connect(self.abgangDel)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -768,8 +821,89 @@ class SuSVerw(Ui_Susverwgui):
         except:
             pass
 
+    def abgangAdd(self):
+        selection = self.tableWidget_2.selectionModel().selectedRows()
+
+        for i in selection:
+            if self.liste2sorted[i.row()] in self.liste3:
+                pass
+            else:
+                self.liste3.append(self.liste2sorted[i.row()])
+        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
+        # labmda Funktion für jede Liste in der Liste
+        self.liste3sorted = sorted(self.liste3, key=lambda i: locale.strxfrm(i[0]))
+
+        z = 0
+        for i in self.liste3sorted:
+            self.tableWidget_3.setRowCount(z+1)
+            self.tableWidget_3.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_3.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        for i in sorted(selection, reverse = True):
+            del self.liste2sorted[i.row()]
+        self.liste2 = self.liste2sorted
+
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget_2.clearSelection()
+
+        self.save()
+    
+    def abgangDel(self):
+        selection = self.tableWidget_3.selectionModel().selectedRows()
+
+        for i in selection:
+            if self.liste3sorted[i.row()] in self.liste2:
+                pass
+            else:
+                self.liste2.append(self.liste3sorted[i.row()])
+        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
+        # labmda Funktion für jede Liste in der Liste
+        self.liste2sorted = sorted(self.liste2, key=lambda i: locale.strxfrm(i[0]))
+
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Eintrag aus Widget 3 löschen und Ansicht aktualisieren
+        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        for i in sorted(selection, reverse = True):
+            del self.liste3sorted[i.row()]
+        self.liste3 = self.liste3sorted
+
+        z = 0
+        for i in self.liste3sorted:
+            self.tableWidget_3.setRowCount(z+1)
+            self.tableWidget_3.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_3.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget_3.clearSelection()
+
+        self.save()
+
     def save(self):
         self.db.writeSuSListe(self.kurs,self.liste2sorted)
+        self.db.addAbgaenger(self.kurs,self.liste3sorted)
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
         if self.gui.tabWidget.currentIndex() == 1:
             self.gui.fehlzeitenAnzeige(1)
