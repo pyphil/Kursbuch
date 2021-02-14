@@ -638,6 +638,19 @@ class SuSVerw(Ui_Susverwgui):
 
         self.susverwgui = QtWidgets.QWidget()
         self.setupUi(self.susverwgui)
+
+        # Auf dem Desktop zentrieren
+        # geometry of the main window
+        qr = self.susverwgui.frameGeometry()
+        # center point of screen
+        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
+        # move rectangle's center point to screen's center point
+        qr.moveCenter(cp)
+        # Taskleiste abziehen
+        qr.setTop(qr.top()-15)
+        # top left of rectangle becomes top left of window centering it
+        self.susverwgui.move(qr.topLeft())
+
         self.susverwgui.show()
 
         self.tableWidget.setColumnWidth(0,190)
