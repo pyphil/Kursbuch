@@ -105,8 +105,8 @@ class Database:
         kurssus = tn+"_sus"
         self.c.execute("""CREATE TABLE """ + kurssus + """ (
                        "pk"    INTEGER,
-                       "Abgang" INTEGER,
-                       "Abgangsdatum" DATE
+                       "zuab" INTEGER,
+                       "Datum" DATE
                        );""")
 
         self.verbindung.commit()
@@ -899,6 +899,9 @@ class SuSVerw(Ui_Susverwgui):
         # Auswahl wieder aufheben
         self.tableWidget_3.clearSelection()
 
+        # Wenn liste2sorted leer, verbleibende rows entfernen
+        if self.liste3sorted == []:
+            self.tableWidget_3.setRowCount(0)
         self.save()
 
     def save(self):
