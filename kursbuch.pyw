@@ -469,6 +469,41 @@ class KursAnlegen(Ui_KursAnlegen):
         fach = self.lineEditFachkrzl.text().upper().lstrip().rstrip()
         klasse = self.lineEditKlasse.text().upper().lstrip().rstrip()
 
+        # Unerlaubte Zeichen entfernen
+        fach = fach.replace("."," ")
+        fach = fach.replace(":","")
+        fach = fach.replace(","," ")
+        fach = fach.replace(";"," ")
+        fach = fach.replace("#"," ")
+        fach = fach.replace("!","")
+        fach = fach.replace("?","")
+        fach = fach.replace("(","")
+        fach = fach.replace(")","")
+        fach = fach.replace('"','')
+        fach = fach.replace("'","")
+        fach = fach.replace("&"," und ")
+        fach = fach.replace("+"," und ")
+        fach = fach.replace("<","")
+        fach = fach.replace(">","")
+        fach = fach.replace("@","")
+
+        klasse = klasse.replace("."," ")
+        klasse = klasse.replace(":","")
+        klasse = klasse.replace(","," ")
+        klasse = klasse.replace(";"," ")
+        klasse = klasse.replace("#"," ")
+        klasse = klasse.replace("!","")
+        klasse = klasse.replace("?","")
+        klasse = klasse.replace("(","")
+        klasse = klasse.replace(")","")
+        klasse = klasse.replace('"','')
+        klasse = klasse.replace("'","")
+        klasse = klasse.replace("&"," und ")
+        klasse = klasse.replace("+"," und ")
+        klasse = klasse.replace("<","")
+        klasse = klasse.replace(">","")
+        klasse = klasse.replace("@","")
+
         # bei leerem Feld warnen
         if fach  == "" or klasse == "":
             # WARNUNG
@@ -484,7 +519,7 @@ class KursAnlegen(Ui_KursAnlegen):
             schuljahr_ = schuljahr.replace("/","_")
             tabellenname = (self.db.krzl + "_" + fach + "_" + klasse + "_" + schuljahr_)
 
-            # Sonderzeichen und Leerzeichen entfernen
+            # Sonderzeichen und Leerzeichen im Tabellennamen entfernen
             tabellenname = tabellenname.replace("-","_")
             tabellenname = tabellenname.replace("/","_")
             tabellenname = tabellenname.replace(" ","_")
