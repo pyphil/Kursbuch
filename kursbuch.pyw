@@ -630,7 +630,10 @@ class StundeAnlegen(Ui_Form):
                 else:
                     pass
             else:
-                komp = 0
+                if self.checkBox.isChecked() == True:
+                    komp = 1
+                else:
+                    komp = 0
                 newrow = self.db.writeNeueStunde(datum, stunde, self.kurs, komp)
             # Serientermine
             x = int(self.spinBox.text())
