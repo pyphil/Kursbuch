@@ -8,7 +8,7 @@ import locale
 import sys
 import subprocess
 import report
-#import tutmod
+from os import path
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
@@ -29,6 +29,9 @@ class Database:
         self.krzl = ""
         self.feriendaten = ""
         
+        # Datenbank laden
+
+
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
         self.c = self.verbindung.cursor()
@@ -36,8 +39,12 @@ class Database:
         subprocess.check_call(["attrib","+H","U:\\kurs.db"])
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
-        self.susverbindung = sqlite3.connect("sus.db")
-        self.susc = self.susverbindung.cursor()
+        if path.isfile('sus.db'):
+            print("sus.db found")
+            self.susverbindung = sqlite3.connect("sus.db")
+            self.susc = self.susverbindung.cursor()
+        else:
+            print("sus.db not found")
 
         # Database übergibt sich selbst dem Gui Objekt und instanziiert es
         # import sys
@@ -60,6 +67,7 @@ class Database:
             # starten
             self.ui = Gui(self)
             sys.exit(self.app.exec_())
+            print("end")
 
     def createSettings(self, krz):
         """neue Tabelle settings anlegen aus Dialog Ersteinrichtung"""
