@@ -1044,6 +1044,11 @@ class Gui(Ui_MainWindow):
         # alle focusChanged Events der App an self.leave leiten
         self.db.app.focusChanged.connect(self.leave)
 
+        self.MainWindow.closeEvent = self.closeEvent
+
+    def closeEvent(self, event):
+        self.db.close()
+
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
         if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2:
