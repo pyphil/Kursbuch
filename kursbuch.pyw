@@ -30,14 +30,14 @@ class Database:
         self.feriendaten = ""
         
         # Datenbank laden
-        self.login = "dev:3$N7p9rd"
-        subprocess.call("curl\curl.exe --ftp-ssl -u "+self.login+" -o U:\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
+        self.login = "dev:nh13wV*7"
+        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
 
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
-        subprocess.check_call(["attrib","+H","U:\\kurs.db"])
+        #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
         if path.isfile('sus.db'):
@@ -414,7 +414,13 @@ class Database:
         self.verbindung.close()
         self.susc.close()
         self.susverbindung.close()
-        subprocess.call("curl.exe --ftp-ssl -u "+self.login+" -T U:\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
+        subprocess.call("curl\\curl.exe --tlsv1.1 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
+
+        # subprocess.call("powershell Remove-item U:\kursBACKUP4.db")
+        # subprocess.call("powershell Rename-item U:\kursBACKUP3.db U:\kurs.dbBACKUP4")
+        # subprocess.call("powershell Rename-item U:\kursBACKUP2.db U:\kurs.dbBACKUP3")
+        # subprocess.call("powershell Rename-item U:\kursBACKUP1.db U:\kurs.dbBACKUP2")
+        # subprocess.call("powershell Rename-item U:\kurs.db U:\kurs.dbBACKUP1")
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
     def __init__(self, db):
