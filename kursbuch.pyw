@@ -30,7 +30,8 @@ class Database:
         self.feriendaten = ""
         
         # Datenbank laden
-
+        self.login = "dev:3$N7p9rd"
+        subprocess.call("curl\curl.exe --ftp-ssl -u "+self.login+" -o U:\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
 
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
@@ -413,6 +414,7 @@ class Database:
         self.verbindung.close()
         self.susc.close()
         self.susverbindung.close()
+        subprocess.call("curl.exe --ftp-ssl -u "+self.login+" -T U:\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
     def __init__(self, db):
