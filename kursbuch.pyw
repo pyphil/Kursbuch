@@ -1,7 +1,7 @@
 import sqlite3
 # import tkinter as tk
 # from tkinter import ttk
-from time import strftime, strptime
+from time import strftime, strptime, sleep
 import datetime
 from datetime import datetime, date, timedelta
 import locale
@@ -416,17 +416,34 @@ class Database:
         self.susverbindung.close()
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
 
-        # subprocess.call("del U:\kursBACKUP4.db")
-        # subprocess.call("ren U:\kursBACKUP3.db U:\kurs.dbBACKUP4")
-        # subprocess.call("ren U:\kursBACKUP2.db U:\kurs.dbBACKUP3")
-        # subprocess.call("ren U:\kursBACKUP1.db U:\kurs.dbBACKUP2")
-        # subprocess.call("ren U:\kurs.db U:\kurs.dbBACKUP1")
+        subprocess.call("xcopy U:\\kurs.db U:\\kurs.dbBACKUP /i /y")
+
+        # try:
+        #     system("del U:\\kurs.dbBACKUP4")
+        # except:
+        #     pass
+        # try:
+        #     system("ren U:\\kurs.dbBACKUP3 U:\\kurs.dbBACKUP4")
+        # except:
+        #     pass
+        # try:
+        #     system("ren U:\\kurs.dbBACKUP2 U:\\kurs.dbBACKUP3")
+        # except:
+        #     pass
+        # try:
+        #     system("ren U:\\kurs.dbBACKUP1 U:\\kurs.dbBACKUP2")
+        # except:
+        #     pass
+        # try:
+        #     system("ren U:\\kurs.db U:\\kurs.dbBACKUP1")
+        # except:
+        #     pass
         
-        # subprocess.call("powershell Remove-item U:\kursBACKUP4.db")
-        # subprocess.call("powershell Rename-item U:\kursBACKUP3.db U:\kurs.dbBACKUP4")
-        # subprocess.call("powershell Rename-item U:\kursBACKUP2.db U:\kurs.dbBACKUP3")
-        # subprocess.call("powershell Rename-item U:\kursBACKUP1.db U:\kurs.dbBACKUP2")
-        # subprocess.call("powershell Rename-item U:\kurs.db U:\kurs.dbBACKUP1")
+        # subprocess.call("powershell Remove-item U:\\kurs.dbBACKUP4")
+        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP3 U:\\kurs.dbBACKUP4")
+        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP2 U:\\kurs.dbBACKUP3")
+        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP1 U:\\kurs.dbBACKUP2")
+        # subprocess.call("powershell Rename-item U:\\kurs.db U:\\kurs.dbBACKUP1")
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
     def __init__(self, db):
@@ -1061,6 +1078,8 @@ class Gui(Ui_MainWindow):
         self.MainWindow.closeEvent = self.closeEvent
 
     def closeEvent(self, event):
+        self.datensatzSpeichern()
+        sleep(1)
         self.db.close()
 
     def leave(self, old, new):
