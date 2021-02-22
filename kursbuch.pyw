@@ -414,8 +414,14 @@ class Database:
         self.verbindung.close()
         self.susc.close()
         self.susverbindung.close()
-        subprocess.call("curl\\curl.exe --tlsv1.1 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
+        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
 
+        # subprocess.call("del U:\kursBACKUP4.db")
+        # subprocess.call("ren U:\kursBACKUP3.db U:\kurs.dbBACKUP4")
+        # subprocess.call("ren U:\kursBACKUP2.db U:\kurs.dbBACKUP3")
+        # subprocess.call("ren U:\kursBACKUP1.db U:\kurs.dbBACKUP2")
+        # subprocess.call("ren U:\kurs.db U:\kurs.dbBACKUP1")
+        
         # subprocess.call("powershell Remove-item U:\kursBACKUP4.db")
         # subprocess.call("powershell Rename-item U:\kursBACKUP3.db U:\kurs.dbBACKUP4")
         # subprocess.call("powershell Rename-item U:\kursBACKUP2.db U:\kurs.dbBACKUP3")
