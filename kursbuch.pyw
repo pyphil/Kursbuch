@@ -1,7 +1,5 @@
 import sqlite3
-# import tkinter as tk
-# from tkinter import ttk
-from time import strftime, strptime, sleep
+from time import strftime, strptime
 import datetime
 from datetime import datetime, date, timedelta
 import locale
@@ -418,32 +416,6 @@ class Database:
 
         subprocess.call("xcopy U:\\kurs.db U:\\kurs.dbBACKUP /i /y")
 
-        # try:
-        #     system("del U:\\kurs.dbBACKUP4")
-        # except:
-        #     pass
-        # try:
-        #     system("ren U:\\kurs.dbBACKUP3 U:\\kurs.dbBACKUP4")
-        # except:
-        #     pass
-        # try:
-        #     system("ren U:\\kurs.dbBACKUP2 U:\\kurs.dbBACKUP3")
-        # except:
-        #     pass
-        # try:
-        #     system("ren U:\\kurs.dbBACKUP1 U:\\kurs.dbBACKUP2")
-        # except:
-        #     pass
-        # try:
-        #     system("ren U:\\kurs.db U:\\kurs.dbBACKUP1")
-        # except:
-        #     pass
-        
-        # subprocess.call("powershell Remove-item U:\\kurs.dbBACKUP4")
-        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP3 U:\\kurs.dbBACKUP4")
-        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP2 U:\\kurs.dbBACKUP3")
-        # subprocess.call("powershell Rename-item U:\\kurs.dbBACKUP1 U:\\kurs.dbBACKUP2")
-        # subprocess.call("powershell Rename-item U:\\kurs.db U:\\kurs.dbBACKUP1")
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
     def __init__(self, db):
