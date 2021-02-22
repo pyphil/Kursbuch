@@ -1077,15 +1077,18 @@ class Gui(Ui_MainWindow):
 
         self.MainWindow.closeEvent = self.closeEvent
 
+        self.abouttoclose = 0
+
     def closeEvent(self, event):
+        self.abouttoclose = 1
         self.datensatzSpeichern()
-        sleep(1)
         self.db.close()
 
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
-        if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2:
-            self.datensatzSpeichern()
+        if self.abouttoclose != 1:
+            if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2:
+                self.datensatzSpeichern()
 
     def kursauswahlMenue(self):
         '''Holt Liste der Kurse aus db und füllt Combobox '''
