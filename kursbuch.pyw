@@ -6,7 +6,7 @@ import locale
 import sys
 import subprocess
 import report
-from os import path
+from os import path, system
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
@@ -414,7 +414,7 @@ class Database:
         self.susverbindung.close()
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
 
-        subprocess.call("xcopy U:\\kurs.db U:\\kurs.dbBACKUP /i /y")
+        system("copy U:\\kurs.db U:\\kurs.dbBACKUP")
 
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
