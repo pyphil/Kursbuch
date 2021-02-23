@@ -1053,7 +1053,8 @@ class Gui(Ui_MainWindow):
 
     def closeEvent(self, event):
         self.abouttoclose = 1
-        self.datensatzSpeichern()
+        if self.kurs != "":
+            self.datensatzSpeichern()
         self.db.close()
 
     def leave(self, old, new):
