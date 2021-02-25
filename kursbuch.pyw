@@ -6,6 +6,7 @@ import locale
 import sys
 import subprocess
 import report
+import keyring
 from os import path, system
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
@@ -26,10 +27,8 @@ class Database:
         
         self.krzl = ""
         self.feriendaten = ""
-        
-        # Datenbank laden
-        self.login = "dev:nh13wV*7"
-        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
+        self.sync = 0
+        self.nosus = 0
 
         # Verbindung zur lokalen Datenbank herstellen
         self.verbindung = sqlite3.connect("U:\\kurs.db")
@@ -44,6 +43,8 @@ class Database:
             self.susc = self.susverbindung.cursor()
         else:
             print("sus.db not found")
+            # TODO Schaltflächen sperren
+            self.nosus = 1
 
         # Database übergibt sich selbst dem Gui Objekt und instanziiert es
         # import sys
@@ -56,12 +57,22 @@ class Database:
             self.krzl = list(self.c.execute("""SELECT Inhalt FROM settings
                                       WHERE Kategorie = "Krzl";"""))
             self.krzl = self.krzl[0][0]
+            self.sync = list(self.c.execute("""SELECT Inhalt FROM settings
+                                      WHERE Kategorie = "sync";"""))
+            self.sync = int(self.sync[0][0])
         except:
             # Database übergibt sich selbst dem Objekt Ersteinrichtung 
             # und instanziiert es
             self.firstrun = Ersteinrichtung(self)
             sys.exit(self.app.exec_())
         else:
+            # Datenbank vom Server laden, wenn Synchronisation an
+            if self.sync == 1:
+                #keyring.set_password("kursbuch", "lob", "nh13wV*7")
+                pw = keyring.get_password("kursbuch", self.krzl.lower())
+                self.login = self.krzl.lower()+":"+pw
+                subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
+            
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
@@ -83,6 +94,10 @@ class Database:
                              ("pk","Kategorie","Inhalt") 
                              VALUES (NULL,"Krzl",?);""", 
                              (krz,))
+        self.c.execute("""INSERT INTO "settings"
+                             ("Kategorie","Inhalt") 
+                             VALUES ("sync",?);""", 
+                             (0,))
         self.verbindung.commit()
         self.krzl = krz
 
@@ -410,11 +425,12 @@ class Database:
     def close(self):
         self.c.close()
         self.verbindung.close()
-        self.susc.close()
-        self.susverbindung.close()
-        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
-
-        system("copy U:\\kurs.db U:\\kurs.dbBACKUP")
+        if self.nosus == 0:
+            self.susc.close()
+            self.susverbindung.close()
+        if self.sync == 1:
+            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
+            system("copy U:\\kurs.db U:\\kurs.dbBACKUP")
 
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
@@ -1041,6 +1057,9 @@ class Gui(Ui_MainWindow):
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
         self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
+        
+        if self.db.nosus == 1:
+            self.tabWidget.setTabEnabled(1,False)
 
         self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
 
@@ -1091,7 +1110,8 @@ class Gui(Ui_MainWindow):
 
     def enableFieldsKurs(self):
         self.pushButtonDelKurs.setEnabled(True)
-        self.pushButtonKursmitglieder.setEnabled(True)
+        if self.db.nosus == 0:
+            self.pushButtonKursmitglieder.setEnabled(True)
         self.pushButtonNeueStd.setEnabled(True)
         self.pushButtonKursheftAnzeigen.setEnabled(True)
     
