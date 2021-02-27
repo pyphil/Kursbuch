@@ -7,8 +7,7 @@ import sys
 import subprocess
 import report
 import keyring
-import threading
-from os import path, system
+from os import path, system, environ
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
@@ -32,7 +31,9 @@ class Database:
         self.nosus = 0
 
         # Verbindung zur lokalen Datenbank herstellen
-        self.verbindung = sqlite3.connect("U:\\kurs.db")
+        homedrive = environ['HOMEDRIVE']
+        homepath = environ['HOMEPATH']
+        self.verbindung = sqlite3.connect(homedrive+homepath+"\\kurs.db")
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
         #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
