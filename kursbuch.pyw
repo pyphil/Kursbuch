@@ -1,5 +1,5 @@
 import sqlite3
-from time import strftime, strptime
+from time import strftime, strptime, sleep
 import datetime
 from datetime import datetime, date, timedelta
 import locale
@@ -7,6 +7,7 @@ import sys
 import subprocess
 import report
 import keyring
+import threading
 from os import path, system
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
@@ -72,7 +73,12 @@ class Database:
                 pw = keyring.get_password("kursbuch", self.krzl.lower())
                 self.login = self.krzl.lower()+":"+pw
                 subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
-            
+                
+                # Intervall Upload in Thread starten, as daemon to exit when 
+                # programme is exited
+                thread = threading.Thread(target=self.interval_upload, daemon=True)
+                thread.start()
+
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
@@ -429,8 +435,17 @@ class Database:
             self.susc.close()
             self.susverbindung.close()
         if self.sync == 1:
+            self.upload()
+
+    def upload(self):
             subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
             system("copy U:\\kurs.db U:\\kurs.dbBACKUP")
+
+    def interval_upload(self):
+        # started as daemon in thread
+        while True:
+            sleep(10)
+            self.upload()
 
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
