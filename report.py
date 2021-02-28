@@ -9,10 +9,10 @@ from os import system, path
 import subprocess
 
 
-def getData(tn):
+def getData(tn, dbpath):
     locale.setlocale(locale.LC_ALL, 'deu_deu')
     # Verbindung zur lokalen Datenbank herstellen
-    verbindung = sqlite3.connect("U:\\kurs.db")
+    verbindung = sqlite3.connect(dbpath+"\\kurs.db")
     c = verbindung.cursor()
 
     # Verbindung zur zentralen SuS-Datenbank herstellen
@@ -84,7 +84,7 @@ def getData(tn):
     return liste
 
 
-def makeKursbuch(tn, k, krz, var):
+def makeKursbuch(tn, k, krz, var, dbpath):
 
     styles = getSampleStyleSheet()
     smallerStyle = ParagraphStyle('small',
@@ -97,7 +97,7 @@ def makeKursbuch(tn, k, krz, var):
                                   leading=13,
                                   textColor=colors.gray,)
 
-    my_data_raw = getData(tn)
+    my_data_raw = getData(tn, dbpath)
 
     my_data = []
     
@@ -133,10 +133,10 @@ def makeKursbuch(tn, k, krz, var):
 
             my_data.append([P1,P2,P3,P4,P5])
 
-    if path.exists("U:\\Kursbuch-Export") == False:
-        system("mkdir U:\\Kursbuch-Export")
+    # if path.exists("U:\\Kursbuch-Export") == False:
+    #     system("mkdir U:\\Kursbuch-Export")
 
-    filename = "U:\\Kursbuch-Export\\"+str(tn+"-"+str(datetime.now().date())+".pdf")
+    filename = dbpath+"\\"+str(tn+"-"+str(datetime.now().date())+".pdf")
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)

@@ -1,5 +1,5 @@
 import sqlite3
-from time import strftime, strptime, sleep
+from time import strftime, strptime, sleep, time
 import datetime
 from datetime import datetime, date, timedelta
 import locale
@@ -74,6 +74,8 @@ class Database:
         else:
             # Datenbank vom Server laden, wenn Synchronisation an
             if self.sync == 1:
+                # TODO timestamp setzen
+
                 #keyring.set_password("kursbuch", "lob", "nh13wV*7")
                 pw = keyring.get_password("pyKursbuch", self.krzl.lower())
                 self.login = self.krzl.lower()+":"+pw
@@ -997,7 +999,7 @@ class SuSVerw(Ui_Susverwgui):
             self.gui.fehlzeitenAnzeige(1)
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
-    def __init__(self, tn, kurs, krzl):
+    def __init__(self, tn, kurs, krzl, dbpath):
         self.PdfExportieren = QtWidgets.QWidget()
         self.setupUi(self.PdfExportieren)
         self.PdfExportieren.show()
@@ -1005,6 +1007,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         self.tn = tn
         self.kurs = kurs
         self.krzl = krzl
+        self.dbpath = dbpath
 
         self.pushButtonExport.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
@@ -1024,7 +1027,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         if self.radioButtonOhneFS.isChecked() == True:
             var = "2"
         self.PdfExportieren.close()
-        report.makeKursbuch(self.tn, self.kurs, self.krzl, var)
+        report.makeKursbuch(self.tn, self.kurs, self.krzl, var, self.dbpath)
 
     def abbrechen(self):
         self.PdfExportieren.close()
@@ -1403,7 +1406,7 @@ class Gui(Ui_MainWindow):
 
     def kursheftAnzeigen(self):
         # Kursbuch Dialog instanziieren
-        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl)
+        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl, self.db.dbpath)
 
 
 if __name__ == "__main__":
