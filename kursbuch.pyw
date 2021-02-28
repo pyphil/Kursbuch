@@ -7,6 +7,7 @@ import sys
 import subprocess
 import report
 import keyring
+import threading
 from os import path, system, environ
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
@@ -31,9 +32,12 @@ class Database:
         self.nosus = 0
 
         # Verbindung zur lokalen Datenbank herstellen
-        homedrive = environ['HOMEDRIVE']
-        homepath = environ['HOMEPATH']
-        self.verbindung = sqlite3.connect(homedrive+homepath+"\\kurs.db")
+        home = environ['HOMEDRIVE']+environ['HOMEPATH']
+        if path.exists(home+"\\pyKursbuch") == False:
+            system("mkdir "+home+"\\pyKursbuch")
+        self.dbpath = home+"\\pyKursbuch"
+
+        self.verbindung = sqlite3.connect(self.dbpath+"\\kurs.db")
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
         #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
@@ -45,7 +49,7 @@ class Database:
             self.susc = self.susverbindung.cursor()
         else:
             print("sus.db not found")
-            # TODO Schaltflächen sperren
+            # Schaltflächen sperren
             self.nosus = 1
 
         # Database übergibt sich selbst dem Gui Objekt und instanziiert es
@@ -71,9 +75,9 @@ class Database:
             # Datenbank vom Server laden, wenn Synchronisation an
             if self.sync == 1:
                 #keyring.set_password("kursbuch", "lob", "nh13wV*7")
-                pw = keyring.get_password("kursbuch", self.krzl.lower())
+                pw = keyring.get_password("pyKursbuch", self.krzl.lower())
                 self.login = self.krzl.lower()+":"+pw
-                subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
+                subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
                 
                 # Intervall Upload in Thread starten, as daemon to exit when 
                 # programme is exited
@@ -439,8 +443,8 @@ class Database:
             self.upload()
 
     def upload(self):
-            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T U:\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
-            system("copy U:\\kurs.db U:\\kurs.dbBACKUP")
+            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
+            system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def interval_upload(self):
         # started as daemon in thread
