@@ -74,11 +74,14 @@ class Database:
         else:
             # Datenbank vom Server laden, wenn Synchronisation an
             if self.sync == 1:
-                # TODO timestamp setzen
 
                 #keyring.set_password("kursbuch", "lob", "nh13wV*7")
                 pw = keyring.get_password("pyKursbuch", self.krzl.lower())
                 self.login = self.krzl.lower()+":"+pw
+                
+                # TODO timestamp setzen
+                
+                # kurs.db laden
                 subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
                 
                 # Intervall Upload in Thread starten, as daemon to exit when 
