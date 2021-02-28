@@ -80,7 +80,10 @@ class Database:
                 self.login = self.krzl.lower()+":"+pw
                 
                 # TODO timestamp setzen
-                
+                self.timestamp = str(time())
+                with open (self.dbpath+"\\timestamp","w") as f:
+                    f.write(self.timestamp)
+                subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://gesamtschule-niederzier-merzenich.net//timestamp")
                 # kurs.db laden
                 subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
                 
@@ -455,7 +458,14 @@ class Database:
         # started as daemon in thread
         while True:
             sleep(10)
-            self.upload()
+            # Download timestamp and compare
+            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://gesamtschule-niederzier-merzenich.net/timestamp")
+            with open (self.dbpath+"\\timestamp","r") as f:
+                currentstamp = f.read()
+            if self.timestamp == currentstamp:
+                self.upload()
+            else:
+                self.app.quit()
 
 
 class Ersteinrichtung(Ui_Ersteinrichtung):
