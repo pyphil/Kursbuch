@@ -216,7 +216,15 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1032, 21))
         self.menubar.setObjectName("menubar")
+        self.menuDatei = QtWidgets.QMenu(self.menubar)
+        self.menuDatei.setObjectName("menuDatei")
         MainWindow.setMenuBar(self.menubar)
+        self.actionSynchronisation_einrichten = QtWidgets.QAction(MainWindow)
+        self.actionSynchronisation_einrichten.setObjectName("actionSynchronisation_einrichten")
+        self.action_ber = QtWidgets.QAction(MainWindow)
+        self.action_ber.setObjectName("action_ber")
+        self.menuDatei.addAction(self.actionSynchronisation_einrichten)
+        self.menubar.addAction(self.menuDatei.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -250,6 +258,9 @@ class Ui_MainWindow(object):
         self.pushButtonDelStd.setText(_translate("MainWindow", "Stunde löschen"))
         self.pushButtonKursheftAnzeigen.setText(_translate("MainWindow", "Kursheft anzeigen"))
         self.comboBoxKurs.setPlaceholderText(_translate("MainWindow", "Kursauswahl"))
+        self.menuDatei.setTitle(_translate("MainWindow", "Datei"))
+        self.actionSynchronisation_einrichten.setText(_translate("MainWindow", "Synchronisation einrichten"))
+        self.action_ber.setText(_translate("MainWindow", "Über"))
 
 
 if __name__ == "__main__":
