@@ -63,6 +63,7 @@ class Database:
             self.krzl = list(self.c.execute("""SELECT Inhalt FROM settings
                                       WHERE Kategorie = "Krzl";"""))
             self.krzl = self.krzl[0][0]
+            # Synchronisationsstatus erfassen
             self.sync = list(self.c.execute("""SELECT Inhalt FROM settings
                                       WHERE Kategorie = "sync";"""))
             self.sync = int(self.sync[0][0])
@@ -75,11 +76,11 @@ class Database:
             # Datenbank vom Server laden, wenn Synchronisation an
             if self.sync == 1:
 
-                #keyring.set_password("kursbuch", "lob", "nh13wV*7")
+                #keyring.set_password("pyKursbuch", self.krzl.lower(), TODO)
                 pw = keyring.get_password("pyKursbuch", self.krzl.lower())
                 self.login = self.krzl.lower()+":"+pw
                 
-                # TODO timestamp setzen
+                # timestamp setzen
                 self.timestamp = str(time())
                 with open (self.dbpath+"\\timestamp","w") as f:
                     f.write(self.timestamp)
@@ -96,7 +97,6 @@ class Database:
             # starten
             self.ui = Gui(self)
             sys.exit(self.app.exec_())
-            print("end")
 
     def createSettings(self, krz):
         """neue Tabelle settings anlegen aus Dialog Ersteinrichtung"""
