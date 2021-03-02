@@ -16,6 +16,7 @@ from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
 from Susverwgui import Ui_Susverwgui
 from Ersteinrichtung import Ui_Ersteinrichtung
+from Syncdialog import Ui_Syncdialog
 
 
  
@@ -1046,6 +1047,15 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         self.PdfExportieren.close()
 
 
+class Sync(Ui_Syncdialog):
+    def __init__(self, db):
+        self.Syncdialog = QtWidgets.QWidget()
+        self.setupUi(self.Syncdialog)
+        self.Syncdialog.show()
+
+        self.db = db
+
+
 class Gui(Ui_MainWindow):
     def __init__(self, db):
         self.MainWindow = QtWidgets.QMainWindow()
@@ -1093,7 +1103,8 @@ class Gui(Ui_MainWindow):
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
         self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
-        
+        self.actionSynchronisation_einrichten.triggered.connect(self.sync)
+
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1,False)
 
@@ -1413,6 +1424,9 @@ class Gui(Ui_MainWindow):
         pk = self.sus[int(sender[1])][0]
         self.db.writeFehlzeiten(pk,fstatus,self.kurs, self.datum)
 
+    def sync(self):
+        self.sdialog = Sync(self.db)
+    
     def tutmod(self):
         pass
         """ Objekt für Tutorenmodus instanziieren und starten"""
