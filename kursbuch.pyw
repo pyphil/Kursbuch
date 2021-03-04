@@ -29,6 +29,7 @@ class Database:
         
         self.krzl = ""
         self.feriendaten = ""
+        # TODO getSyncstate Methode wiederherstellen mit try/except sonst 0, und hier abfragen:
         self.sync = 0
         self.nosus = 0
 
@@ -75,24 +76,8 @@ class Database:
             sys.exit(self.app.exec_())
         else:
             # Datenbank vom Server laden, wenn Synchronisation an
-            if self.sync == 1:
-
-                #keyring.set_password("pyKursbuch", self.krzl.lower(), TODO)
-                pw = keyring.get_password("pyKursbuch", self.krzl.lower())
-                self.login = self.krzl.lower()+":"+pw
-                
-                # timestamp setzen
-                self.timestamp = str(time())
-                with open (self.dbpath+"\\timestamp","w") as f:
-                    f.write(self.timestamp)
-                subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://gesamtschule-niederzier-merzenich.net//timestamp")
-                # kurs.db laden
-                subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net/kurs.db")
-                
-                # Intervall Upload in Thread starten, as daemon to exit when 
-                # programme is exited
-                thread = threading.Thread(target=self.interval_upload, daemon=True)
-                thread.start()
+            if self.sync == 2:
+                self.get_FTPS_db()
 
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
@@ -120,6 +105,62 @@ class Database:
                              (0,))
         self.verbindung.commit()
         self.krzl = krz
+
+    def get_FTPS_db(self):
+            
+        self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
+        self.login = self.krzl.lower()+":"+self.pw
+        self.url = self.get_FTPS_URL()
+
+        # timestamp setzen
+        self.timestamp = str(time())
+        with open (self.dbpath+"\\timestamp","w") as f:
+            f.write(self.timestamp)
+        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp "+self.url+"//timestamp")
+        # kurs.db laden
+        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db "+self.url+"//kurs.db")
+        
+        # Intervall Upload in Thread starten, as daemon to exit when 
+        # programme is exited
+        thread = threading.Thread(target=self.interval_upload, daemon=True)
+        thread.start()
+
+    def save_FTPS_URL(self, url):
+        try:
+            self.c.execute("""UPDATE "settings"
+                              SET "Inhalt" = ?
+                              WHERE "Kategorie" = "FTPS_URL";""", 
+                              (url,))
+        except:
+            self.c.execute("""INSERT INTO "settings"
+                                ("Kategorie","Inhalt") 
+                                VALUES ("FTPS_URL",?);""", 
+                                (url,))
+        self.verbindung.commit()
+
+    def get_FTPS_URL(self):
+        url = list(self.c.execute("""SELECT Inhalt FROM "settings"
+                            WHERE "Kategorie" = "FTPS_URL";
+                            """))
+        url = "ftp://"+url[0][0]
+        print(url)
+        return url
+
+    def saveSyncstate(self, s):
+        try:
+            self.c.execute("""UPDATE "settings"
+                              SET "Inhalt" = ?
+                              WHERE "Kategorie" = "sync";""", 
+                              (s,))
+        except:
+            self.c.execute("""INSERT INTO "settings"
+                                ("Kategorie","Inhalt") 
+                                VALUES ("sync",?);""", 
+                                (s,))
+        self.verbindung.commit()
+        self.sync = s
+        if s == 2:
+            self.get_FTPS_db()
 
     def createKurs(self, an, tn, s):
         """neue Tabelle aus Kursangaben der Funktion KursAnlegen.neu anlegen
@@ -452,7 +493,7 @@ class Database:
             self.upload()
 
     def upload(self):
-            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://gesamtschule-niederzier-merzenich.net//kurs.db")
+            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db "+self.url+"//kurs.db")
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def interval_upload(self):
@@ -1049,11 +1090,43 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
 
 class Sync(Ui_Syncdialog):
     def __init__(self, db):
-        self.Syncdialog = QtWidgets.QWidget()
+        self.Syncdialog = QtWidgets.QDialog()
         self.setupUi(self.Syncdialog)
         self.Syncdialog.show()
 
         self.db = db
+
+        # aktuelle Einträge aus db einfüllen
+        try:
+            if self.db.sync == 2:
+                self.checkBoxSync.setChecked(2)
+        except:
+            pass
+
+        try:
+            self.lineEditFTPS.setText(self.db.url)
+            self.lineEditPW.setText(self.db.pw)
+        except:
+            pass
+
+        # signals and slots
+        self.pushButtonUebernehmen.clicked.connect(self.uebernehmen)
+        self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+
+    def uebernehmen(self):
+        url = self.lineEditFTPS.text()
+        pw = self.lineEditPW.text()
+        self.db.save_FTPS_URL(url)
+        keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
+        if self.checkBoxSync.checkState() == 2:
+            self.db.saveSyncstate(2)
+        else:
+            self.db.saveSyncstate(0)
+        
+        self.Syncdialog.close()
+
+    def abbrechen(self):
+        self.Syncdialog.close()
 
 
 class Gui(Ui_MainWindow):

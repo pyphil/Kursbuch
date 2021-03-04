@@ -14,6 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Syncdialog(object):
     def setupUi(self, Syncdialog):
         Syncdialog.setObjectName("Syncdialog")
+        Syncdialog.setWindowModality(QtCore.Qt.ApplicationModal)
         Syncdialog.resize(422, 191)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
