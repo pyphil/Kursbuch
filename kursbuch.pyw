@@ -122,7 +122,7 @@ class Database:
             f.write(self.timestamp)
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
         # kurs.db laden
-        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        subprocess.call("curl\\curl.exe --trace log.txt --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
         
         # Intervall Upload in Thread starten, as daemon to exit when 
         # programme is exited
