@@ -70,9 +70,9 @@ class Database:
                                       WHERE Kategorie = "Krzl";"""))
             self.krzl = self.krzl[0][0]
             # Synchronisationsstatus erfassen
-            self.sync = list(self.c.execute("""SELECT Inhalt FROM settings
-                                      WHERE Kategorie = "sync";"""))
-            self.sync = int(self.sync[0][0])
+            # self.sync = list(self.c.execute("""SELECT Inhalt FROM settings
+            #                           WHERE Kategorie = "sync";"""))
+            # self.sync = int(self.sync[0][0])
         except:
             # Database übergibt sich selbst dem Objekt Ersteinrichtung 
             # und instanziiert es
@@ -120,9 +120,9 @@ class Database:
         self.timestamp = str(time())
         with open (self.dbpath+"\\timestamp","w") as f:
             f.write(self.timestamp)
-        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp "+self.url+"//timestamp")
+        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
         # kurs.db laden
-        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db "+self.url+"//kurs.db")
+        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
         
         # Intervall Upload in Thread starten, as daemon to exit when 
         # programme is exited
@@ -130,15 +130,11 @@ class Database:
         thread.start()
 
     def save_FTPS_URL(self, url):
-        # TODO: Datensatz erst löschen und neu erstellen
-        self.c.execute("""INSERT OR IGNORE INTO "settings"
+        self.c.execute("""DELETE FROM "settings"
+                            WHERE "Kategorie" = "FTPS_URL";""")
+        self.c.execute("""INSERT INTO "settings"
                             ("Kategorie","Inhalt") 
                             VALUES ("FTPS_URL",?);""", 
-                            (url,))
-        self.verbindung.commit()
-        self.c.execute("""UPDATE "settings"
-                            SET "Inhalt" = ?
-                            WHERE "Kategorie" = "FTPS_URL";""", 
                             (url,))
         self.verbindung.commit()
 
@@ -146,21 +142,16 @@ class Database:
         url = list(self.c.execute("""SELECT Inhalt FROM "settings"
                             WHERE "Kategorie" = "FTPS_URL";
                             """))
-        url = "ftp://"+url[0][0]
-        print(url)
+        url = url[0][0]
         return url
 
     def saveSyncstate(self, s):
-        try:
-            self.c.execute("""UPDATE "settings"
-                              SET "Inhalt" = ?
-                              WHERE "Kategorie" = "sync";""", 
-                              (s,))
-        except:
-            self.c.execute("""INSERT INTO "settings"
-                                ("Kategorie","Inhalt") 
-                                VALUES ("sync",?);""", 
-                                (s,))
+        self.c.execute("""DELETE FROM "settings"
+                            WHERE "Kategorie" = "sync";""")
+        self.c.execute("""INSERT INTO "settings"
+                            ("Kategorie","Inhalt") 
+                            VALUES ("sync",?);""", 
+                            (s,))
         self.verbindung.commit()
         self.sync = s
         if s == 2:
@@ -171,7 +162,7 @@ class Database:
         try:
             sync = list(self.c.execute("""SELECT Inhalt FROM settings
                                         WHERE Kategorie = "sync";"""))
-            sync = int(self.sync[0][0])
+            sync = int(sync[0][0])
         except:
             sync = 0
         return sync
@@ -507,7 +498,7 @@ class Database:
             self.upload()
 
     def upload(self):
-            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db "+self.url+"//kurs.db")
+            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def interval_upload(self):
