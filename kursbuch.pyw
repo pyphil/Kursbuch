@@ -29,8 +29,6 @@ class Database:
         
         self.krzl = ""
         self.feriendaten = ""
-        # TODO getSyncstate Methode wiederherstellen mit try/except sonst 0, und hier abfragen:
-        self.sync = 0
         self.nosus = 0
 
         # Verbindung zur lokalen Datenbank herstellen
@@ -43,6 +41,9 @@ class Database:
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
         #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
+
+        # Synchronisationsstatus an/aus erfassen
+        self.sync = self.getSyncstate()
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
         if path.isfile('sus.db'):
@@ -126,16 +127,16 @@ class Database:
         thread.start()
 
     def save_FTPS_URL(self, url):
-        try:
-            self.c.execute("""UPDATE "settings"
-                              SET "Inhalt" = ?
-                              WHERE "Kategorie" = "FTPS_URL";""", 
-                              (url,))
-        except:
-            self.c.execute("""INSERT INTO "settings"
-                                ("Kategorie","Inhalt") 
-                                VALUES ("FTPS_URL",?);""", 
-                                (url,))
+        # TODO: Datensatz erst löschen und neu erstellen
+        self.c.execute("""INSERT OR IGNORE INTO "settings"
+                            ("Kategorie","Inhalt") 
+                            VALUES ("FTPS_URL",?);""", 
+                            (url,))
+        self.verbindung.commit()
+        self.c.execute("""UPDATE "settings"
+                            SET "Inhalt" = ?
+                            WHERE "Kategorie" = "FTPS_URL";""", 
+                            (url,))
         self.verbindung.commit()
 
     def get_FTPS_URL(self):
@@ -161,6 +162,16 @@ class Database:
         self.sync = s
         if s == 2:
             self.get_FTPS_db()
+
+    def getSyncstate(self):
+        """Synchronisationsstatus erfassen"""
+        try:
+            sync = list(self.c.execute("""SELECT Inhalt FROM settings
+                                        WHERE Kategorie = "sync";"""))
+            sync = int(self.sync[0][0])
+        except:
+            sync = 0
+        return sync
 
     def createKurs(self, an, tn, s):
         """neue Tabelle aus Kursangaben der Funktion KursAnlegen.neu anlegen
@@ -1122,7 +1133,9 @@ class Sync(Ui_Syncdialog):
             self.db.saveSyncstate(2)
         else:
             self.db.saveSyncstate(0)
-        
+        # db hochladen/runterladen
+
+
         self.Syncdialog.close()
 
     def abbrechen(self):
