@@ -18,8 +18,11 @@ from Susverwgui import Ui_Susverwgui
 from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+#QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+#environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 
- 
+
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
