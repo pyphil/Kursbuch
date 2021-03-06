@@ -122,7 +122,9 @@ class Database:
             f.write(self.timestamp)
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
         # kurs.db laden
-        subprocess.call("curl\\curl.exe --trace log.txt --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        # mit log
+        # subprocess.call("curl\\curl.exe --trace log.txt --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
         
         # Intervall Upload in Thread starten, as daemon to exit when 
         # programme is exited
@@ -494,19 +496,20 @@ class Database:
         if self.nosus == 0:
             self.susc.close()
             self.susverbindung.close()
-        if self.sync == 1:
+        if self.sync == 2:
             self.upload()
+            system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
+            system("del "+self.dbpath+"\\kurs.db")
 
     def upload(self):
-            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
-            system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
+            subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"/kurs.db")
 
     def interval_upload(self):
         # started as daemon in thread
         while True:
-            sleep(10)
+            sleep(30)
             # Download timestamp and compare
-            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://gesamtschule-niederzier-merzenich.net/timestamp")
+            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"/timestamp")
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
