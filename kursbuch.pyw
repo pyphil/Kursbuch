@@ -508,12 +508,13 @@ class Database:
     def interval_upload(self):
         # started as daemon in thread
         while True:
-            sleep(30)
+            sleep(10)
             # Download timestamp and compare
             subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
+                self.ui.datensatzSpeichernIntervalThread()
                 self.upload()
             else:
                 self.app.quit()
@@ -1424,6 +1425,29 @@ class Gui(Ui_MainWindow):
 
         # Listbox neu einfüllen, da sich Ausfall und Komp ggf. geändert haben
         self.fillListbox()
+
+    def datensatzSpeichernIntervalThread(self):
+        inhaltNeu = self.textEditKurshefteintrag.toPlainText()
+        haNeu = self.textEditHausaufgaben.toPlainText()
+        planungNeu = self.textEdit.toPlainText()
+        
+        verbindung_thread = sqlite3.connect(self.db.dbpath+"\\kurs.db")
+        c_thread = verbindung_thread.cursor()
+        tabellenname = list(c_thread.execute("""SELECT tname FROM settings
+                                         WHERE Inhalt = ?;
+                                      """,
+                                      (self.kurs,)))
+        tn = tabellenname[0][0]
+        c_thread.execute(""" UPDATE """+tn+"""
+                    SET Inhalt = ?, 
+                    Hausaufgabe = ?, 
+                    Planung = ?
+                    WHERE pk = ?;
+                    """,
+                    (inhaltNeu, haNeu, planungNeu, self.pk))
+        verbindung_thread.commit()
+        c_thread.close()
+        verbindung_thread.close()
 
     def fehlzeitenAnzeige(self, tab):
 
