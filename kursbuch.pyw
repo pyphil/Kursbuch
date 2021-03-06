@@ -503,10 +503,6 @@ class Database:
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def upload(self):
-        try:
-            self.ui.datensatzSpeichern()
-        except:
-            pass
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
 
     def interval_upload(self):
@@ -518,6 +514,7 @@ class Database:
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
+                self.ui.datensatzSpeichern()
                 self.upload()
             else:
                 self.app.quit()
