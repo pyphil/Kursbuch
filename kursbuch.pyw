@@ -125,7 +125,7 @@ class Database:
         subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
         # mit log
         # subprocess.call("curl\\curl.exe --trace log.txt --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
-        
+
         # Intervall Upload in Thread starten, as daemon to exit when 
         # programme is exited
         thread = threading.Thread(target=self.interval_upload, daemon=True)
@@ -147,7 +147,7 @@ class Database:
         url = url[0][0]
         return url
 
-    def saveSyncstate(self, s):
+    def saveSyncstate(self, s, gui):
         self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "sync";""")
         self.c.execute("""INSERT INTO "settings"
@@ -158,6 +158,8 @@ class Database:
         self.sync = s
         if s == 2:
             self.get_FTPS_db()
+            gui.kursauswahlMenue()
+
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
@@ -499,7 +501,6 @@ class Database:
         if self.sync == 2:
             self.upload()
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
-            system("del "+self.dbpath+"\\kurs.db")
 
     def upload(self):
             subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
@@ -1097,12 +1098,13 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
 
 
 class Sync(Ui_Syncdialog):
-    def __init__(self, db):
+    def __init__(self, db, gui):
         self.Syncdialog = QtWidgets.QDialog()
         self.setupUi(self.Syncdialog)
         self.Syncdialog.show()
 
         self.db = db
+        self.gui = gui
 
         # aktuelle Einträge aus db einfüllen
         try:
@@ -1127,7 +1129,7 @@ class Sync(Ui_Syncdialog):
         self.db.save_FTPS_URL(url)
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
         if self.checkBoxSync.checkState() == 2:
-            self.db.saveSyncstate(2)
+            self.db.saveSyncstate(2, self.gui)
         else:
             self.db.saveSyncstate(0)
         # db hochladen/runterladen
@@ -1508,7 +1510,7 @@ class Gui(Ui_MainWindow):
         self.db.writeFehlzeiten(pk,fstatus,self.kurs, self.datum)
 
     def sync(self):
-        self.sdialog = Sync(self.db)
+        self.sdialog = Sync(self.db, self)
     
     def tutmod(self):
         pass
