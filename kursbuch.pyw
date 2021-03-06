@@ -514,7 +514,10 @@ class Database:
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
-                self.ui.datensatzSpeichernIntervalThread()
+                try:
+                    self.ui.datensatzSpeichernIntervalThread()
+                except:
+                    pass
                 self.upload()
             else:
                 self.app.quit()
