@@ -88,12 +88,12 @@ class Database:
             pw = keyring.get_password("pyKursbuch", self.krzl.lower())
             
             if self.sync == 2 and pw != None:
-                self.get_FTPS_db()
+                access = self.get_FTPS_db()
 
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
-            if pw == None:
+            if pw == None or access == False:
                 self.ui.sync()
             sys.exit(self.app.exec_())
 
@@ -121,10 +121,7 @@ class Database:
 
     def get_FTPS_db(self):
         self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
-        # # Wenn self.pw = None -> passwort abfragen
-        # if self.pw == None:
-        #     self.sdialog = Sync(self, self.ui)
-        # else:
+    
         self.login = self.krzl.lower()+":"+self.pw
         self.url = self.get_FTPS_URL()
 
@@ -133,15 +130,17 @@ class Database:
         with open (self.dbpath+"\\timestamp","w") as f:
             f.write(self.timestamp)
         subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
-        # kurs.db laden
-        #subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
-        # mit log
-        subprocess.call("curl\\curl.exe --trace log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
-
-        # Intervall Upload in Thread starten, as daemon to exit when 
-        # programme is exited
-        thread = threading.Thread(target=self.interval_upload, daemon=True)
-        thread.start()
+        # kurs.db laden mit log
+        subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        with open (self.dbpath+"\\log.txt","r") as f:
+            data = f.read()
+        if "Access denied" in data:
+            return False
+        else:
+            # Intervall Upload in Thread starten, as daemon to exit when 
+            # programme is exited
+            thread = threading.Thread(target=self.interval_upload, daemon=True)
+            thread.start()
 
     def save_FTPS_URL(self, url):
         self.c.execute("""DELETE FROM "settings"
@@ -520,7 +519,7 @@ class Database:
     def interval_upload(self):
         # started as daemon in thread
         while True:
-            sleep(10)
+            sleep(30)
             # Download timestamp and compare
             subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
             with open (self.dbpath+"\\timestamp","r") as f:
