@@ -22,6 +22,9 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 #environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 
+from keyring.backends import Windows
+import win32timezone
+keyring.set_keyring(Windows.WinVaultKeyring())
 
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 locale.setlocale(locale.LC_ALL, 'deu_deu')
