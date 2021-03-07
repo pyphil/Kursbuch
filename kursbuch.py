@@ -83,12 +83,18 @@ class Database:
             sys.exit(self.app.exec_())
         else:
             # Datenbank vom Server laden, wenn Synchronisation an
-            if self.sync == 2:
+            # Wenn self.pw = None -> Passwort erneute abfragen durch Übergabe
+            # an Gui Objekt
+            pw = keyring.get_password("pyKursbuch", self.krzl.lower())
+            
+            if self.sync == 2 and pw != None:
                 self.get_FTPS_db()
 
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
+            if pw == None:
+                self.ui.sync()
             sys.exit(self.app.exec_())
 
     def createSettings(self, krz):
@@ -114,8 +120,11 @@ class Database:
         self.krzl = krz
 
     def get_FTPS_db(self):
-            
         self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
+        # # Wenn self.pw = None -> passwort abfragen
+        # if self.pw == None:
+        #     self.sdialog = Sync(self, self.ui)
+        # else:
         self.login = self.krzl.lower()+":"+self.pw
         self.url = self.get_FTPS_URL()
 
