@@ -30,7 +30,8 @@ keyring.set_keyring(Windows.WinVaultKeyring())
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
-CREATE_NO_WINDOW = 0x08000000
+# CREATE_NO_WINDOW = 0x08000000
+CREATE_NO_WINDOW = 0
 
 class Database:
     def __init__(self):
@@ -88,9 +89,11 @@ class Database:
             # Wenn self.pw = None -> Passwort erneute abfragen durch Übergabe
             # an Gui Objekt
             pw = keyring.get_password("pyKursbuch", self.krzl.lower())
-            
+
             if self.sync == 2 and pw != None:
                 access = self.get_FTPS_db()
+            else:
+                access = None
 
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
@@ -1150,7 +1153,7 @@ class Sync(Ui_Syncdialog):
         if self.checkBoxSync.checkState() == 2:
             self.db.saveSyncstate(2, self.gui)
         else:
-            self.db.saveSyncstate(0)
+            self.db.saveSyncstate(0, self.gui)
         # db hochladen/runterladen
 
 
