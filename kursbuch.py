@@ -164,6 +164,7 @@ class Database:
         return url
 
     def saveSyncstate(self, s, gui):
+        print(s)
         self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "sync";""")
         self.c.execute("""INSERT INTO "settings"
@@ -519,7 +520,6 @@ class Database:
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def upload(self):  
-        CREATE_NO_WINDOW = 0x08000000
         subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
 
     def interval_upload(self):
@@ -1150,12 +1150,12 @@ class Sync(Ui_Syncdialog):
         pw = self.lineEditPW.text()
         self.db.save_FTPS_URL(url)
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
+        
+        print(self.checkBoxSync.checkState())
         if self.checkBoxSync.checkState() == 2:
             self.db.saveSyncstate(2, self.gui)
         else:
             self.db.saveSyncstate(0, self.gui)
-        # db hochladen/runterladen
-
 
         self.Syncdialog.close()
 
