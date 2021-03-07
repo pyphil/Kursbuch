@@ -29,6 +29,8 @@ keyring.set_keyring(Windows.WinVaultKeyring())
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
+# Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
+CREATE_NO_WINDOW = 0x08000000
 
 class Database:
     def __init__(self):
@@ -129,9 +131,9 @@ class Database:
         self.timestamp = str(time())
         with open (self.dbpath+"\\timestamp","w") as f:
             f.write(self.timestamp)
-        subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
+        subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
         # kurs.db laden mit log
-        subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
         with open (self.dbpath+"\\log.txt","r") as f:
             data = f.read()
         if "Access denied" in data:
@@ -514,14 +516,15 @@ class Database:
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def upload(self):  
-        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db")
+        CREATE_NO_WINDOW = 0x08000000
+        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
 
     def interval_upload(self):
         # started as daemon in thread
         while True:
             sleep(30)
             # Download timestamp and compare
-            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp")
+            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
@@ -1078,7 +1081,7 @@ class SuSVerw(Ui_Susverwgui):
             self.gui.fehlzeitenAnzeige(1)
 
 class Kursbuch_Dialog(Ui_PdfExportieren):
-    def __init__(self, tn, kurs, krzl, dbpath):
+    def __init__(self, tn, kurs, krzl, dbpath, nosus):
         self.PdfExportieren = QtWidgets.QWidget()
         self.setupUi(self.PdfExportieren)
         self.PdfExportieren.show()
@@ -1087,6 +1090,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         self.kurs = kurs
         self.krzl = krzl
         self.dbpath = dbpath
+        self.nosus = nosus
 
         self.pushButtonExport.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
@@ -1106,7 +1110,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         if self.radioButtonOhneFS.isChecked() == True:
             var = "2"
         self.PdfExportieren.close()
-        report.makeKursbuch(self.tn, self.kurs, self.krzl, var, self.dbpath)
+        report.makeKursbuch(self.tn, self.kurs, self.krzl, var, self.dbpath, self.nosus)
 
     def abbrechen(self):
         self.PdfExportieren.close()
@@ -1556,7 +1560,7 @@ class Gui(Ui_MainWindow):
 
     def kursheftAnzeigen(self):
         # Kursbuch Dialog instanziieren
-        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl, self.db.dbpath)
+        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl, self.db.dbpath, self.db.nosus)
 
 
 if __name__ == "__main__":

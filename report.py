@@ -9,18 +9,16 @@ from os import system, path
 import subprocess
 
 
-def getData(tn, dbpath):
+def getData(tn, dbpath, nosus):
     locale.setlocale(locale.LC_ALL, 'deu_deu')
     # Verbindung zur lokalen Datenbank herstellen
     verbindung = sqlite3.connect(dbpath+"\\kurs.db")
     c = verbindung.cursor()
 
-    # Verbindung zur zentralen SuS-Datenbank herstellen
-    try:
+    # Verbindung zur zentralen SuS-Datenbank herstellen wenn sus.db
+    if nosus == 0:
         susverbindung = sqlite3.connect("sus.db")
         susc = susverbindung.cursor()
-    except:
-        print("sus.db nicht verbunden.")
 
     # Daten aus der lokalen Datenbank lesen
     text = list(c.execute("""SELECT Datum, Inhalt, Hausaufgabe, Ausfall, Kompensation 
@@ -35,34 +33,41 @@ def getData(tn, dbpath):
 
     # Liste der Primary Keys holen
     kurssus = tn+"_sus"
-    #print(kurssus)
+
     pkliste = list(c.execute("""SELECT pk 
                             FROM """+kurssus+""" 
                             """))
-    #print(pkliste)
+
     fehlzeiten = []
 
-    for d in datumsliste:
-        # Anführungsstriche um das Datum setzen
-        d = '"'+d+'"'
-        f = ""
-        for pk in pkliste:
-            item = list(susc.execute("""SELECT Name,Vorname,"""+d+""" 
-                                            FROM "sus"
-                                            WHERE pk = ?;
-                                        """,
-                                        (pk[0],)))
-            #print(item)
-            # nur den ersten Buchstaben des Vornamens verwenden [:1]
-            if item[0][2] == "1":
-                f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
-            if item[0][2] == "2":
-                f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
-            if item[0][2] == "3":
-                f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
-            if item[0][2] == "4":
-                f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
-        fehlzeiten.append(f)
+    if nosus == 0:
+        for d in datumsliste:
+            # Anführungsstriche um das Datum setzen
+            d = '"'+d+'"'
+            f = ""
+            for pk in pkliste:
+    
+                item = list(susc.execute("""SELECT Name,Vorname,"""+d+""" 
+                                                FROM "sus"
+                                                WHERE pk = ?;
+                                            """,
+                                            (pk[0],)))
+        
+                # nur den ersten Buchstaben des Vornamens verwenden [:1]
+                if item[0][2] == "1":
+                    f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
+                if item[0][2] == "2":
+                    f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
+                if item[0][2] == "3":
+                    f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+                if item[0][2] == "4":
+                    f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+
+            fehlzeiten.append(f)
+    else:
+        # keine Fehlzeiten im ohne sus.db
+        pass
+
     #print(fehlzeiten)
     c.close()
     verbindung.close()
@@ -78,13 +83,16 @@ def getData(tn, dbpath):
         datum = datum + "<br/> - " + string[1] +". Std. -"
         # if i[4] == 1:
         #     datum = datum + "<br/><b/>KOMPENSATION"
-        liste.append([datum,i[1],i[2],fehlzeiten[z],'',i[3],i[4]])
+        if nosus == 0:
+            liste.append([datum,i[1],i[2],fehlzeiten[z],'',i[3],i[4]])
+        else:
+            liste.append([datum,i[1],i[2],'','',i[3],i[4]])
         z += 1
 
     return liste
 
 
-def makeKursbuch(tn, k, krz, var, dbpath):
+def makeKursbuch(tn, k, krz, var, dbpath, nosus):
 
     styles = getSampleStyleSheet()
     smallerStyle = ParagraphStyle('small',
@@ -97,7 +105,7 @@ def makeKursbuch(tn, k, krz, var, dbpath):
                                   leading=13,
                                   textColor=colors.gray,)
 
-    my_data_raw = getData(tn, dbpath)
+    my_data_raw = getData(tn, dbpath, nosus)
 
     my_data = []
     
@@ -162,10 +170,11 @@ def makeKursbuch(tn, k, krz, var, dbpath):
 
 
     # system("start "+filename)
-    subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename)
+    CREATE_NO_WINDOW = 0x08000000
+    subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
     # cmd = 'start C:\\"Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" '+filename
     # system(cmd)
     
 
 if __name__ == "__main__":
-    makeKursbuch("Tabellenname", "Kursname", "Kürzel", "1")
+    makeKursbuch("Tabellenname", "Kursname", "Kürzel", "1", "","0")
