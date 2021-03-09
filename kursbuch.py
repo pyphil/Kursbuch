@@ -144,8 +144,8 @@ class Database:
         else:
             # Intervall Upload in Thread starten, as daemon to exit when 
             # programme is exited
-            thread = threading.Thread(target=self.interval_upload, daemon=True)
-            thread.start()
+            self.thread = threading.Thread(target=self.interval_upload, daemon=True)
+            self.thread.start()
 
     def save_FTPS_URL(self, url):
         self.c.execute("""DELETE FROM "settings"
@@ -176,7 +176,10 @@ class Database:
         if s == 2:
             self.get_FTPS_db()
             gui.kursauswahlMenue()
-
+        if s == 0:
+            # kurs.db auf dem Server löschen
+            subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
+            # TODO: Dialog mit Hinweis und Beenden -> Neustart
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
