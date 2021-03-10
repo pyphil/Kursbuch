@@ -180,6 +180,7 @@ class Database:
             # kurs.db auf dem Server löschen
             subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
             # TODO: Dialog mit Hinweis und Beenden -> Neustart
+            self.app.quit()
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
