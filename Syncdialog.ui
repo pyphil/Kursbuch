@@ -107,6 +107,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEditFTPS</tabstop>
+  <tabstop>lineEditPW</tabstop>
+  <tabstop>checkBoxSync</tabstop>
+  <tabstop>pushButtonUebernehmen</tabstop>
+  <tabstop>pushButtonAbbrechen</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
