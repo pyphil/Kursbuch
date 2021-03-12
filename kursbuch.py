@@ -100,6 +100,8 @@ class Database:
             self.ui = Gui(self)
             if pw == None or access == False:
                 self.ui.sync()
+            if access == "host":
+                print("hostname falsch2")
             sys.exit(self.app.exec_())
 
     def createSettings(self, krz):
@@ -139,6 +141,8 @@ class Database:
         subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
         with open (self.dbpath+"\\log.txt","r") as f:
             data = f.read()
+        if "not resolve host" in data:
+            return "host"
         if "Access denied" in data:
             return False
         else:
@@ -164,7 +168,6 @@ class Database:
         return url
 
     def saveSyncstate(self, s, gui):
-        print(s)
         self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "sync";""")
         self.c.execute("""INSERT INTO "settings"
@@ -174,8 +177,13 @@ class Database:
         self.verbindung.commit()
         self.sync = s
         if s == 2:
-            self.get_FTPS_db()
-            gui.kursauswahlMenue()
+            access = self.get_FTPS_db()
+            if access == False:
+                gui.sync()
+            if access == "host":
+                print("hostname falsch")
+            else:
+                gui.kursauswahlMenue()
         if s == 0:
             # kurs.db auf dem Server löschen
             subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
