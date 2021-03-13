@@ -538,21 +538,29 @@ class Database:
         return newrow
 
     def getFerienDaten(self):
-        liste = list(self.susc.execute("""SELECT Datum 
+        ferienverbindung = sqlite3.connect("ferien.db")
+        ferienc = ferienverbindung.cursor()
+        liste = list(ferienc.execute("""SELECT Datum 
                                                 FROM "ferien";
                                                 """,
                                        ))
         feriendaten = ""
+        ferienc.close()
+        ferienverbindung.close()
         for i in liste:
             feriendaten += i[0]+" "
         return feriendaten
 
-    def getFerientext(self, date):      
-        ferientext = list(self.susc.execute("""SELECT Ferientext 
+    def getFerientext(self, date):
+        ferienverbindung = sqlite3.connect("ferien.db")
+        ferienc = ferienverbindung.cursor()
+        ferientext = list(ferienc.execute("""SELECT Ferientext 
                                           FROM "ferien"
                                           WHERE Datum = ?;
                                        """,
                                         (date,)))     
+        ferienc.close()
+        ferienverbindung.close()
         return ferientext
 
     def getGesamtliste(self):
