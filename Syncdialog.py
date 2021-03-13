@@ -47,7 +47,7 @@ class Ui_Syncdialog(object):
         self.gridLayout.addWidget(self.pushButtonAbbrechen, 0, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 4, 1, 1, 1)
         self.lineEditPW = QtWidgets.QLineEdit(Syncdialog)
-        self.lineEditPW.setEchoMode(QtWidgets.QLineEdit.PasswordEchoOnEdit)
+        self.lineEditPW.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEditPW.setObjectName("lineEditPW")
         self.gridLayout_2.addWidget(self.lineEditPW, 2, 1, 1, 1)
         self.checkBoxSync = QtWidgets.QCheckBox(Syncdialog)

@@ -101,7 +101,13 @@ class Database:
             if pw == None or access == False:
                 self.ui.sync()
             if access == "host":
-                print("hostname falsch2")
+                msg = QtWidgets.QMessageBox()
+                msg.setIcon(QtWidgets.QMessageBox.Critical)
+                msg.setWindowTitle("Fehler")
+                msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg.setText("Servername falsch oder Server nicht erreichbar.")
+                msg.exec_()
+                self.ui.sync()
             sys.exit(self.app.exec_())
 
     def createSettings(self, krz):
@@ -168,27 +174,60 @@ class Database:
         return url
 
     def saveSyncstate(self, s, gui):
-        self.c.execute("""DELETE FROM "settings"
+        if s == 2:
+            self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "sync";""")
-        self.c.execute("""INSERT INTO "settings"
+            self.c.execute("""INSERT INTO "settings"
                             ("Kategorie","Inhalt") 
                             VALUES ("sync",?);""", 
                             (s,))
-        self.verbindung.commit()
-        self.sync = s
-        if s == 2:
+            self.verbindung.commit()
+            self.sync = s
             access = self.get_FTPS_db()
             if access == False:
+                msg_pw = QtWidgets.QMessageBox()
+                msg_pw.setIcon(QtWidgets.QMessageBox.Critical)
+                msg_pw.setWindowTitle("Fehler")
+                msg_pw.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg_pw.setText("Wahrscheinlich ist das Passwort falsch.")
+                msg_pw.exec_()
                 gui.sync()
             if access == "host":
-                print("hostname falsch")
+                msg_host = QtWidgets.QMessageBox()
+                msg_host.setIcon(QtWidgets.QMessageBox.Critical)
+                msg_host.setWindowTitle("Fehler")
+                msg_host.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg_host.setText("Servername falsch oder Server nicht erreichbar.")
+                msg_host.exec_()
+                gui.sync()
             else:
                 gui.kursauswahlMenue()
         if s == 0:
             # kurs.db auf dem Server löschen
-            subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
-            # TODO: Dialog mit Hinweis und Beenden -> Neustart
-            self.app.quit()
+            # Dialog mit Hinweis und Beenden -> Neustart
+            msg_restart = QtWidgets.QMessageBox()
+            msg_restart.setIcon(QtWidgets.QMessageBox.Question)
+            msg_restart.setWindowTitle("Synchronisation entfernen")
+            msg_restart.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+            msg_restart.setText("Soll die Datenbank auf dem Server gelöscht, "+
+                                "werden? Die lokale Datenbank bleibt erhalten. "+
+                                "Das Programm wird geschlossen und muss "+
+                                "neugestartet werden.")
+            msg_restart.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+            abbrechen = msg_restart.button(QtWidgets.QMessageBox.Cancel)
+            abbrechen.setText("Abbrechen")
+            retval = msg_restart.exec_()
+            if retval == 1024:
+                self.c.execute("""DELETE FROM "settings"
+                            WHERE "Kategorie" = "sync";""")
+                self.c.execute("""INSERT INTO "settings"
+                            ("Kategorie","Inhalt") 
+                            VALUES ("sync",?);""", 
+                            (s,))
+                self.verbindung.commit()
+                self.sync = s
+                subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
+                self.app.quit()
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
