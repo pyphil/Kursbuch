@@ -156,6 +156,7 @@ class Database:
         subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
         with open (self.dbpath+"\\log.txt","r") as f:
             data = f.read()
+        system("del "+self.dbpath+"\\log.txt")
         if "not resolve host" in data:
             return "host"
         if "Access denied" in data:
