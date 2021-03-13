@@ -30,8 +30,8 @@ keyring.set_keyring(Windows.WinVaultKeyring())
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
-# CREATE_NO_WINDOW = 0x08000000
-CREATE_NO_WINDOW = 0
+CREATE_NO_WINDOW = 0x08000000
+# CREATE_NO_WINDOW = 0
 
 class Database:
     def __init__(self):
@@ -98,16 +98,25 @@ class Database:
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
-            if pw == None or access == False:
-                self.ui.sync()
-            if access == "host":
-                msg = QtWidgets.QMessageBox()
-                msg.setIcon(QtWidgets.QMessageBox.Critical)
-                msg.setWindowTitle("Fehler")
-                msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-                msg.setText("Servername falsch oder Server nicht erreichbar.")
-                msg.exec_()
-                self.ui.sync()
+            if self.sync == 2:
+                if pw == None or access == False:
+                    msg_pw = QtWidgets.QMessageBox()
+                    msg_pw.setIcon(QtWidgets.QMessageBox.Information)
+                    msg_pw.setWindowTitle("Zugangsdaten")
+                    msg_pw.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                    msg_pw.setText("Auf diesem Rechner ist das Passwort noch "+
+                                    "nicht zwischengespeichert. Bitte erneut "+
+                                    "eingeben")
+                    msg_pw.exec_()
+                    self.ui.sync()
+                if access == "host":
+                    msg_host = QtWidgets.QMessageBox()
+                    msg_host.setIcon(QtWidgets.QMessageBox.Critical)
+                    msg_host.setWindowTitle("Fehler")
+                    msg_host.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                    msg_host.setText("Servername falsch oder Server nicht erreichbar.")
+                    msg_host.exec_()
+                    self.ui.sync()
             sys.exit(self.app.exec_())
 
     def createSettings(self, krz):
@@ -1196,7 +1205,7 @@ class Sync(Ui_Syncdialog):
             pass
 
         try:
-            self.lineEditFTPS.setText(self.db.url)
+            self.lineEditFTPS.setText(self.db.get_FTPS_URL())
             self.lineEditPW.setText(self.db.pw)
         except:
             pass
