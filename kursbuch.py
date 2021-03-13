@@ -250,6 +250,7 @@ class Database:
                             "Inhalt"	VARCHAR(500),
                             "Ausfall" INTEGER,
                             "Kompensation" INTEGER,
+                            "Pruefung" INTEGER,
                             "Hausaufgabe" VARCHAR(200),
                             "Planung"  VARCHAR(800),
                             PRIMARY KEY("pk")
