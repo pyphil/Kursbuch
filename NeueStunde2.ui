@@ -244,6 +244,11 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+     </font>
+    </property>
     <property name="text">
      <string>. Woche wiederholen bis zum</string>
     </property>
