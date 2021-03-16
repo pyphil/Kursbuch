@@ -19,6 +19,12 @@
     <height>496</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>402</width>
+    <height>499</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Neue Stunde</string>
   </property>
