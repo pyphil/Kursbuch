@@ -1,0 +1,3 @@
+.\curl.exe --ftp-ssl -u dev:password -O ftp://gesamtschule-niederzier-merzenich.net/update.sh
+
+.\curl.exe --ftp-ssl -u dev:password -T update.sh ftp://gesamtschule-niederzier-merzenich.net/update.sh

@@ -495,7 +495,24 @@ selection-color: rgb(255, 255, 255);</string>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionSynchronisation_einrichten"/>
+   </widget>
+   <addaction name="menuDatei"/>
   </widget>
+  <action name="actionSynchronisation_einrichten">
+   <property name="text">
+    <string>Synchronisation einrichten</string>
+   </property>
+  </action>
+  <action name="action_ber">
+   <property name="text">
+    <string>Über</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
