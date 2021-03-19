@@ -1367,7 +1367,7 @@ class Gui(Ui_MainWindow):
         self.disableFieldsStd()
         self.kurs = self.comboBoxKurs.currentText()
 
-        self.fillListbox()
+        self.fillListbox(1)
 
         self.enableFieldsKurs()
 
@@ -1382,7 +1382,7 @@ class Gui(Ui_MainWindow):
         # self.datensatzSpeichern()
         # self.fillListbox()
 
-    def fillListbox(self):
+    def fillListbox(self, lastedit=None):
         self.stdliste = self.db.getListe(self.kurs)
         self.tableWidget.setRowCount(len(self.stdliste))
     
@@ -1404,8 +1404,19 @@ class Gui(Ui_MainWindow):
                 self.tableWidget.item(z,1).setBackground(QtGui.QColor(200, 215, 200))  
             z += 1
 
-        # lastedit auswählen TODO: nur wenn Kurs gerade ausgewählt
-        print(self.db.getLastedit(self.kurs))
+        # lastedit auswählen wenn Kurs gerade ausgewählt
+        if lastedit == 1:
+            print(self.db.getLastedit(self.kurs))
+            lastpk = self.db.getLastedit(self.kurs)
+            if lastpk == "" or lastpk == None:
+                pass
+            else:
+                dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
+                print(dateofpk)
+                row = self.db.getRowOfDate(self.kurs, dateofpk)
+                print(row)
+                self.tableWidget.selectRow(row)
+
 
     def datensatzAnzeigen(self):
         self.enableFieldsStd()
