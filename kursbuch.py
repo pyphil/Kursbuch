@@ -31,7 +31,7 @@ locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
 CREATE_NO_WINDOW = 0x08000000
-# CREATE_NO_WINDOW = 0
+#CREATE_NO_WINDOW = 0
 
 class Database:
     def __init__(self):
@@ -1413,6 +1413,7 @@ class Gui(Ui_MainWindow):
                 dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
                 row = self.db.getRowOfDate(self.kurs, dateofpk)
                 self.tableWidget.selectRow(row)
+                self.tableWidget.scrollToItem(self.tableWidget.item(row,0))
                 self.datensatzAnzeigen()
 
 
