@@ -1236,7 +1236,6 @@ class Sync(Ui_Syncdialog):
         self.db.save_FTPS_URL(url)
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
         
-        print(self.checkBoxSync.checkState())
         if self.checkBoxSync.checkState() == 2:
             self.db.saveSyncstate(2, self.gui)
         else:
