@@ -384,6 +384,15 @@ class Database:
                         (pk, tn))
         self.verbindung.commit()
 
+    def getLastedit(self,k):
+        tn = self.get_tn(k)
+        lastedit = list(self.c.execute(""" SELECT lastedit FROM settings
+                                           WHERE tname = ?
+                                       """,
+                                       (tn,)))
+        lastedit = lastedit[0][0]
+        return lastedit
+
     def getDatensatz(self, pk, k):
         tn = self.get_tn(k)
         text = list(self.c.execute("""SELECT * FROM """+tn+""" 
@@ -1394,6 +1403,9 @@ class Gui(Ui_MainWindow):
                 self.tableWidget.item(z,0).setBackground(QtGui.QColor(200, 215, 200))  
                 self.tableWidget.item(z,1).setBackground(QtGui.QColor(200, 215, 200))  
             z += 1
+
+        # lastedit auswählen TODO: nur wenn Kurs gerade ausgewählt
+        print(self.db.getLastedit(self.kurs))
 
     def datensatzAnzeigen(self):
         self.enableFieldsStd()
