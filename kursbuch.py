@@ -1406,16 +1406,14 @@ class Gui(Ui_MainWindow):
 
         # lastedit auswählen wenn Kurs gerade ausgewählt
         if lastedit == 1:
-            print(self.db.getLastedit(self.kurs))
             lastpk = self.db.getLastedit(self.kurs)
             if lastpk == "" or lastpk == None:
                 pass
             else:
                 dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
-                print(dateofpk)
                 row = self.db.getRowOfDate(self.kurs, dateofpk)
-                print(row)
                 self.tableWidget.selectRow(row)
+                self.datensatzAnzeigen()
 
 
     def datensatzAnzeigen(self):
