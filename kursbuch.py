@@ -128,6 +128,7 @@ class Database:
                             "Schuljahr" VARCHAR(10),
                             "tname" VARCHAR(20),
                             "Sortierung" INTEGER,
+                            "lastedit" INTEGER,
                             PRIMARY KEY("pk")
                         )""")
         self.c.execute("""INSERT INTO "settings"
@@ -376,6 +377,11 @@ class Database:
                     WHERE pk = ?;
                     """,
                     (inh, ausf, komp, ha, plan, pk))
+        self.c.execute(""" UPDATE settings
+                           SET lastedit = ?
+                           WHERE tname = ?;
+                        """,
+                        (pk, tn))
         self.verbindung.commit()
 
     def getDatensatz(self, pk, k):
