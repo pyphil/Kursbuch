@@ -1404,7 +1404,11 @@ class Gui(Ui_MainWindow):
             if i[3] == 1 and i[4] == 1:
                 # Kompensation in Ausfalltagen in grau-grün markieren      
                 self.tableWidget.item(z,0).setBackground(QtGui.QColor(200, 215, 200))  
-                self.tableWidget.item(z,1).setBackground(QtGui.QColor(200, 215, 200))  
+                self.tableWidget.item(z,1).setBackground(QtGui.QColor(200, 215, 200))
+            if i[5] == 1:
+                # Pruefung in rot markieren
+                self.tableWidget.item(z,0).setBackground(QtGui.QColor(230, 130, 130))  
+                self.tableWidget.item(z,1).setBackground(QtGui.QColor(230, 130, 130))  
             z += 1
 
         # lastedit auswählen wenn Kurs gerade ausgewählt
