@@ -181,6 +181,9 @@ selection-color: rgb(255, 255, 255);</string>
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(100, 100, 100);</string>
+            </property>
             <property name="text">
              <string>Ferien/Feiertag/Ausfall</string>
             </property>
@@ -191,6 +194,9 @@ selection-color: rgb(255, 255, 255);</string>
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(70, 147, 83);</string>
+            </property>
             <property name="text">
              <string>Kompensationsstunde</string>
             </property>
@@ -200,6 +206,9 @@ selection-color: rgb(255, 255, 255);</string>
            <widget class="QCheckBox" name="checkBox_3">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(177, 100, 100);</string>
             </property>
             <property name="text">
              <string>Prüfung</string>
