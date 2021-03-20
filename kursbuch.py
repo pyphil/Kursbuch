@@ -341,7 +341,7 @@ class Database:
     def getListe(self, k):
         """Liste aus Datenbank holen und formatiert zurückgeben"""
         tn = self.get_tn(k)
-        listedb = list(self.c.execute(""" SELECT pk, Datum, Ausfall, Kompensation 
+        listedb = list(self.c.execute(""" SELECT pk, Datum, Ausfall, Kompensation, Pruefung
                                           FROM """+tn+"""
                                           ORDER BY Datum DESC;
                                       """))
@@ -351,7 +351,7 @@ class Database:
             datum = datetime.strptime(string[0], '%Y-%m-%d')
             datum = datum.strftime('%a, %d. %b %Y')
             # liste.append([str(i[0]),(datum+", "+string[1]+". Std."),i[2],i[3]])
-            liste.append([str(i[0]), datum, string[1]+". Std.",i[2],i[3]])
+            liste.append([str(i[0]), datum, string[1]+". Std.",i[2],i[3],i[4]])
         return liste
 
     def getDatelist(self, k):
@@ -366,17 +366,18 @@ class Database:
             dbdatetxt += listedb[i][0]
         return dbdatetxt
     
-    def writeDatensatz(self, k, inh, ausf, komp, ha, plan, pk):
+    def writeDatensatz(self, k, inh, ausf, komp, pruef, ha, plan, pk):
         tn = self.get_tn(k)
         self.c.execute(""" UPDATE """+tn+"""
                     SET Inhalt = ?, 
                     Ausfall = ?, 
                     Kompensation = ?, 
+                    Pruefung = ?,
                     Hausaufgabe = ?, 
                     Planung = ?
                     WHERE pk = ?;
                     """,
-                    (inh, ausf, komp, ha, plan, pk))
+                    (inh, ausf, komp, pruef, ha, plan, pk))
         self.c.execute(""" UPDATE settings
                            SET lastedit = ?
                            WHERE tname = ?;
@@ -1317,7 +1318,7 @@ class Gui(Ui_MainWindow):
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
         if self.abouttoclose != 1:
-            if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2:
+            if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2 or old == self.checkBox_3:
                 self.datensatzSpeichern()
 
     def kursauswahlMenue(self):
@@ -1336,6 +1337,8 @@ class Gui(Ui_MainWindow):
         self.checkBox.setChecked(0)
         self.checkBox_2.setEnabled(False)
         self.checkBox_2.setChecked(0)
+        self.checkBox_3.setEnabled(False)
+        self.checkBox_3.setChecked(0)
         self.pushButtonDelStd.setEnabled(False)
 
     def enableFieldsStd(self):
@@ -1344,6 +1347,7 @@ class Gui(Ui_MainWindow):
         self.textEdit.setEnabled(True)
         self.checkBox.setEnabled(True)
         self.checkBox_2.setEnabled(True)
+        self.checkBox_3.setEnabled(True)
         self.pushButtonDelStd.setEnabled(True)
 
     def enableFieldsKurs(self):
@@ -1434,17 +1438,23 @@ class Gui(Ui_MainWindow):
         else:
             self.checkBox.setChecked(False)
         
-        # # Kompensation:
+        # Kompensation:
         if liste[0][4] == 1:
             self.checkBox_2.setChecked(True)
         else:
             self.checkBox_2.setChecked(False)
 
+        # Pruefung:
+        if liste[0][5] == 1:
+            self.checkBox_3.setChecked(True)
+        else:
+            self.checkBox_3.setChecked(False)
+
         # Kursbuch Feld Hausaufgaben
-        self.textEditHausaufgaben.setText(liste[0][5])
+        self.textEditHausaufgaben.setText(liste[0][6])
 
         # # Feld Planungsnotizen
-        self.textEdit.setText(liste[0][6])
+        self.textEdit.setText(liste[0][7])
 
         # Fehlzeiten auf aktuelles Datum aktualisieren, 
         # wenn in Fehlzeitenansicht
@@ -1534,12 +1544,16 @@ class Gui(Ui_MainWindow):
             kompNeu = 1
         else:
             kompNeu = 0
+        if self.checkBox_3.checkState() == 2:
+            pruefNeu = 1
+        else:
+            pruefNeu = 0
 
         haNeu = self.textEditHausaufgaben.toPlainText()
         planungNeu = self.textEdit.toPlainText()
 
-        self.db.writeDatensatz(self.kurs,inhaltNeu, ausfallNeu, kompNeu, haNeu,
-                              planungNeu, self.pk)
+        self.db.writeDatensatz(self.kurs,inhaltNeu, ausfallNeu, kompNeu,
+                               pruefNeu, haNeu, planungNeu, self.pk)
 
         # Listbox neu einfüllen, da sich Ausfall und Komp ggf. geändert haben
         self.fillListbox()

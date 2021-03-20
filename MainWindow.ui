@@ -196,6 +196,16 @@ selection-color: rgb(255, 255, 255);</string>
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_3">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Prüfung</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item row="2" column="1" colspan="2">
