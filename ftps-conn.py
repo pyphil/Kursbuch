@@ -45,8 +45,8 @@ class FTPS_conn:
             print("Login falsch")
         else:    
             # Datei hochladen rb -> read binary
-            with open ('zwei.txt','rb') as fp:
-                ftp.storbinary('STOR zwei.txt', fp)
+            with open ('kurs.db','rb') as fp:
+                ftp.storbinary('STOR kurs.db', fp)
             ftp.close()
 
     def upload_timestamp(self):
