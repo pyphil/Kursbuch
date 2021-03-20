@@ -39,6 +39,7 @@ class Database:
         self.krzl = ""
         self.feriendaten = ""
         self.nosus = 0
+        self.req_dbversion = 1
 
         # Verbindung zur lokalen Datenbank herstellen
         home = environ['HOMEDRIVE']+environ['HOMEPATH']
@@ -139,6 +140,10 @@ class Database:
                              ("Kategorie","Inhalt") 
                              VALUES ("sync",?);""", 
                              (0,))
+        self.c.execute("""INSERT INTO "settings"
+                             ("Kategorie","Inhalt") 
+                             VALUES ("dbversion",?);""", 
+                             (self.req_dbversion,))
         self.verbindung.commit()
         self.krzl = krz
 
