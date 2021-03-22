@@ -9,17 +9,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>184</height>
+    <width>358</width>
+    <height>203</height>
    </rect>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>304</width>
-    <height>184</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>304</width>
     <height>184</height>
@@ -47,7 +41,7 @@
      <item row="2" column="0">
       <widget class="QRadioButton" name="radioButtonMitFs">
        <property name="text">
-        <string>mit Fehlzeiten</string>
+        <string>mit Fehlzeiten (wenn verfügbar)</string>
        </property>
        <property name="checked">
         <bool>true</bool>
