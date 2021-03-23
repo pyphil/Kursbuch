@@ -664,7 +664,7 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
 
 class KursAnlegen(Ui_KursAnlegen):
     def __init__(self, gui, db):
-        self.kursneudialog = QtWidgets.QWidget()
+        self.kursneudialog = QtWidgets.QDialog()
         self.setupUi(self.kursneudialog)
         self.kursneudialog.show()
 

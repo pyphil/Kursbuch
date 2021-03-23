@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>KursAnlegen</class>
- <widget class="QDialog" name="KursAnlegen">
+ <widget class="QWidget" name="KursAnlegen">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -9,9 +9,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
+    <width>270</width>
     <height>176</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>270</width>
+    <height>176</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>270</width>
+    <height>176</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Kurs anlegen</string>
@@ -20,7 +32,7 @@
    <iconset>
     <normaloff>kursbuch.ico</normaloff>kursbuch.ico</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="maximumSize">
@@ -40,7 +52,7 @@
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>Neuen Kurs anlegen2</string>
+      <string>Neuen Kurs anlegen</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -56,7 +68,7 @@
       <number>6</number>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Schuljahr:</string>
        </property>
@@ -69,7 +81,7 @@
       <widget class="QLineEdit" name="lineEditKlasse"/>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Fachkürzel:</string>
        </property>
@@ -79,7 +91,7 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Klasse/Kurs:</string>
        </property>
@@ -122,6 +134,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBoxSchuljahr</tabstop>
+  <tabstop>lineEditFachkrzl</tabstop>
+  <tabstop>lineEditKlasse</tabstop>
+  <tabstop>pushButtonAnlegen</tabstop>
+  <tabstop>pushButtonAbbrechen</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
