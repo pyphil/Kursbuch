@@ -9,7 +9,7 @@ import report
 import keyring
 import threading
 from os import path, system, environ
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
@@ -662,11 +662,14 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
     def abbrechen(self):
         self.Ersteinrichtung.close()
 
-class KursAnlegen(Ui_KursAnlegen):
+class KursAnlegen(QtWidgets.QDialog):
     def __init__(self, gui, db):
-        self.kursneudialog = QtWidgets.QDialog()
-        self.setupUi(self.kursneudialog)
-        self.kursneudialog.show()
+        super(KursAnlegen, self).__init__()
+        uic.loadUi('KursAnlegen.ui', self)
+        self.show()
+        # self.kursneudialog = QtWidgets.QDialog()
+        # self.setupUi(self.kursneudialog)
+        # self.kursneudialog.show()
 
         self.gui = gui
         self.db = db
@@ -681,7 +684,7 @@ class KursAnlegen(Ui_KursAnlegen):
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
         # Key Press Events
-        self.kursneudialog.keyPressEvent = self.keyPressEvent
+        #self.kursneudialog.keyPressEvent = self.keyPressEvent
 
     def keyPressEvent(self, e):
         if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
@@ -760,7 +763,7 @@ class KursAnlegen(Ui_KursAnlegen):
             self.gui.neueStunde()
 
     def abbrechen(self):
-        self.kursneudialog.close()
+        self.close()
 
         
 
