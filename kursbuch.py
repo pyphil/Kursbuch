@@ -22,12 +22,16 @@ from Syncdialog import Ui_Syncdialog
 #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 #environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
 
-from keyring.backends import Windows
-import win32timezone
-keyring.set_keyring(Windows.WinVaultKeyring())
+if sys.platform == "windows":
+    from keyring.backends import Windows
+    import win32timezone
+    keyring.set_keyring(Windows.WinVaultKeyring())
 
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
-locale.setlocale(locale.LC_ALL, 'deu_deu')
+if sys.platform == "windows":
+    locale.setlocale(locale.LC_ALL, 'deu_deu')
+elif sys.platform == "darwin":
+    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
 CREATE_NO_WINDOW = 0x08000000
@@ -42,12 +46,22 @@ class Database:
         self.req_dbversion = 1
 
         # Verbindung zur lokalen Datenbank herstellen
-        home = environ['HOMEDRIVE']+environ['HOMEPATH']
-        if path.exists(home+"\\pyKursbuch") == False:
-            system("mkdir "+home+"\\pyKursbuch")
-        self.dbpath = home+"\\pyKursbuch"
+        if sys.platform == "windows":
+            home = environ['HOMEDRIVE']+environ['HOMEPATH']
+            if path.exists(home+"\\pyKursbuch") == False:
+                system("mkdir "+home+"\\pyKursbuch")
+            self.dbpath = home+"\\pyKursbuch"
+        elif sys.platform == "darwin":
+            home = environ['HOME']
+            if path.exists(home+"/pyKursbuch") == False:
+                system("mkdir "+home+"/pyKursbuch")
+            self.dbpath = home+"/pyKursbuch"
+            print(self.dbpath)
 
-        self.verbindung = sqlite3.connect(self.dbpath+"\\kurs.db")
+        if sys.platform == "windows":
+            self.verbindung = sqlite3.connect(self.dbpath+"\\kurs.db")
+        elif sys.platform == "darwin":
+            self.verbindung = sqlite3.connect(self.dbpath+"/kurs.db")
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
         #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
@@ -755,7 +769,7 @@ class KursAnlegen(QtWidgets.QDialog):
             # Namen und Schuljahr an Datenbankobjekt übergeben
             self.db.createKurs(anzeigename, tabellenname, schuljahr)
             self.gui.kursauswahlMenue()
-            self.kursneudialog.close()
+            self.close()
 
             # Kurs einstellen, anzeigen und Dialog neue Stunde öffnen
             self.gui.comboBoxKurs.setCurrentText(anzeigename)
