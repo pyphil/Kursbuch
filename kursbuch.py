@@ -160,7 +160,7 @@ class Database:
         self.verbindung.commit()
         self.krzl = krz
 
-    def get_FTPS_db(self, upload=None):
+    def get_FTPS_db(self):
         self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
     
         self.login = self.krzl.lower()+":"+self.pw
@@ -179,10 +179,7 @@ class Database:
 
         # kurs.db laden mit log
         #subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
-        if upload==True:
-            log = ftps_object.upload_kursdb()
-        else:
-            log = ftps_object.download_kursdb()
+        log = ftps_object.download_kursdb()
         #with open (self.dbpath+"\\log.txt","r") as f:
         #    data = f.read()
         #system("del "+self.dbpath+"\\log.txt")
@@ -224,7 +221,7 @@ class Database:
                             (s,))
             self.verbindung.commit()
             self.sync = s
-            access = self.get_FTPS_db(upload=True)
+            access = self.get_FTPS_db()
             if access == False:
                 msg_pw = QtWidgets.QMessageBox()
                 msg_pw.setIcon(QtWidgets.QMessageBox.Critical)

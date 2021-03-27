@@ -33,9 +33,14 @@ class FTPS_conn:
         elif ftp == "loginerr":
             return "loginerr"
         else:
-            # Datei herunterladen
-            with open (self.dbpath+'kurs.db','wb') as localfile:
-                ftp.retrbinary('RETR kurs.db', localfile.write)
+            # Datei herunterladen, wenn vorhanden, sonst upload versuchen
+            try:    
+                ftp.retrlines('LIST kurs.db')
+            except:
+                self.upload_kursdb()
+            else:
+                with open (self.dbpath+'kurs.db','wb') as localfile:
+                    ftp.retrbinary('RETR kurs.db', localfile.write)
             ftp.close()
 
     def upload_kursdb(self):
