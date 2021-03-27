@@ -22,7 +22,7 @@ from Syncdialog import Ui_Syncdialog
 # QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 #environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-print(sys.platform)
+
 if sys.platform == "win32":
     from keyring.backends import Windows
     import win32timezone
@@ -659,6 +659,7 @@ class Database:
                 except:
                     pass
                 self.upload()
+                print("Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
 
