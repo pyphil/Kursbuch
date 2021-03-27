@@ -21,14 +21,14 @@ from Syncdialog import Ui_Syncdialog
 # QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 #environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-
-if sys.platform == "windows":
+print(sys.platform)
+if sys.platform == "win32":
     from keyring.backends import Windows
     import win32timezone
     keyring.set_keyring(Windows.WinVaultKeyring())
 
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
-if sys.platform == "windows":
+if sys.platform == "win32":
     locale.setlocale(locale.LC_ALL, 'deu_deu')
 elif sys.platform == "darwin":
     locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
@@ -46,7 +46,7 @@ class Database:
         self.req_dbversion = 1
 
         # Verbindung zur lokalen Datenbank herstellen
-        if sys.platform == "windows":
+        if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
             if path.exists(home+"\\pyKursbuch") == False:
                 system("mkdir "+home+"\\pyKursbuch")
@@ -58,7 +58,7 @@ class Database:
             self.dbpath = home+"/pyKursbuch"
             print(self.dbpath)
 
-        if sys.platform == "windows":
+        if sys.platform == "win32":
             self.verbindung = sqlite3.connect(self.dbpath+"\\kurs.db")
         elif sys.platform == "darwin":
             self.verbindung = sqlite3.connect(self.dbpath+"/kurs.db")
