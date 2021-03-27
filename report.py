@@ -13,7 +13,7 @@ import threading
 def getData(tn, dbpath, nosus):
     locale.setlocale(locale.LC_ALL, 'deu_deu')
     # Verbindung zur lokalen Datenbank herstellen
-    verbindung = sqlite3.connect(dbpath+"\\kurs.db")
+    verbindung = sqlite3.connect(dbpath+"kurs.db")
     c = verbindung.cursor()
 
     # Verbindung zur zentralen SuS-Datenbank herstellen wenn sus.db
@@ -145,7 +145,7 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     # if path.exists("U:\\Kursbuch-Export") == False:
     #     system("mkdir U:\\Kursbuch-Export")
 
-    filename = dbpath+"\\"+str(tn+"-"+str(datetime.now().date())+".pdf")
+    filename = dbpath+str(tn+"-"+str(datetime.now().date())+".pdf")
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)

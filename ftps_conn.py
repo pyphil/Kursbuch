@@ -34,7 +34,7 @@ class FTPS_conn:
             return "loginerr"
         else:
             # Datei herunterladen
-            with open (self.dbpath+'\\kurs.db','wb') as localfile:
+            with open (self.dbpath+'kurs.db','wb') as localfile:
                 ftp.retrbinary('RETR kurs.db', localfile.write)
             ftp.close()
 
@@ -46,7 +46,7 @@ class FTPS_conn:
             return "loginerr"
         else:    
             # Datei hochladen rb -> read binary
-            with open (self.dbpath+'\\kurs.db','rb') as fp:
+            with open (self.dbpath+'kurs.db','rb') as fp:
                 ftp.storbinary('STOR kurs.db', fp)
             ftp.close()
 
@@ -69,7 +69,7 @@ class FTPS_conn:
             return "loginerr"
         else:
             # Datei herunterladen
-            with open (self.dbpath+'\\timestamp','wb') as localfile:
+            with open (self.dbpath+'timestamp','wb') as localfile:
                 ftp.retrbinary('RETR timestamp', localfile.write)
             ftp.close()
 
@@ -81,7 +81,7 @@ class FTPS_conn:
             return "loginerr"
         else:    
             # Datei hochladen rb -> read binary
-            with open (self.dbpath+'\\timestamp','rb') as fp:
+            with open (self.dbpath+'timestamp','rb') as fp:
                 ftp.storbinary('STOR timestamp', fp)
             ftp.close()
 

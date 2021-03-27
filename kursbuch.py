@@ -51,18 +51,16 @@ class Database:
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
             if path.exists(home+"\\pyKursbuch") == False:
                 system("mkdir "+home+"\\pyKursbuch")
-            self.dbpath = home+"\\pyKursbuch"
+            self.dbpath = home+"\\pyKursbuch\\"
         elif sys.platform == "darwin":
             home = environ['HOME']
             if path.exists(home+"/pyKursbuch") == False:
                 system("mkdir "+home+"/pyKursbuch")
-            self.dbpath = home+"/pyKursbuch"
+            self.dbpath = home+"/pyKursbuch/"
             print(self.dbpath)
 
-        if sys.platform == "win32":
-            self.verbindung = sqlite3.connect(self.dbpath+"\\kurs.db")
-        elif sys.platform == "darwin":
-            self.verbindung = sqlite3.connect(self.dbpath+"/kurs.db")
+        
+        self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
         self.c = self.verbindung.cursor()
         # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
         #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
@@ -174,7 +172,7 @@ class Database:
 
         # timestamp setzen
         self.timestamp = str(time())
-        with open (self.dbpath+"\\timestamp","w") as f:
+        with open (self.dbpath+"timestamp","w") as f:
             f.write(self.timestamp)
         #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
         ftps_object.upload_timestamp()
@@ -637,7 +635,7 @@ class Database:
             self.susverbindung.close()
         if self.sync == 2:
             self.upload()
-            system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
+            system("copy "+self.dbpath+"kurs.db "+self.dbpath+"kurs.dbBACKUP")
 
     def upload(self):  
         #subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
@@ -653,7 +651,7 @@ class Database:
             #subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
             ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
             ftps_object.download_timestamp()
-            with open (self.dbpath+"\\timestamp","r") as f:
+            with open (self.dbpath+"timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
                 try:
@@ -1609,7 +1607,7 @@ class Gui(Ui_MainWindow):
         haNeu = self.textEditHausaufgaben.toPlainText()
         planungNeu = self.textEdit.toPlainText()
         
-        verbindung_thread = sqlite3.connect(self.db.dbpath+"\\kurs.db")
+        verbindung_thread = sqlite3.connect(self.db.dbpath+"kurs.db")
         c_thread = verbindung_thread.cursor()
         tabellenname = list(c_thread.execute("""SELECT tname FROM settings
                                          WHERE Inhalt = ?;
