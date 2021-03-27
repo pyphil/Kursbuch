@@ -5,13 +5,14 @@ from datetime import datetime, date, timedelta
 import locale
 import sys
 import subprocess
-import report
 import keyring
 import threading
+import report
+from ftps_conn import FTPS_conn
 from os import path, system, environ
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from MainWindow import Ui_MainWindow
-from KursAnlegen import Ui_KursAnlegen
+# from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
 from Susverwgui import Ui_Susverwgui
@@ -161,25 +162,37 @@ class Database:
         self.verbindung.commit()
         self.krzl = krz
 
-    def get_FTPS_db(self):
+    def get_FTPS_db(self, upload=None):
         self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
     
         self.login = self.krzl.lower()+":"+self.pw
         self.url = self.get_FTPS_URL()
 
+        # FTPS-Objekt mit Klasse FTPS_conn aus Modul ftps_conn erstellen
+        ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
+
+
         # timestamp setzen
         self.timestamp = str(time())
         with open (self.dbpath+"\\timestamp","w") as f:
             f.write(self.timestamp)
-        subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
+        #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
+        ftps_object.upload_timestamp()
+
         # kurs.db laden mit log
-        subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
-        with open (self.dbpath+"\\log.txt","r") as f:
-            data = f.read()
-        system("del "+self.dbpath+"\\log.txt")
-        if "not resolve host" in data:
+        #subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
+        if upload==True:
+            log = ftps_object.upload_kursdb()
+        else:
+            log = ftps_object.download_kursdb()
+        #with open (self.dbpath+"\\log.txt","r") as f:
+        #    data = f.read()
+        #system("del "+self.dbpath+"\\log.txt")
+        #if "not resolve host" in data:
+        if log == "hosterr":
             return "host"
-        if "Access denied" in data:
+        #if "Access denied" in data:
+        if log == "loginerr":
             return False
         else:
             # Intervall Upload in Thread starten, as daemon to exit when 
@@ -213,7 +226,7 @@ class Database:
                             (s,))
             self.verbindung.commit()
             self.sync = s
-            access = self.get_FTPS_db()
+            access = self.get_FTPS_db(upload=True)
             if access == False:
                 msg_pw = QtWidgets.QMessageBox()
                 msg_pw.setIcon(QtWidgets.QMessageBox.Critical)
@@ -625,14 +638,19 @@ class Database:
             system("copy "+self.dbpath+"\\kurs.db "+self.dbpath+"\\kurs.dbBACKUP")
 
     def upload(self):  
-        subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
+        #subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
+        ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
+        ftps_object.upload_kursdb()
 
     def interval_upload(self):
         # started as daemon in thread
+        
         while True:
             sleep(30)
             # Download timestamp and compare
-            subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
+            #subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
+            ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
+            ftps_object.download_timestamp()
             with open (self.dbpath+"\\timestamp","r") as f:
                 currentstamp = f.read()
             if self.timestamp == currentstamp:
