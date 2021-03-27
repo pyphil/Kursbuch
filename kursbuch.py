@@ -35,7 +35,7 @@ elif sys.platform == "darwin":
     locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
-CREATE_NO_WINDOW = 0x08000000
+#CREATE_NO_WINDOW = 0x08000000
 #CREATE_NO_WINDOW = 0
 
 class Database:
@@ -269,7 +269,9 @@ class Database:
                             (s,))
                 self.verbindung.commit()
                 self.sync = s
-                subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
+                #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
+                ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
+                ftps_object.delete_kursdb()
                 self.app.quit()
 
     def getSyncstate(self):
