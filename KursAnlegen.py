@@ -15,13 +15,14 @@ class Ui_KursAnlegen(object):
     def setupUi(self, KursAnlegen):
         KursAnlegen.setObjectName("KursAnlegen")
         KursAnlegen.setWindowModality(QtCore.Qt.ApplicationModal)
-        KursAnlegen.resize(277, 176)
+        KursAnlegen.resize(292, 176)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         KursAnlegen.setWindowIcon(icon)
         self.gridLayout_4 = QtWidgets.QGridLayout(KursAnlegen)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.label = QtWidgets.QLabel(KursAnlegen)
+        self.label.setMinimumSize(QtCore.QSize(0, 31))
         self.label.setMaximumSize(QtCore.QSize(16777215, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -71,11 +72,15 @@ class Ui_KursAnlegen(object):
 
         self.retranslateUi(KursAnlegen)
         QtCore.QMetaObject.connectSlotsByName(KursAnlegen)
+        KursAnlegen.setTabOrder(self.comboBoxSchuljahr, self.lineEditFachkrzl)
+        KursAnlegen.setTabOrder(self.lineEditFachkrzl, self.lineEditKlasse)
+        KursAnlegen.setTabOrder(self.lineEditKlasse, self.pushButtonAnlegen)
+        KursAnlegen.setTabOrder(self.pushButtonAnlegen, self.pushButtonAbbrechen)
 
     def retranslateUi(self, KursAnlegen):
         _translate = QtCore.QCoreApplication.translate
         KursAnlegen.setWindowTitle(_translate("KursAnlegen", "Kurs anlegen"))
-        self.label.setText(_translate("KursAnlegen", "Neuen Kurs anlegen2"))
+        self.label.setText(_translate("KursAnlegen", "Neuen Kurs anlegen"))
         self.label_3.setText(_translate("KursAnlegen", "Schuljahr:"))
         self.label_4.setText(_translate("KursAnlegen", "Fachkürzel:"))
         self.label_2.setText(_translate("KursAnlegen", "Klasse/Kurs:"))

@@ -128,6 +128,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBoxSchuljahr</tabstop>
+  <tabstop>lineEditFachkrzl</tabstop>
+  <tabstop>lineEditKlasse</tabstop>
+  <tabstop>pushButtonAnlegen</tabstop>
+  <tabstop>pushButtonAbbrechen</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
