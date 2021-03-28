@@ -133,6 +133,9 @@ class Database:
                     self.ui.sync()
             sys.exit(self.app.exec_())
 
+    def startGui(self):
+        self.ui = Gui(self)
+
     def createSettings(self, krz):
         """neue Tabelle settings anlegen aus Dialog Ersteinrichtung"""
         self.c.execute(""" CREATE TABLE settings (
@@ -643,7 +646,7 @@ class Database:
         # started as daemon in thread
         
         while True:
-            sleep(10)
+            sleep(30)
             # Download timestamp and compare
             #subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
             ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
@@ -688,7 +691,8 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
         self.db.createSettings(krzl)
         self.Ersteinrichtung.close()
         # Gui Objekt instanziieren und Database übergeben
-        self.ui = Gui(self.db)
+        # self.ui = Gui(self.db)
+        self.db.startGui()
 
     def abbrechen(self):
         self.Ersteinrichtung.close()
