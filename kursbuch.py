@@ -415,22 +415,26 @@ class Database:
     
     def writeDatensatz(self, k, inh, ausf, komp, pruef, ha, plan, pk):
         tn = self.get_tn(k)
-        self.c.execute(""" UPDATE """+tn+"""
-                    SET Inhalt = ?, 
-                    Ausfall = ?, 
-                    Kompensation = ?, 
-                    Pruefung = ?,
-                    Hausaufgabe = ?, 
-                    Planung = ?
-                    WHERE pk = ?;
-                    """,
-                    (inh, ausf, komp, pruef, ha, plan, pk))
-        self.c.execute(""" UPDATE settings
-                           SET lastedit = ?
-                           WHERE tname = ?;
+        if pk == "":
+            print("Nicht speichern. Kein pk.")
+        else:
+            self.c.execute(""" UPDATE """+tn+"""
+                        SET Inhalt = ?, 
+                        Ausfall = ?, 
+                        Kompensation = ?, 
+                        Pruefung = ?,
+                        Hausaufgabe = ?, 
+                        Planung = ?
+                        WHERE pk = ?;
                         """,
-                        (pk, tn))
-        self.verbindung.commit()
+                        (inh, ausf, komp, pruef, ha, plan, pk))
+            self.c.execute(""" UPDATE settings
+                            SET lastedit = ?
+                            WHERE tname = ?;
+                            """,
+                            (pk, tn))
+            self.verbindung.commit()
+            print("gespeichert")
 
     def getLastedit(self,k):
         tn = self.get_tn(k)
@@ -1428,12 +1432,12 @@ class Gui(Ui_MainWindow):
         self.disableFieldsStd()
         self.kurs = self.comboBoxKurs.currentText()
 
+        # self.pk für den aktuellen Datensatz zunächst auf "" setzen
+        self.pk = ""
+        
         self.fillListbox(1)
 
         self.enableFieldsKurs()
-
-        # self.pk für den aktuellen Datensatz zunächst auf "" setzen
-        self.pk = ""
 
         # Fehlzeiten Widget schließen -> bei Kurswechsel keine falschen Fehlzeiten
         self.verticalLayoutWidget.close()
@@ -1489,6 +1493,7 @@ class Gui(Ui_MainWindow):
 
         # Zugehörigen Primary Key der Auswahl setzen
         self.pk = self.db.getListe(self.kurs)[auswahl][0]
+        print("pk: "+self.pk)
         # Datensatz als liste holen
         liste = self.db.getDatensatz(self.pk, self.kurs)      
         # # Textvariable mit Text aus Datenbankfeld füllen
