@@ -113,7 +113,7 @@ class Database:
             # starten
             self.ui = Gui(self)
             if self.sync == 2:
-                if pw == None or access == False:
+                if pw == None:
                     msg_pw = QtWidgets.QMessageBox()
                     msg_pw.setIcon(QtWidgets.QMessageBox.Information)
                     msg_pw.setWindowTitle("Zugangsdaten")
@@ -123,6 +123,16 @@ class Database:
                                     "eingeben")
                     msg_pw.exec_()
                     self.ui.sync()
+                if access == False:
+                    msg_access = QtWidgets.QMessageBox()
+                    msg_access.setIcon(QtWidgets.QMessageBox.Information)
+                    msg_access.setWindowTitle("Zugangsdaten")
+                    msg_access.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                    msg_access.setText("Wahrscheinlich ist das Passwort falsch "+
+                                    "oder es ist geändert worden. Bitte erneut "+
+                                    "eingeben")
+                    msg_access.exec_()
+                    self.ui.sync()
                 if access == "host":
                     msg_host = QtWidgets.QMessageBox()
                     msg_host.setIcon(QtWidgets.QMessageBox.Critical)
@@ -131,6 +141,8 @@ class Database:
                     msg_host.setText("Servername falsch oder Server nicht erreichbar.")
                     msg_host.exec_()
                     self.ui.sync()
+                if access == True:
+                    self.ui.statusBar.showMessage("Datenbank erfolgreich heruntergeladen.")
             sys.exit(self.app.exec_())
 
     def startGui(self):
@@ -197,6 +209,7 @@ class Database:
             # programme is exited
             self.thread = threading.Thread(target=self.interval_upload, daemon=True)
             self.thread.start()
+            return True
 
     def save_FTPS_URL(self, url):
         self.c.execute("""DELETE FROM "settings"
@@ -241,8 +254,10 @@ class Database:
                 msg_host.setText("Servername falsch oder Server nicht erreichbar.")
                 msg_host.exec_()
                 gui.sync()
-            else:
+            if access == True:
+                self.ui.statusBar.showMessage("Datenbank erfolgreich heruntergeladen.")
                 gui.kursauswahlMenue()
+                
         if s == 0:
             # kurs.db auf dem Server löschen
             # Dialog mit Hinweis und Beenden -> Neustart
