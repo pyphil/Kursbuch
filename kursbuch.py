@@ -142,7 +142,7 @@ class Database:
                     msg_host.exec_()
                     self.ui.sync()
                 if access == True:
-                    self.ui.statusBar.showMessage("Datenbank erfolgreich heruntergeladen.")
+                    self.ui.statusBar.showMessage("Datenbank erfolgreich synchronisiert.")
             sys.exit(self.app.exec_())
 
     def startGui(self):
@@ -255,7 +255,7 @@ class Database:
                 msg_host.exec_()
                 gui.sync()
             if access == True:
-                self.ui.statusBar.showMessage("Datenbank erfolgreich heruntergeladen.")
+                self.ui.statusBar.showMessage("Datenbank erfolgreich synchronisiert.")
                 gui.kursauswahlMenue()
                 
         if s == 0:
