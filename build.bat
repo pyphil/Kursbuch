@@ -10,6 +10,6 @@ copy delete-members.png dist\kursbuch\
 copy kursbuch.ico dist\kursbuch\
 copy LICENSE dist\kursbuch\
 copy ferien.db dist\kursbuch\
-xcopy /E .\curl\ .\dist\kursbuch\curl\
+rem xcopy /E .\curl\ .\dist\kursbuch\curl\
 cd dist
 rem powershell Compress-Archive kursbuch\* kursbuch.zip
