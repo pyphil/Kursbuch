@@ -522,6 +522,13 @@ selection-color: rgb(255, 255, 255);</string>
    </widget>
    <addaction name="menuDatei"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="font">
+    <font>
+     <family>MS Shell Dlg 2</family>
+    </font>
+   </property>
+  </widget>
   <action name="actionSynchronisation_einrichten">
    <property name="text">
     <string>Synchronisation einrichten</string>

@@ -643,7 +643,7 @@ class Database:
         # started as daemon in thread
         
         while True:
-            sleep(30)
+            sleep(10)
             # Download timestamp and compare
             #subprocess.call("curl\\curl.exe --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
             ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
@@ -657,6 +657,7 @@ class Database:
                     pass
                 self.upload()
                 print("Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
+                self.ui.statusBar.showMessage("Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
 
