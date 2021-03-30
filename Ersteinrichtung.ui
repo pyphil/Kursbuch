@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>313</width>
-    <height>182</height>
+    <height>170</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,9 +89,6 @@
      </property>
      <property name="wordWrap">
       <bool>true</bool>
-     </property>
-     <property name="indent">
-      <number>34</number>
      </property>
     </widget>
    </item>
