@@ -268,10 +268,14 @@ class Database:
             msg_restart.setText("Soll die Datenbank auf dem Server gelöscht, "+
                                 "werden? Die lokale Datenbank bleibt erhalten. "+
                                 "Das Programm wird geschlossen und muss "+
-                                "neugestartet werden.")
+                                "neugestartet werden. \n\n"+
+                                "Ansonsten bitte \"Abbrechen\" und "+
+                                "\"Synchronisation aktivieren\" auswählen.")
             msg_restart.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
             abbrechen = msg_restart.button(QtWidgets.QMessageBox.Cancel)
             abbrechen.setText("Abbrechen")
+            loeschen = msg_restart.button(QtWidgets.QMessageBox.Ok)
+            loeschen.setText("Synchronisation deaktivieren")
             retval = msg_restart.exec_()
             if retval == 1024:
                 self.c.execute("""DELETE FROM "settings"
@@ -286,6 +290,8 @@ class Database:
                 ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
                 ftps_object.delete_kursdb()
                 self.app.quit()
+            else:
+                return "abbrechen"
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
@@ -1300,11 +1306,14 @@ class Sync(Ui_Syncdialog):
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
         
         if self.checkBoxSync.checkState() == 2:
-            self.db.saveSyncstate(2, self.gui)
+            save = self.db.saveSyncstate(2, self.gui)
         else:
-            self.db.saveSyncstate(0, self.gui)
-
-        self.Syncdialog.close()
+            save = self.db.saveSyncstate(0, self.gui)
+        
+        if save == "abbrechen":
+            pass
+        else:
+            self.Syncdialog.close()
 
     def abbrechen(self):
         self.Syncdialog.close()
