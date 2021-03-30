@@ -735,6 +735,15 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
     def abbrechen(self):
         self.Ersteinrichtung.close()
 
+class Infobox(QtWidgets.QDialog):
+    def __init__(self, text):
+        super(Infobox, self).__init__()
+        uic.loadUi('infobox.ui', self)
+        self.infotext = text
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.show()
+        self.labelInfo.setText(self.infotext)
+
 class KursAnlegen(QtWidgets.QDialog):
     def __init__(self, gui, db):
         super(KursAnlegen, self).__init__()
@@ -1313,6 +1322,7 @@ class Sync(Ui_Syncdialog):
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
     def uebernehmen(self):
+        self.info = Infobox("Die Verbindung zum Server wird hergestellt...")
         url = self.lineEditFTPS.text()
         pw = self.lineEditPW.text()
         self.db.save_FTPS_URL(url)
@@ -1321,7 +1331,10 @@ class Sync(Ui_Syncdialog):
         if self.checkBoxSync.checkState() == 2:
             save = self.db.saveSyncstate(2, self.gui)
         else:
+            # self.info = Infobox("Die Verbindung zum Server wird hergestellt...")
             save = self.db.saveSyncstate(0, self.gui)
+            # self.info.close()
+        self.info.close()
         
         if save == "dontclose":
             pass
@@ -1756,7 +1769,7 @@ class Gui(Ui_MainWindow):
 
     def sync(self):
         self.sdialog = Sync(self.db, self)
-    
+
     def tutmod(self):
         pass
         """ Objekt für Tutorenmodus instanziieren und starten"""
