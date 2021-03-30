@@ -259,39 +259,52 @@ class Database:
                 gui.kursauswahlMenue()
                 
         if s == 0:
-            # kurs.db auf dem Server löschen
-            # Dialog mit Hinweis und Beenden -> Neustart
-            msg_restart = QtWidgets.QMessageBox()
-            msg_restart.setIcon(QtWidgets.QMessageBox.Question)
-            msg_restart.setWindowTitle("Synchronisation entfernen")
-            msg_restart.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-            msg_restart.setText("Soll die Datenbank auf dem Server gelöscht, "+
-                                "werden? Die lokale Datenbank bleibt erhalten. "+
-                                "Das Programm wird geschlossen und muss "+
-                                "neugestartet werden. \n\n"+
-                                "Ansonsten bitte \"Abbrechen\" und "+
+            if self.sync == 0:
+                # Wenn Synchronisation angeschaltet wird und die Checkbox
+                # vergessen wurde
+                msg_aktivate = QtWidgets.QMessageBox()
+                msg_aktivate.setIcon(QtWidgets.QMessageBox.Information)
+                msg_aktivate.setWindowTitle("Synchronisation aktivieren")
+                msg_aktivate.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg_aktivate.setText("Zur Einrichtung der Synchronisation bitte "+
                                 "\"Synchronisation aktivieren\" auswählen.")
-            msg_restart.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-            abbrechen = msg_restart.button(QtWidgets.QMessageBox.Cancel)
-            abbrechen.setText("Abbrechen")
-            loeschen = msg_restart.button(QtWidgets.QMessageBox.Ok)
-            loeschen.setText("Synchronisation deaktivieren")
-            retval = msg_restart.exec_()
-            if retval == 1024:
-                self.c.execute("""DELETE FROM "settings"
-                            WHERE "Kategorie" = "sync";""")
-                self.c.execute("""INSERT INTO "settings"
-                            ("Kategorie","Inhalt") 
-                            VALUES ("sync",?);""", 
-                            (s,))
-                self.verbindung.commit()
-                self.sync = s
-                #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
-                ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
-                ftps_object.delete_kursdb()
-                self.app.quit()
+                msg_aktivate.exec_()
+                return "dontclose"
+
             else:
-                return "abbrechen"
+                # Wenn die Synchronisation an ist und deaktiviert werden soll  
+                # kurs.db auf dem Server löschen
+                # Dialog mit Hinweis und Beenden -> Neustart
+                msg_restart = QtWidgets.QMessageBox()
+                msg_restart.setIcon(QtWidgets.QMessageBox.Question)
+                msg_restart.setWindowTitle("Synchronisation entfernen")
+                msg_restart.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+                msg_restart.setText("Die Synchronisation wird entfernt. Die "+
+                                    "Datenbank auf dem Server wird gelöscht, "+
+                                    "die lokale Datenbank bleibt erhalten. "+
+                                    "Das Programm wird geschlossen und muss "+
+                                    "neugestartet werden.")
+                msg_restart.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+                abbrechen = msg_restart.button(QtWidgets.QMessageBox.Cancel)
+                abbrechen.setText("Abbrechen")
+                loeschen = msg_restart.button(QtWidgets.QMessageBox.Ok)
+                loeschen.setText("Synchronisation deaktivieren")
+                retval = msg_restart.exec_()
+                if retval == 1024:
+                    self.c.execute("""DELETE FROM "settings"
+                                WHERE "Kategorie" = "sync";""")
+                    self.c.execute("""INSERT INTO "settings"
+                                ("Kategorie","Inhalt") 
+                                VALUES ("sync",?);""", 
+                                (s,))
+                    self.verbindung.commit()
+                    self.sync = s
+                    #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
+                    ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
+                    ftps_object.delete_kursdb()
+                    self.app.quit()
+                else:
+                    return "dontclose"
 
     def getSyncstate(self):
         """Synchronisationsstatus erfassen"""
@@ -1310,7 +1323,7 @@ class Sync(Ui_Syncdialog):
         else:
             save = self.db.saveSyncstate(0, self.gui)
         
-        if save == "abbrechen":
+        if save == "dontclose":
             pass
         else:
             self.Syncdialog.close()
