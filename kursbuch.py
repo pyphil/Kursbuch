@@ -58,8 +58,6 @@ class Database:
             if path.exists(home+"/pyKursbuch") == False:
                 system("mkdir "+home+"/pyKursbuch")
             self.dbpath = home+"/pyKursbuch/"
-            print(self.dbpath)
-
         
         self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
         self.c = self.verbindung.cursor()
@@ -71,11 +69,9 @@ class Database:
 
         # Verbindung zur zentralen SuS-Datenbank herstellen
         if path.isfile('sus.db'):
-            print("sus.db found")
             self.susverbindung = sqlite3.connect("sus.db")
             self.susc = self.susverbindung.cursor()
         else:
-            print("sus.db not found")
             # Schaltflächen sperren
             self.nosus = 1
 
@@ -436,7 +432,7 @@ class Database:
     def writeDatensatz(self, k, inh, ausf, komp, pruef, ha, plan, pk):
         tn = self.get_tn(k)
         if pk == "":
-            print("Nicht speichern. Kein pk.")
+            pass
         else:
             self.c.execute(""" UPDATE """+tn+"""
                         SET Inhalt = ?, 
@@ -454,7 +450,6 @@ class Database:
                             """,
                             (pk, tn))
             self.verbindung.commit()
-            print("gespeichert")
 
     def getLastedit(self,k):
         tn = self.get_tn(k)
@@ -698,7 +693,6 @@ class Database:
                 except:
                     pass
                 self.upload()
-                print("Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
                 self.ui.statusBar.showMessage("Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
@@ -953,6 +947,9 @@ class StundeAnlegen(Ui_Form):
             else:
                 komp = 0
             if self.comboBoxSerie.currentText() != "keine Wiederholung":
+                self.info = Infobox("Stunden werden angelegt...")
+                # semi-professional way to keep ui responsive:
+                QtWidgets.QApplication.processEvents()
                 for i in range(self.comboBoxSerie.currentIndex()):
                     if i+1 in range(0,60,x):
                         repeatdate = self.datelist[i].split(".")
@@ -965,7 +962,8 @@ class StundeAnlegen(Ui_Form):
                             newrow = self.db.writeNeueStunde(repeatdate, 
                                                              stunde, 
                                                              self.kurs,
-                                                             komp)            
+                                                             komp)
+                self.info.close()
             self.gui.kursAnzeigen()
             try:
                 self.gui.tableWidget.selectRow(newrow)
@@ -1335,8 +1333,12 @@ class Sync(Ui_Syncdialog):
             save = self.db.saveSyncstate(2, self.gui)
             self.info.close()
         else:
+            self.info = Infobox("Datenbank auf dem Server wird gelöscht ...")
+            # semi-professinal way to keep ui responsive:
+            QtWidgets.QApplication.processEvents()
             save = self.db.saveSyncstate(0, self.gui)
-        
+            self.info.close()
+
         if save == "dontclose":
             pass
         else:
@@ -1533,7 +1535,6 @@ class Gui(Ui_MainWindow):
 
         # Zugehörigen Primary Key der Auswahl setzen
         self.pk = self.db.getListe(self.kurs)[auswahl][0]
-        print("pk: "+self.pk)
         # Datensatz als liste holen
         liste = self.db.getDatensatz(self.pk, self.kurs)      
         # # Textvariable mit Text aus Datenbankfeld füllen
