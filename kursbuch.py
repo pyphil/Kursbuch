@@ -7,6 +7,7 @@ import sys
 import subprocess
 import keyring
 import threading
+import _thread
 import report
 from ftps_conn import FTPS_conn
 from os import path, system, environ
@@ -740,7 +741,7 @@ class Infobox(QtWidgets.QDialog):
         super(Infobox, self).__init__()
         uic.loadUi('infobox.ui', self)
         self.infotext = text
-        #self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.show()
         self.labelInfo.setText(self.infotext)
 
@@ -1328,7 +1329,11 @@ class Sync(Ui_Syncdialog):
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
         
         if self.checkBoxSync.checkState() == 2:
+            self.info = Infobox("Verbindung wird hergestellt ...")
+            # semi-professinal way to keep ui responsive:
+            QtWidgets.QApplication.processEvents()
             save = self.db.saveSyncstate(2, self.gui)
+            self.info.close()
         else:
             save = self.db.saveSyncstate(0, self.gui)
         
@@ -1403,10 +1408,14 @@ class Gui(Ui_MainWindow):
         self.abouttoclose = 0
 
     def closeEvent(self, event):
+        self.info = Infobox("Datenbank wird synchronisiert ...")
+        # semi-professinal way to keep ui responsive:
+        QtWidgets.QApplication.processEvents()
         self.abouttoclose = 1
         if self.kurs != "":
             self.datensatzSpeichern()
         self.db.close()
+        self.info.close()
 
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
