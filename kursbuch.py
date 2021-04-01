@@ -13,7 +13,7 @@ from ftps_conn import FTPS_conn
 from os import path, system, environ
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 from MainWindow import Ui_MainWindow
-# from KursAnlegen import Ui_KursAnlegen
+from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
 from Susverwgui import Ui_Susverwgui
@@ -739,10 +739,11 @@ class Infobox(QtWidgets.QDialog):
         self.show()
         self.labelInfo.setText(self.infotext)
 
-class KursAnlegen(QtWidgets.QDialog):
+class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
     def __init__(self, gui, db):
         super(KursAnlegen, self).__init__()
-        uic.loadUi('KursAnlegen.ui', self)
+        #uic.loadUi('KursAnlegen.ui', self)
+        self.setupUi(self)
         self.show()
         # self.kursneudialog = QtWidgets.QDialog()
         # self.setupUi(self.kursneudialog)
