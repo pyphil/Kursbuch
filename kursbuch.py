@@ -742,12 +742,8 @@ class Infobox(QtWidgets.QDialog):
 class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
     def __init__(self, gui, db):
         super(KursAnlegen, self).__init__()
-        #uic.loadUi('KursAnlegen.ui', self)
         self.setupUi(self)
         self.show()
-        # self.kursneudialog = QtWidgets.QDialog()
-        # self.setupUi(self.kursneudialog)
-        # self.kursneudialog.show()
 
         self.gui = gui
         self.db = db
