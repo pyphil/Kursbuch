@@ -19,6 +19,7 @@ from PDFdialog import Ui_PdfExportieren
 from Susverwgui import Ui_Susverwgui
 from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
+from infobox import Ui_Infobox
 
 # QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 #QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
@@ -730,10 +731,11 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
     def abbrechen(self):
         self.Ersteinrichtung.close()
 
-class Infobox(QtWidgets.QDialog):
+class Infobox(QtWidgets.QDialog, Ui_Infobox):
     def __init__(self, text):
         super(Infobox, self).__init__()
-        uic.loadUi('infobox.ui', self)
+        #uic.loadUi('infobox.ui', self)
+        self.setupUi(self)
         self.infotext = text
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.show()

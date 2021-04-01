@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Infobox</class>
+ <widget class="QDialog" name="Infobox">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Infobox</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 191);</string>
