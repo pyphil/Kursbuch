@@ -11,7 +11,7 @@ import _thread
 import report
 from ftps_conn import FTPS_conn
 from os import path, system, environ
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
@@ -734,7 +734,6 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
 class Infobox(QtWidgets.QDialog, Ui_Infobox):
     def __init__(self, text):
         super(Infobox, self).__init__()
-        #uic.loadUi('infobox.ui', self)
         self.setupUi(self)
         self.infotext = text
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
