@@ -1256,11 +1256,23 @@ class SuSVerw(Ui_Susverwgui):
         if self.gui.tabWidget.currentIndex() == 1:
             self.gui.fehlzeitenAnzeige(1)
 
-class Kursbuch_Dialog(Ui_PdfExportieren):
-    def __init__(self, tn, kurs, krzl, dbpath, nosus):
-        self.PdfExportieren = QtWidgets.QWidget()
-        self.setupUi(self.PdfExportieren)
-        self.PdfExportieren.show()
+class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
+    def __init__(self, tn, kurs, krzl, dbpath, nosus, gui):
+        super(Kursbuch_Dialog,self).__init__()
+        self.setupUi(self)
+        self.gui = gui
+        
+        # Auf MainWindow zentrieren
+        # geometry of the dialog window
+        qr = self.frameGeometry()
+        # center point of MainWindow
+        cp = self.gui.MainWindow.frameGeometry().center()
+        # move rectangle's center point to MainWindow's center point
+        qr.moveCenter(cp)
+        # top left of rectangle becomes top left of window centering it
+        self.move(qr.topLeft())
+        
+        self.show()
 
         self.tn = tn
         self.kurs = kurs
@@ -1272,7 +1284,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
         # Key Press Events
-        self.PdfExportieren.keyPressEvent = self.keyPressEvent
+        #self.PdfExportieren.keyPressEvent = self.keyPressEvent
 
     def keyPressEvent(self, e):
         if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
@@ -1285,21 +1297,31 @@ class Kursbuch_Dialog(Ui_PdfExportieren):
             var = "1"
         if self.radioButtonOhneFS.isChecked() == True:
             var = "2"
-        self.PdfExportieren.close()
+        self.close()
         report.makeKursbuch(self.tn, self.kurs, self.krzl, var, self.dbpath, self.nosus)
 
     def abbrechen(self):
-        self.PdfExportieren.close()
+        self.close()
 
 
-class Sync(Ui_Syncdialog):
+class Sync(Ui_Syncdialog,QtWidgets.QDialog):
     def __init__(self, db, gui):
-        self.Syncdialog = QtWidgets.QDialog()
-        self.setupUi(self.Syncdialog)
-        self.Syncdialog.show()
-
+        super(Sync, self).__init__()
         self.db = db
-        self.gui = gui
+        self.gui = gui        
+        self.setupUi(self)
+        
+        # Auf MainWindow zentrieren
+        # geometry of the dialog window
+        qr = self.frameGeometry()
+        # center point of MainWindow
+        cp = self.gui.MainWindow.frameGeometry().center()
+        # move rectangle's center point to MainWindow's center point
+        qr.moveCenter(cp)
+        # top left of rectangle becomes top left of window centering it
+        self.move(qr.topLeft())
+        
+        self.show()
 
         # aktuelle Einträge aus db einfüllen
         try:
@@ -1340,10 +1362,10 @@ class Sync(Ui_Syncdialog):
         if save == "dontclose":
             pass
         else:
-            self.Syncdialog.close()
+            self.close()
 
     def abbrechen(self):
-        self.Syncdialog.close()
+        self.close()
 
 
 class Gui(Ui_MainWindow):
@@ -1359,7 +1381,7 @@ class Gui(Ui_MainWindow):
         # move rectangle's center point to screen's center point
         qr.moveCenter(cp)
         # Taskleiste abziehen
-        qr.setTop(qr.top()-15)
+        #qr.setTop(qr.top()-15)
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
@@ -1780,7 +1802,9 @@ class Gui(Ui_MainWindow):
 
     def kursheftAnzeigen(self):
         # Kursbuch Dialog instanziieren
-        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, self.db.krzl, self.db.dbpath, self.db.nosus)
+        self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs, 
+                                       self.db.krzl, self.db.dbpath, 
+                                    self.db.nosus, self)
 
 
 if __name__ == "__main__":
