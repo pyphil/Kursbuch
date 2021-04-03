@@ -669,8 +669,12 @@ class Database:
             self.susc.close()
             self.susverbindung.close()
         if self.sync == 2:
+            self.info = Infobox("Datenbank wird synchronisiert ...")
+            # semi-professinal way to keep ui responsive:
+            QtWidgets.QApplication.processEvents()
             self.upload()
             system("copy "+self.dbpath+"kurs.db "+self.dbpath+"kurs.dbBACKUP")
+            self.info.close()
 
     def upload(self):  
         #subprocess.call("curl\\curl.exe --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
@@ -1430,14 +1434,10 @@ class Gui(Ui_MainWindow):
         self.abouttoclose = 0
 
     def closeEvent(self, event):
-        self.info = Infobox("Datenbank wird synchronisiert ...")
-        # semi-professinal way to keep ui responsive:
-        QtWidgets.QApplication.processEvents()
         self.abouttoclose = 1
         if self.kurs != "":
             self.datensatzSpeichern()
         self.db.close()
-        self.info.close()
 
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
