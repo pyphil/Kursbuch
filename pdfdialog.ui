@@ -59,7 +59,6 @@
       <widget class="QLabel" name="label_2">
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
          <weight>75</weight>
          <italic>false</italic>
          <bold>true</bold>
