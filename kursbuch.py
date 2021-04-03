@@ -109,7 +109,7 @@ class Database:
             # Wenn self.pw = None -> Passwort erneut abfragen durch Übergabe
             # an Gui Objekt
             if self.sync == 2 and pw != None:
-                self.info = Infobox("Datenbank wird synchronisiert ...")
+                self.info = Infobox("Datenbank wird synchronisiert ...", self.ui)
                 # semi-professinal way to keep ui responsive:
                 QtWidgets.QApplication.processEvents()
                 access = self.get_FTPS_db()
@@ -676,7 +676,7 @@ class Database:
             self.susc.close()
             self.susverbindung.close()
         if self.sync == 2:
-            self.info = Infobox("Datenbank wird synchronisiert ...")
+            self.info = Infobox("Datenbank wird synchronisiert ...", self.ui)
             # semi-professinal way to keep ui responsive:
             QtWidgets.QApplication.processEvents()
             self.upload()
@@ -743,11 +743,21 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
         self.Ersteinrichtung.close()
 
 class Infobox(QtWidgets.QDialog, Ui_Infobox):
-    def __init__(self, text):
+    def __init__(self, text, gui):
         super(Infobox, self).__init__()
+        self.gui = gui
         self.setupUi(self)
         self.infotext = text
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        # Auf MainWindow zentrieren
+        # geometry of the dialog window
+        qr = self.frameGeometry()
+        # center point of MainWindow
+        cp = self.gui.MainWindow.frameGeometry().center()
+        # move rectangle's center point to MainWindow's center point
+        qr.moveCenter(cp)
+        # top left of rectangle becomes top left of window centering it
+        self.move(qr.topLeft())
         self.show()
         self.labelInfo.setText(self.infotext)
 
@@ -956,7 +966,7 @@ class StundeAnlegen(Ui_Form):
             else:
                 komp = 0
             if self.comboBoxSerie.currentText() != "keine Wiederholung":
-                self.info = Infobox("Stunden werden angelegt...")
+                self.info = Infobox("Stunden werden angelegt...", self.gui)
                 # semi-professional way to keep ui responsive:
                 QtWidgets.QApplication.processEvents()
                 for i in range(self.comboBoxSerie.currentIndex()):
@@ -1357,13 +1367,13 @@ class Sync(Ui_Syncdialog,QtWidgets.QDialog):
         keyring.set_password("pyKursbuch", self.db.krzl.lower(), pw)
         
         if self.checkBoxSync.checkState() == 2:
-            self.info = Infobox("Verbindung wird hergestellt ...")
+            self.info = Infobox("Verbindung wird hergestellt ...", self.gui)
             # semi-professinal way to keep ui responsive:
             QtWidgets.QApplication.processEvents()
             save = self.db.saveSyncstate(2, self.gui)
             self.info.close()
         else:
-            self.info = Infobox("Datenbank auf dem Server wird gelöscht ...")
+            self.info = Infobox("Datenbank auf dem Server wird gelöscht ...", self.gui)
             # semi-professinal way to keep ui responsive:
             QtWidgets.QApplication.processEvents()
             save = self.db.saveSyncstate(0, self.gui)
