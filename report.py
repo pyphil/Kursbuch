@@ -6,12 +6,16 @@ import sqlite3
 from datetime import datetime
 import locale
 from os import system, path
+import sys
 import subprocess
 import threading
 
 
 def getData(tn, dbpath, nosus):
-    locale.setlocale(locale.LC_ALL, 'deu_deu')
+    if sys.platform == "win32":
+        locale.setlocale(locale.LC_ALL, 'deu_deu')
+    elif sys.platform == "darwin":
+        locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
     # Verbindung zur lokalen Datenbank herstellen
     verbindung = sqlite3.connect(dbpath+"kurs.db")
     c = verbindung.cursor()
@@ -146,6 +150,7 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     #     system("mkdir U:\\Kursbuch-Export")
 
     filename = dbpath+str(tn+"-"+str(datetime.now().date())+".pdf")
+    print(filename)
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)
@@ -173,14 +178,14 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
         CREATE_NO_WINDOW = 0x08000000
         subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
     
-    if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
-        thread = threading.Thread(target=openChrome, daemon=True)
-        thread.start()
-    else:
-        system("start "+filename)
-
-    # cmd = 'start C:\\"Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" '+filename
-    # system(cmd)
+    if sys.platform == "win32":
+        if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
+            thread = threading.Thread(target=openChrome, daemon=True)
+            thread.start()
+        else:
+            system("start "+filename)
+    elif sys.platform == "darwin":
+        subprocess.call(('open',filename))
     
 
 if __name__ == "__main__":
