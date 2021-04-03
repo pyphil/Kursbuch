@@ -98,19 +98,25 @@ class Database:
             self.firstrun = Ersteinrichtung(self)
             sys.exit(self.app.exec_())
         else:
-            # Datenbank vom Server laden, wenn Synchronisation an
-            # Wenn self.pw = None -> Passwort erneute abfragen durch Übergabe
-            # an Gui Objekt
+            # Passwort aus dem keyring holen
             pw = keyring.get_password("pyKursbuch", self.krzl.lower())
-
-            if self.sync == 2 and pw != None:
-                access = self.get_FTPS_db()
-            else:
-                access = None
-
+            
             # Gui Objekt instanziieren, Database übergeben und event loop
             # starten
             self.ui = Gui(self)
+            
+            # Datenbank vom Server laden, wenn Synchronisation an
+            # Wenn self.pw = None -> Passwort erneut abfragen durch Übergabe
+            # an Gui Objekt
+            if self.sync == 2 and pw != None:
+                self.info = Infobox("Datenbank wird synchronisiert ...")
+                # semi-professinal way to keep ui responsive:
+                QtWidgets.QApplication.processEvents()
+                access = self.get_FTPS_db()
+                self.info.close()
+            else:
+                access = None
+
             if self.sync == 2:
                 if pw == None:
                     msg_pw = QtWidgets.QMessageBox()
@@ -1325,7 +1331,6 @@ class Sync(Ui_Syncdialog,QtWidgets.QDialog):
         qr.moveCenter(cp)
         # top left of rectangle becomes top left of window centering it
         self.move(qr.topLeft())
-        
         self.show()
 
         # aktuelle Einträge aus db einfüllen
