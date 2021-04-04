@@ -21,10 +21,6 @@ from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 from infobox import Ui_Infobox
 
-# QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
-#QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
-#environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-#environ["QT_MAC_WANTS_LAYER"] = "1"
 
 if sys.platform == "win32":
     from keyring.backends import Windows
