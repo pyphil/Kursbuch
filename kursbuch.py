@@ -31,6 +31,10 @@ if sys.platform == "win32":
     import win32timezone
     keyring.set_keyring(Windows.WinVaultKeyring())
 
+if sys.platform == "darwin":
+    from keyring.backends import macOS
+    keyring.set_keyring(macOS.Keyring())
+
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 if sys.platform == "win32":
     locale.setlocale(locale.LC_ALL, 'deu_deu')
