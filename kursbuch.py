@@ -148,6 +148,8 @@ class Database:
                     self.ui.sync()
                 if access == True:
                     self.ui.statusBar.showMessage("Datenbank erfolgreich synchronisiert.")
+            if self.sync == 0:
+                self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
             sys.exit(self.app.exec_())
 
     def startGui(self):
