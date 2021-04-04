@@ -21,10 +21,6 @@ from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 from infobox import Ui_Infobox
 
-# QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
-#QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
-#environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
-#environ["QT_MAC_WANTS_LAYER"] = "1"
 
 if sys.platform == "win32":
     from keyring.backends import Windows
@@ -152,6 +148,8 @@ class Database:
                     self.ui.sync()
                 if access == True:
                     self.ui.statusBar.showMessage("Datenbank erfolgreich synchronisiert.")
+            if self.sync == 0:
+                self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
             sys.exit(self.app.exec_())
 
     def startGui(self):
@@ -185,6 +183,7 @@ class Database:
         self.krzl = krz
 
     def get_FTPS_db(self):
+        """ Holt die Datenbank vom FTPS-Server """
         self.pw = keyring.get_password("pyKursbuch", self.krzl.lower())
     
         self.login = self.krzl.lower()+":"+self.pw
@@ -194,23 +193,18 @@ class Database:
         ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
 
 
-        # timestamp setzen
+        # timestamp setzen und hochladen
         self.timestamp = str(time())
         with open (self.dbpath+"timestamp","w") as f:
             f.write(self.timestamp)
-        #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -T "+self.dbpath+"\\timestamp ftp://"+self.url+"//timestamp", creationflags=CREATE_NO_WINDOW)
         ftps_object.upload_timestamp()
 
-        # kurs.db laden mit log
-        #subprocess.call("curl\\curl.exe --trace "+self.dbpath+"\\log.txt --retry-max-time 1 --ftp-ssl -u "+self.login+" -o "+self.dbpath+"\\kurs.db ftp://"+self.url+"//kurs.db", creationflags=CREATE_NO_WINDOW)
+        # kurs.db laden mit log   
         log = ftps_object.download_kursdb()
-        #with open (self.dbpath+"\\log.txt","r") as f:
-        #    data = f.read()
-        #system("del "+self.dbpath+"\\log.txt")
-        #if "not resolve host" in data:
+        # if host wrong or not reachable
         if log == "hosterr":
             return "host"
-        #if "Access denied" in data:
+        # if "Access denied":
         if log == "loginerr":
             return False
         else:
@@ -308,7 +302,6 @@ class Database:
                                 (s,))
                     self.verbindung.commit()
                     self.sync = s
-                    #subprocess.call("curl\\curl.exe --retry-max-time 1 --tlsv1.2 --tls-max 1.2 --ftp-ssl -u "+self.login+" -Q "+'"'+"DELE kurs.db"+'"'+" ftp://"+self.url, creationflags=CREATE_NO_WINDOW)
                     ftps_object = FTPS_conn(self.url, self.krzl.lower(), self.pw, self.dbpath)
                     ftps_object.delete_kursdb()
                     self.app.quit()
