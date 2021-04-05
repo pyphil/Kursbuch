@@ -119,7 +119,7 @@ class Database:
 
             if self.sync == 2:
                 if pw == None:
-                    msg_pw = QtWidgets.QMessageBox()
+                    msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_pw.setIcon(QtWidgets.QMessageBox.Information)
                     msg_pw.setWindowTitle("Zugangsdaten")
                     msg_pw.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -129,7 +129,7 @@ class Database:
                     msg_pw.exec_()
                     self.ui.sync()
                 if access == False:
-                    msg_access = QtWidgets.QMessageBox()
+                    msg_access = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_access.setIcon(QtWidgets.QMessageBox.Information)
                     msg_access.setWindowTitle("Zugangsdaten")
                     msg_access.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -139,7 +139,7 @@ class Database:
                     msg_access.exec_()
                     self.ui.sync()
                 if access == "host":
-                    msg_host = QtWidgets.QMessageBox()
+                    msg_host = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_host.setIcon(QtWidgets.QMessageBox.Critical)
                     msg_host.setWindowTitle("Fehler")
                     msg_host.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -242,7 +242,7 @@ class Database:
             self.sync = s
             access = self.get_FTPS_db()
             if access == False:
-                msg_pw = QtWidgets.QMessageBox()
+                msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_pw.setIcon(QtWidgets.QMessageBox.Critical)
                 msg_pw.setWindowTitle("Fehler")
                 msg_pw.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -250,7 +250,7 @@ class Database:
                 msg_pw.exec_()
                 gui.sync()
             if access == "host":
-                msg_host = QtWidgets.QMessageBox()
+                msg_host = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_host.setIcon(QtWidgets.QMessageBox.Critical)
                 msg_host.setWindowTitle("Fehler")
                 msg_host.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -265,7 +265,7 @@ class Database:
             if self.sync == 0:
                 # Wenn Synchronisation angeschaltet wird und die Checkbox
                 # vergessen wurde
-                msg_aktivate = QtWidgets.QMessageBox()
+                msg_aktivate = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_aktivate.setIcon(QtWidgets.QMessageBox.Information)
                 msg_aktivate.setWindowTitle("Synchronisation aktivieren")
                 msg_aktivate.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -278,7 +278,7 @@ class Database:
                 # Wenn die Synchronisation an ist und deaktiviert werden soll  
                 # kurs.db auf dem Server löschen
                 # Dialog mit Hinweis und Beenden -> Neustart
-                msg_restart = QtWidgets.QMessageBox()
+                msg_restart = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_restart.setIcon(QtWidgets.QMessageBox.Question)
                 msg_restart.setWindowTitle("Synchronisation entfernen")
                 msg_restart.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -739,14 +739,15 @@ class Ersteinrichtung(Ui_Ersteinrichtung):
     def abbrechen(self):
         self.Ersteinrichtung.close()
 
-class Infobox(QtWidgets.QDialog, Ui_Infobox):
+class Infobox(Ui_Infobox, QtWidgets.QDialog):
     def __init__(self, text, gui):
         super(Infobox, self).__init__()
         self.gui = gui
         self.setupUi(self)
         self.infotext = text
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-        # Auf MainWindow zentrieren
+        # Auf MainWindow zentrieren funktioniert bei Frameless nicht durch parent
+        # daher manuell:
         # geometry of the dialog window
         qr = self.frameGeometry()
         # center point of MainWindow
@@ -760,7 +761,7 @@ class Infobox(QtWidgets.QDialog, Ui_Infobox):
 
 class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
     def __init__(self, gui, db):
-        super(KursAnlegen, self).__init__()
+        super(KursAnlegen, self).__init__(gui.MainWindow)
         self.setupUi(self)
         self.show()
 
@@ -828,7 +829,7 @@ class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
         # bei leerem Feld warnen
         if fach  == "" or klasse == "":
             # WARNUNG
-            warn = QtWidgets.QMessageBox()
+            warn = QtWidgets.QMessageBox(self.gui.MainWindow)
             warn.setIcon(QtWidgets.QMessageBox.Warning)
             warn.setText("Bitte beide Felder füllen.")
             warn.setWindowTitle("Warnung")
@@ -857,19 +858,17 @@ class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
 
     def abbrechen(self):
         self.close()
-
         
 
-class StundeAnlegen(Ui_Form):
+class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
     def __init__(self, gui, db, kurs):
-                
+        super(StundeAnlegen, self).__init__(gui.MainWindow)    
         self.gui = gui
         self.db = db
         self.kurs = kurs
 
-        self.Form = QtWidgets.QWidget()
-        self.setupUi(self.Form)
-        self.Form.show()
+        self.setupUi(self)
+        self.show()
         
         self.pushButton.clicked.connect(self.neueStundeAnlegen)
         self.pushButton_2.clicked.connect(self.abbrechen)
@@ -879,9 +878,6 @@ class StundeAnlegen(Ui_Form):
 
         # let non editable combobox in fusion style still respect maxitems
         self.comboBoxSerie.setStyleSheet("combobox-popup: 0;")
-
-        # Key Press Events von Form umleiten
-        self.Form.keyPressEvent = self.keyPressEvent
 
     def keyPressEvent(self, e):
         if e.key()  == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
@@ -929,7 +925,7 @@ class StundeAnlegen(Ui_Form):
             stunde = "7"
         # Hinweis, wenn keine Stunde ausgewählt wurde
         if stunde == 0:
-            self.message = QtWidgets.QMessageBox()
+            self.message = QtWidgets.QMessageBox(self.gui.MainWindow)
             self.message.setIcon(QtWidgets.QMessageBox.Critical)
             self.message.setWindowTitle("Fehler")
             self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -942,7 +938,7 @@ class StundeAnlegen(Ui_Form):
             # Duplikate filtern und Hinweis, wenn kein Serientermin
             if str(datum+"_"+stunde) in dbdatelist:
                 if self.comboBoxSerie.currentText() == "keine Wiederholung":
-                    msg = QtWidgets.QMessageBox()
+                    msg = QtWidgets.QMessageBox(self.gui.MainWindow)
                     msg.setIcon(QtWidgets.QMessageBox.Critical)
                     msg.setWindowTitle("Fehler")
                     msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
@@ -986,35 +982,21 @@ class StundeAnlegen(Ui_Form):
             except:
                 pass
             self.gui.datensatzAnzeigen()
-            self.Form.close()
+            self.close()
 
     def abbrechen(self):
-        self.Form.close()    
+        self.close()    
 
 
-class SuSVerw(Ui_Susverwgui):
+class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
     def __init__(self, gui, db, kurs):
-                
+        super(SuSVerw, self).__init__(gui.MainWindow)
         self.gui = gui
         self.db = db
         self.kurs = kurs
 
-        self.susverwgui = QtWidgets.QWidget()
-        self.setupUi(self.susverwgui)
-
-        # Auf dem Desktop zentrieren
-        # geometry of the main window
-        qr = self.susverwgui.frameGeometry()
-        # center point of screen
-        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
-        # move rectangle's center point to screen's center point
-        qr.moveCenter(cp)
-        # Taskleiste abziehen
-        qr.setTop(qr.top()-15)
-        # top left of rectangle becomes top left of window centering it
-        self.susverwgui.move(qr.topLeft())
-
-        self.susverwgui.show()
+        self.setupUi(self)
+        self.show()
 
         self.tableWidget.setColumnWidth(0,190)
         self.tableWidget_2.setColumnWidth(0,190)
@@ -1121,7 +1103,7 @@ class SuSVerw(Ui_Susverwgui):
             self.tableWidget.clearSelection()
             for i in range(len(self.filtered)):
                 self.tableWidget.selectRow(i)
-            msg = QtWidgets.QMessageBox()
+            msg = QtWidgets.QMessageBox(self.gui.MainWindow)
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen hinzugefügt werden?")
             msg.setWindowTitle("Mitglieder hinzufügen")
@@ -1167,7 +1149,7 @@ class SuSVerw(Ui_Susverwgui):
             self.tableWidget_2.clearSelection()
             for i in range(len(self.liste2sorted)):
                 self.tableWidget_2.selectRow(i)
-            msg = QtWidgets.QMessageBox()
+            msg = QtWidgets.QMessageBox(self.gui.MainWindow)
             msg.setIcon(QtWidgets.QMessageBox.Question)
             msg.setText("Sollen alle Schüler*innen gelöscht werden?")
             msg.setWindowTitle("Mitglieder löschen")
@@ -1276,22 +1258,11 @@ class SuSVerw(Ui_Susverwgui):
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
     def __init__(self, tn, kurs, krzl, dbpath, nosus, gui):
-        super(Kursbuch_Dialog,self).__init__()
+        super(Kursbuch_Dialog,self).__init__(gui.MainWindow)
         self.setupUi(self)
-        self.gui = gui
-        
-        # Auf MainWindow zentrieren
-        # geometry of the dialog window
-        qr = self.frameGeometry()
-        # center point of MainWindow
-        cp = self.gui.MainWindow.frameGeometry().center()
-        # move rectangle's center point to MainWindow's center point
-        qr.moveCenter(cp)
-        # top left of rectangle becomes top left of window centering it
-        self.move(qr.topLeft())
-        
         self.show()
-
+        
+        self.gui = gui
         self.tn = tn
         self.kurs = kurs
         self.krzl = krzl
@@ -1324,20 +1295,21 @@ class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
 
 class Sync(Ui_Syncdialog,QtWidgets.QDialog):
     def __init__(self, db, gui):
-        super(Sync, self).__init__()
+        super(Sync, self).__init__(gui.MainWindow)
         self.db = db
         self.gui = gui        
         self.setupUi(self)
+        # Folgendes ist ersetzt durch Angabe von parent gui.Mainwindow in init
+        # # Auf MainWindow zentrieren
+        # # geometry of the dialog window
+        # qr = self.frameGeometry()
+        # # center point of MainWindow
+        # cp = self.gui.MainWindow.frameGeometry().center()
+        # # move rectangle's center point to MainWindow's center point
+        # qr.moveCenter(cp)
+        # # top left of rectangle becomes top left of window centering it
+        # self.move(qr.topLeft())
         
-        # Auf MainWindow zentrieren
-        # geometry of the dialog window
-        qr = self.frameGeometry()
-        # center point of MainWindow
-        cp = self.gui.MainWindow.frameGeometry().center()
-        # move rectangle's center point to MainWindow's center point
-        qr.moveCenter(cp)
-        # top left of rectangle becomes top left of window centering it
-        self.move(qr.topLeft())
         self.show()
 
         # aktuelle Einträge aus db einfüllen
@@ -1607,7 +1579,7 @@ class Gui(Ui_MainWindow):
 
     def kursDel(self):
         """Löscht einen Kurs ohne die eingetragenen Fehlzeiten"""
-        msg = QtWidgets.QMessageBox()
+        msg = QtWidgets.QMessageBox(self.MainWindow)
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setText("Soll der Kurs "+self.kurs+" gelöscht werden?\n\n"+
                     "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
@@ -1620,7 +1592,7 @@ class Gui(Ui_MainWindow):
         abbrbutton.setText("Abbrechen")
         retval = msg.exec_()
         if retval == 1024:
-            warn = QtWidgets.QMessageBox()
+            warn = QtWidgets.QMessageBox(self.MainWindow)
             warn.setIcon(QtWidgets.QMessageBox.Warning)
             warn.setText("Achtung! Der Kurs und alle Stundeninhalte werden gelöscht.\n\n"+
                         "Wirklich löschen?")
@@ -1654,7 +1626,7 @@ class Gui(Ui_MainWindow):
 
     def stundeDel(self):
         """Löscht die aktuelle Stunde ohne die eingetragenen Fehlzeiten"""
-        msg = QtWidgets.QMessageBox()
+        msg = QtWidgets.QMessageBox(self.MainWindow)
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setText("Soll die Stunde "+'"'+str(self.db.getCurrentDate(self.kurs, self.pk))+'"'+" gelöscht werden?\n\n"+
                     "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
