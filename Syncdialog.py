@@ -56,7 +56,6 @@ class Ui_Syncdialog(object):
         self.label_5.setSizePolicy(sizePolicy)
         self.label_5.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
-        font.setPointSize(8)
         font.setBold(True)
         font.setWeight(75)
         self.label_5.setFont(font)
