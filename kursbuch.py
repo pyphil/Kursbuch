@@ -1362,6 +1362,11 @@ class Gui(Ui_MainWindow):
         self.MainWindow = QtWidgets.QMainWindow()
         self.setupUi(self.MainWindow)
         
+        # get screen size and resize for HiDPI
+        res = QtWidgets.QDesktopWidget().availableGeometry()
+        if res.width() >= 1920:
+            self.MainWindow.resize(1200,720)
+
         # Auf dem Desktop zentrieren
         # geometry of the main window
         qr = self.MainWindow.frameGeometry()
