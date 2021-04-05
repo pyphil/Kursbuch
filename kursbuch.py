@@ -21,27 +21,21 @@ from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 from infobox import Ui_Infobox
 
-# join program path dirname and ferien.db to provide absolute path
+# join program path dirname and ferien.db to provide absolute path to ferien.db
 if getattr(sys, 'frozen', False):
     # for frozen app
     feriendbpath = path.join(path.dirname(sys.executable), 'ferien.db')
 else:
     feriendbpath = path.join(path.dirname(__file__), 'ferien.db')
-print("feriendbpath: "+feriendbpath)
-
 
 if sys.platform == "win32":
     from keyring.backends import Windows
     import win32timezone
     keyring.set_keyring(Windows.WinVaultKeyring())
-    # path to ferien.db
-    #feriendbpath = progpath+"\\ferien.db"
 
 if sys.platform == "darwin":
     from keyring.backends import macOS
     keyring.set_keyring(macOS.Keyring())
-    # path to ferien.db
-    #feriendbpath = progpath+"/ferien.db"
 
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 if sys.platform == "win32":
