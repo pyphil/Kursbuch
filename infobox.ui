@@ -28,6 +28,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(0, 0, 0);</string>
+   </property>
    <property name="text">
     <string>TextLabel</string>
    </property>

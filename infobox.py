@@ -19,6 +19,7 @@ class Ui_Infobox(object):
         Infobox.setStyleSheet("background-color: rgb(255, 255, 191);")
         self.labelInfo = QtWidgets.QLabel(Infobox)
         self.labelInfo.setGeometry(QtCore.QRect(10, 10, 441, 20))
+        self.labelInfo.setStyleSheet("color: rgb(0, 0, 0);")
         self.labelInfo.setAlignment(QtCore.Qt.AlignCenter)
         self.labelInfo.setObjectName("labelInfo")
 
