@@ -50,21 +50,7 @@ class Database:
         self.req_dbversion = 1
 
         # Verbindung zur lokalen Datenbank herstellen
-        if sys.platform == "win32":
-            home = environ['HOMEDRIVE']+environ['HOMEPATH']
-            if path.exists(home+"\\pyKursbuch") == False:
-                system("mkdir "+home+"\\pyKursbuch")
-            self.dbpath = home+"\\pyKursbuch\\"
-        elif sys.platform == "darwin":
-            home = environ['HOME']
-            if path.exists(home+"/pyKursbuch") == False:
-                system("mkdir "+home+"/pyKursbuch")
-            self.dbpath = home+"/pyKursbuch/"
-        
-        self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
-        self.c = self.verbindung.cursor()
-        # Sicherstellen, dass kurs.db als versteckte Datei angelegt ist
-        #subprocess.check_call(["attrib","+H","U:\\kurs.db"])
+        self.loadkursdb()
 
         # Synchronisationsstatus an/aus erfassen
         self.sync = self.getSyncstate()
@@ -152,6 +138,21 @@ class Database:
                 self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
             sys.exit(self.app.exec_())
 
+    def loadkursdb(self):
+        if sys.platform == "win32":
+            home = environ['HOMEDRIVE']+environ['HOMEPATH']
+            if path.exists(home+"\\pyKursbuch") == False:
+                system("mkdir "+home+"\\pyKursbuch")
+            self.dbpath = home+"\\pyKursbuch\\"
+        elif sys.platform == "darwin":
+            home = environ['HOME']
+            if path.exists(home+"/pyKursbuch") == False:
+                system("mkdir "+home+"/pyKursbuch")
+            self.dbpath = home+"/pyKursbuch/"
+        
+        self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
+        self.c = self.verbindung.cursor()
+    
     def startGui(self):
         self.ui = Gui(self)
 
@@ -666,6 +667,11 @@ class Database:
         s = list(self.susc.execute("SELECT pk, Name, Vorname, Klasse FROM sus"))
         return s
 
+    def reloadkursdb(self):
+        self.susc.close()
+        self.susverbindung.close()
+        self.loadkursdb()
+    
     def close(self):
         self.c.close()
         self.verbindung.close()
@@ -1340,6 +1346,13 @@ class Sync(Ui_Syncdialog,QtWidgets.QDialog):
             # semi-professinal way to keep ui responsive:
             QtWidgets.QApplication.processEvents()
             save = self.db.saveSyncstate(2, self.gui)
+            self.gui.kurs = ""
+            self.gui.pk = ""
+            self.gui.kursauswahlMenue()
+            self.gui.tableWidget.setRowCount(0)
+            self.gui.disableFieldsStd()
+            self.gui.disableFieldsKurs()
+            self.db.reloadkursdb()
             self.info.close()
         else:
             self.info = Infobox("Datenbank auf dem Server wird gelöscht ...", self.gui)
