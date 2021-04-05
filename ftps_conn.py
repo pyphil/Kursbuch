@@ -36,7 +36,8 @@ class FTPS_conn:
             # Datei herunterladen, wenn vorhanden, sonst upload versuchen
             try:    
                 ftp.retrlines('LIST kurs.db')
-            except:
+            except Exception as e:
+                print(e)
                 self.upload_kursdb()
             else:
                 with open (self.dbpath+'kurs.db','wb') as localfile:
