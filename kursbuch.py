@@ -10,7 +10,7 @@ import threading
 import _thread
 import report
 from ftps_conn import FTPS_conn
-from os import path, system, environ
+from os import path, system, environ, mkdir
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
@@ -148,12 +148,12 @@ class Database:
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
             if path.exists(home+"\\pyKursbuch") == False:
-                system("mkdir "+home+"\\pyKursbuch")
+                mkdir(home+"\\pyKursbuch")
             self.dbpath = home+"\\pyKursbuch\\"
         elif sys.platform == "darwin":
             home = environ['HOME']
             if path.exists(home+"/pyKursbuch") == False:
-                system("mkdir "+home+"/pyKursbuch")
+                mkdir("mkdir "+home+"/pyKursbuch")
             self.dbpath = home+"/pyKursbuch/"
         
         self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
@@ -689,7 +689,7 @@ class Database:
             # semi-professinal way to keep ui responsive:
             QtWidgets.QApplication.processEvents()
             self.upload()
-            system("copy "+self.dbpath+"kurs.db "+self.dbpath+"kurs.dbBACKUP")
+            #system("copy "+self.dbpath+"kurs.db "+self.dbpath+"kurs.dbBACKUP")
             self.info.close()
 
     def upload(self):  
