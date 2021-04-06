@@ -147,7 +147,6 @@ class Database:
     def loadkursdb(self):
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
-            print(home)
             if path.exists(home+"\\pyKursbuch") == False:
                 mkdir(home+"\\pyKursbuch")
             self.dbpath = home+"\\pyKursbuch\\"

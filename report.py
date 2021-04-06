@@ -5,7 +5,7 @@ from reportlab.lib import colors
 import sqlite3
 from datetime import datetime
 import locale
-from os import system, path
+from os import system, path, startfile
 import sys
 import subprocess
 import threading
@@ -150,7 +150,6 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     #     system("mkdir U:\\Kursbuch-Export")
 
     filename = dbpath+str(tn+"-"+str(datetime.now().date())+".pdf")
-    print(filename)
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)
@@ -174,16 +173,17 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     story.append(Paragraph('', styles['Normal']))
     doc.build(story)
 
-    def openChrome():
-        CREATE_NO_WINDOW = 0x08000000
-        subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
+    # def openChrome():
+        #CREATE_NO_WINDOW = 0x08000000
+        #subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
     
     if sys.platform == "win32":
-        if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
-            thread = threading.Thread(target=openChrome, daemon=True)
-            thread.start()
-        else:
-            system("start "+filename)
+        # if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
+        #     thread = threading.Thread(target=openChrome, daemon=True)
+        #     thread.start()
+        # else:
+        #     startfile(filename)
+        startfile(filename)
     elif sys.platform == "darwin":
         subprocess.call(('open',filename))
     
