@@ -11,14 +11,21 @@ python.exe -OO -m PyInstaller ^
     --exclude-module=_tkinter ^
     --exclude-module=Tkinter ^
     --exclude-module=tcl ^
+    --add-data add-member.png;. ^
+    --add-data add-members.png;. ^
+    --add-data delete-member.png;. ^
+    --add-data delete-members.png;. ^
+    --add-data kursbuch.ico;. ^
+    --add-data LICENSE;. ^
+    --add-data ferien.db;. ^
     kursbuch.py
-copy add-member.png dist\kursbuch\
-copy add-members.png dist\kursbuch\
-copy delete-member.png dist\kursbuch\
-copy delete-members.png dist\kursbuch\
-copy kursbuch.ico dist\kursbuch\
-copy LICENSE dist\kursbuch\
-copy ferien.db dist\kursbuch\
+rem copy add-member.png dist\kursbuch\
+rem copy add-members.png dist\kursbuch\
+rem copy delete-member.png dist\kursbuch\
+rem copy delete-members.png dist\kursbuch\
+rem copy kursbuch.ico dist\kursbuch\
+rem copy LICENSE dist\kursbuch\
+rem copy ferien.db dist\kursbuch\
 rem xcopy /E .\curl\ .\dist\kursbuch\curl\
 rem cd dist
 rem powershell Compress-Archive kursbuch\* kursbuch.zip
