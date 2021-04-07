@@ -1729,7 +1729,7 @@ class Gui(Ui_MainWindow):
             except:
                 pass
 
-            self.verticalLayoutWidget = QtWidgets.QWidget(self.tab_Fehlzeiten)
+            self.verticalLayoutWidget = QtWidgets.QWidget(self.frameContainer)
             self.verticalLayoutWidget.setGeometry(QtCore.QRect(160, 30, 511, 550))
             self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
             self.verticalLayoutFehlzeiten = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
