@@ -1212,12 +1212,62 @@
        <widget class="QComboBox" name="comboBoxMonat">
         <item>
          <property name="text">
+          <string>Januar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Februar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>März</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>April</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mai</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Juni</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Juli</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>August</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>September</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Januar</string>
+          <string>Oktober</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>November</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dezember</string>
          </property>
         </item>
        </widget>

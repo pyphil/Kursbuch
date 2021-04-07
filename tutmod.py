@@ -4,32 +4,36 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 
 
-class Tutmod(Ui_Tutmodgui):
-    def __init__(self, master=None):
-    
-        self.Tutmodgui = QtWidgets.QWidget()
-        self.setupUi(self.Tutmodgui)
-        self.Tutmodgui.show()
+class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
+    def __init__(self):
+        super(Tutmod, self).__init__()
+        self.setupUi(self)
+        self.show()
+        self.comboBoxMonat.activated.connect(self.setMonth)
+
+        
 
     def setMonth(self):
-        y = int(self.combo_jahr.get())
-        self.m = int(self.combo_monat.current()+1)
+        y = int(self.comboBoxMonat.currentIndex())
+        print(y)
+        self.m = y+1
+        print("Monat: ",self.m)
 
-        cal = calendar.Calendar()
+        # cal = calendar.Calendar()
 
-        self.weeks = []
+        # self.weeks = []
 
-        for week in cal.monthdatescalendar(y,self.m):
-            z = 1
-            oneweek = []
-            for date in week:
-                if z <= 5:
-                    #print(d)
-                    oneweek.append(str(date))
-                z += 1
-            self.weeks.append(oneweek)
-        self.weekno = -1
-        self.weekafter()
+        # for week in cal.monthdatescalendar(y,self.m):
+        #     z = 1
+        #     oneweek = []
+        #     for date in week:
+        #         if z <= 5:
+        #             #print(d)
+        #             oneweek.append(str(date))
+        #         z += 1
+        #     self.weeks.append(oneweek)
+        # self.weekno = -1
+        # self.weekafter()
 
 
     def weekbefore(self):
@@ -1020,5 +1024,7 @@ class Tutmod(Ui_Tutmodgui):
         self.mainwindow.mainloop()
 
 if __name__ == '__main__':
-
-
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    ui = Tutmod()
+    sys.exit(app.exec_())
