@@ -5,7 +5,7 @@ from reportlab.lib import colors
 import sqlite3
 from datetime import datetime
 import locale
-from os import system, path, startfile
+from os import system, path
 import sys
 import subprocess
 import threading
@@ -14,6 +14,7 @@ import threading
 def getData(tn, dbpath, nosus):
     if sys.platform == "win32":
         locale.setlocale(locale.LC_ALL, 'deu_deu')
+        from os import startfile
     elif sys.platform == "darwin":
         locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
     # Verbindung zur lokalen Datenbank herstellen
