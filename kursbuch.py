@@ -1398,7 +1398,7 @@ class Gui(Ui_MainWindow):
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
-        if res.width() >= 1024:
+        if res.width() <= 1024:
             self.MainWindow.showMaximized()
         else:
             self.MainWindow.show()
