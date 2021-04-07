@@ -1385,7 +1385,7 @@ class Gui(Ui_MainWindow):
         res = QtWidgets.QDesktopWidget().availableGeometry()
         if res.width() >= 1920:
             self.MainWindow.resize(1200,720)
-
+         
         # Auf dem Desktop zentrieren
         # geometry of the main window
         qr = self.MainWindow.frameGeometry()
@@ -1398,7 +1398,10 @@ class Gui(Ui_MainWindow):
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
-        self.MainWindow.show()
+        if res.width() >= 1024:
+            self.MainWindow.showMaximized()
+        else:
+            self.MainWindow.show()
         
         self.db = db
         
