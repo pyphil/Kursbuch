@@ -1384,7 +1384,7 @@ class Gui(Ui_MainWindow):
         # get screen size and resize for HiDPI
         res = QtWidgets.QDesktopWidget().availableGeometry()
         if res.width() >= 1920:
-            self.MainWindow.resize(1200,720)
+            self.MainWindow.resize(1200,800)
          
         # Auf dem Desktop zentrieren
         # geometry of the main window
@@ -1394,7 +1394,7 @@ class Gui(Ui_MainWindow):
         # move rectangle's center point to screen's center point
         qr.moveCenter(cp)
         # Taskleiste abziehen
-        #qr.setTop(qr.top()-15)
+        qr.setTop(qr.top()-15)
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
@@ -1729,7 +1729,7 @@ class Gui(Ui_MainWindow):
             except:
                 pass
 
-            self.verticalLayoutWidget = QtWidgets.QWidget(self.tab_Fehlzeiten)
+            self.verticalLayoutWidget = QtWidgets.QWidget(self.frameContainer)
             self.verticalLayoutWidget.setGeometry(QtCore.QRect(160, 30, 511, 550))
             self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
             self.verticalLayoutFehlzeiten = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
@@ -1750,22 +1750,22 @@ class Gui(Ui_MainWindow):
                     self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
                     self.frame.setObjectName("frame"+str(i))
                     self.label = QtWidgets.QLabel(self.frame)
-                    self.label.setGeometry(QtCore.QRect(20, 0, 200, 15))
+                    self.label.setGeometry(QtCore.QRect(20, 0, 200, 18))
                     self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2])
                     self.radioButton = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 15))
+                    self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 18))
                     self.radioButton.setObjectName("0,"+str(i))
                     self.radioButton2 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton2.setGeometry(QtCore.QRect(250, 0, 82, 15))
+                    self.radioButton2.setGeometry(QtCore.QRect(250, 0, 82, 18))
                     self.radioButton2.setObjectName("1,"+str(i))
                     self.radioButton3 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton3.setGeometry(QtCore.QRect(300, 0, 82, 15))
+                    self.radioButton3.setGeometry(QtCore.QRect(300, 0, 82, 18))
                     self.radioButton3.setObjectName("2,"+str(i))
                     self.radioButton4 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton4.setGeometry(QtCore.QRect(350, 0, 82, 15))
+                    self.radioButton4.setGeometry(QtCore.QRect(350, 0, 82, 18))
                     self.radioButton4.setObjectName("3,"+str(i))
                     self.radioButton5 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton5.setGeometry(QtCore.QRect(400, 0, 82, 15))
+                    self.radioButton5.setGeometry(QtCore.QRect(400, 0, 82, 18))
                     self.radioButton5.setObjectName("4,"+str(i))
                     
                     self.verticalLayoutFehlzeiten.addWidget(self.frame)
