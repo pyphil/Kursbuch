@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1020</width>
-    <height>742</height>
+    <width>1034</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,7 +85,7 @@ selection-color: rgb(255, 255, 255);</string>
     <item row="1" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_Unterricht">
        <attribute name="title">
@@ -295,8 +295,8 @@ selection-color: rgb(255, 255, 255);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>716</width>
-             <height>581</height>
+             <width>730</width>
+             <height>639</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
@@ -304,8 +304,8 @@ selection-color: rgb(255, 255, 255);</string>
              <widget class="QFrame" name="frameContainer">
               <property name="minimumSize">
                <size>
-                <width>641</width>
-                <height>501</height>
+                <width>708</width>
+                <height>617</height>
                </size>
               </property>
               <property name="frameShape">
@@ -317,10 +317,10 @@ selection-color: rgb(255, 255, 255);</string>
               <widget class="QWidget" name="verticalLayoutWidget">
                <property name="geometry">
                 <rect>
-                 <x>70</x>
-                 <y>30</y>
+                 <x>160</x>
+                 <y>40</y>
                  <width>511</width>
-                 <height>531</height>
+                 <height>581</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayoutFehlzeiten">
@@ -332,7 +332,7 @@ selection-color: rgb(255, 255, 255);</string>
               <widget class="QFrame" name="frameFehlzTitel">
                <property name="geometry">
                 <rect>
-                 <x>70</x>
+                 <x>160</x>
                  <y>0</y>
                  <width>511</width>
                  <height>31</height>
@@ -349,8 +349,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>20</x>
                   <y>10</y>
-                  <width>89</width>
-                  <height>13</height>
+                  <width>121</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -368,8 +368,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>300</x>
                   <y>10</y>
-                  <width>19</width>
-                  <height>13</height>
+                  <width>31</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -387,8 +387,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>250</x>
                   <y>10</y>
-                  <width>19</width>
-                  <height>13</height>
+                  <width>31</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -406,8 +406,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>200</x>
                   <y>10</y>
-                  <width>26</width>
-                  <height>13</height>
+                  <width>51</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -425,8 +425,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>350</x>
                   <y>10</y>
-                  <width>40</width>
-                  <height>13</height>
+                  <width>51</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -444,8 +444,8 @@ selection-color: rgb(255, 255, 255);</string>
                  <rect>
                   <x>400</x>
                   <y>10</y>
-                  <width>67</width>
-                  <height>13</height>
+                  <width>91</width>
+                  <height>16</height>
                  </rect>
                 </property>
                 <property name="font">
@@ -547,7 +547,7 @@ selection-color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1020</width>
+     <width>1034</width>
      <height>26</height>
     </rect>
    </property>

@@ -1398,7 +1398,7 @@ class Gui(Ui_MainWindow):
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
-        if res.width() >= 1024:
+        if res.width() <= 1024:
             self.MainWindow.showMaximized()
         else:
             self.MainWindow.show()
@@ -1750,22 +1750,22 @@ class Gui(Ui_MainWindow):
                     self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
                     self.frame.setObjectName("frame"+str(i))
                     self.label = QtWidgets.QLabel(self.frame)
-                    self.label.setGeometry(QtCore.QRect(20, 0, 200, 15))
+                    self.label.setGeometry(QtCore.QRect(20, 0, 200, 18))
                     self.label.setText(str(i+1)+". "+self.sus[i][1]+", "+self.sus[i][2])
                     self.radioButton = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 15))
+                    self.radioButton.setGeometry(QtCore.QRect(200, 0, 182, 18))
                     self.radioButton.setObjectName("0,"+str(i))
                     self.radioButton2 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton2.setGeometry(QtCore.QRect(250, 0, 82, 15))
+                    self.radioButton2.setGeometry(QtCore.QRect(250, 0, 82, 18))
                     self.radioButton2.setObjectName("1,"+str(i))
                     self.radioButton3 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton3.setGeometry(QtCore.QRect(300, 0, 82, 15))
+                    self.radioButton3.setGeometry(QtCore.QRect(300, 0, 82, 18))
                     self.radioButton3.setObjectName("2,"+str(i))
                     self.radioButton4 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton4.setGeometry(QtCore.QRect(350, 0, 82, 15))
+                    self.radioButton4.setGeometry(QtCore.QRect(350, 0, 82, 18))
                     self.radioButton4.setObjectName("3,"+str(i))
                     self.radioButton5 = QtWidgets.QRadioButton(self.frame)
-                    self.radioButton5.setGeometry(QtCore.QRect(400, 0, 82, 15))
+                    self.radioButton5.setGeometry(QtCore.QRect(400, 0, 82, 18))
                     self.radioButton5.setObjectName("4,"+str(i))
                     
                     self.verticalLayoutFehlzeiten.addWidget(self.frame)
