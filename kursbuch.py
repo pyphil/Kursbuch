@@ -1394,7 +1394,7 @@ class Gui(Ui_MainWindow):
         # move rectangle's center point to screen's center point
         qr.moveCenter(cp)
         # Taskleiste abziehen
-        #qr.setTop(qr.top()-15)
+        qr.setTop(qr.top()-15)
         # top left of rectangle becomes top left of window centering it
         self.MainWindow.move(qr.topLeft())
 
