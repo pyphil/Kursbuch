@@ -1385,6 +1385,9 @@ class Gui(Ui_MainWindow):
         res = QtWidgets.QDesktopWidget().availableGeometry()
         if res.width() >= 1920:
             self.MainWindow.resize(1200,800)
+        if res.width() > 3500:
+            self.MainWindow.resize(2500,1500)
+
          
         # Auf dem Desktop zentrieren
         # geometry of the main window
@@ -1413,7 +1416,11 @@ class Gui(Ui_MainWindow):
         # self.fehlzeitenansicht = 0
         # self.kurswechel = 0
 
-        self.tableWidget.setColumnWidth(0,140)
+        if res.width() > 3500:
+            self.tableWidget.setColumnWidth(0,250)
+        else:
+            self.tableWidget.setColumnWidth(0,140)
+
 
         # Kürzel in Fenstertitel anzeigen
         self.MainWindow.setWindowTitle("Kursbuch von "+self.db.krzl)  
