@@ -1,5 +1,6 @@
 
-import calendar
+from calendar import Calendar
+from datetime import date, timedelta, datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 
@@ -11,29 +12,57 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
         self.show()
         self.comboBoxMonat.activated.connect(self.setMonth)
 
-        
+        self.set_cur_year_month()
+        self.setMonth(True)
 
-    def setMonth(self):
+    def set_cur_year_month(self):
+        # self.combo_jahr.set(date.today().year)
+        self.comboBoxMonat.setCurrentText(datetime.now().strftime("%B"))
+
+    def setMonth(self, set=True):
         y = int(self.comboBoxMonat.currentIndex())
         print(y)
         self.m = y+1
         print("Monat: ",self.m)
 
-        # cal = calendar.Calendar()
+        cal = Calendar()
 
-        # self.weeks = []
-
-        # for week in cal.monthdatescalendar(y,self.m):
-        #     z = 1
-        #     oneweek = []
-        #     for date in week:
-        #         if z <= 5:
-        #             #print(d)
-        #             oneweek.append(str(date))
-        #         z += 1
-        #     self.weeks.append(oneweek)
-        # self.weekno = -1
-        # self.weekafter()
+        self.weeks = []
+        w = 0
+        currentweek = 0
+        for week in cal.monthdatescalendar(y,self.m):
+            z = 1
+            oneweek = []
+            date_fr = ""
+            for date in week:
+                if str(date) == datetime.now().strftime("%Y-%m-%d"):
+                    currentweek = w
+                if z <= 5:
+                    oneweek.append(str(date))
+                if z == 5:
+                    date_fr = str(date)
+                z += 1
+            # Nur wenn der Freitag der ersten Woche auch noch im ausgewählten  
+            # Monat liegt, anhängen an weeks
+            # leading zero, führende Null hinzufügen: "%02d" % (self.m,)
+            if ("%02d" % (self.m,)) != date_fr.split("-")[1] and w == 0:
+                pass
+            else:
+                self.weeks.append(oneweek)
+            w += 1
+        if set==True:
+            # Wenn zu Beginn aus datensatz_anzeigen aufgerufen, 
+            # aktuelle Woche setzen
+            self.weekno = currentweek
+            print(self.weekno)
+            # self.weekafter(True)
+        elif set=="withlast":
+            # bei Button mit der letzten Woche beginnen
+            self.weekno = len(self.weeks)
+        else:
+            # mit anderem Monat aus Auswahl starten
+            self.weekno = -1
+            self.weekafter()
 
 
     def weekbefore(self):
