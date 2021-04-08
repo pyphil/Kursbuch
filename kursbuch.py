@@ -1008,7 +1008,11 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.kurs = kurs
 
         self.setupUi(self)
-        self.show()
+        res = QtWidgets.QDesktopWidget().availableGeometry()
+        if res.width() <= 1024:
+            self.showMaximized()
+        else:
+            self.show()
 
         self.tableWidget.setColumnWidth(0,190)
         self.tableWidget_2.setColumnWidth(0,190)
