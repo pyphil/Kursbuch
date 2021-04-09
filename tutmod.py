@@ -134,8 +134,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
                 monat = date(9999,nextmonth,1).strftime("%B")
                 self.comboBoxMonat.setCurrentText(monat)
                 # neues Jahr setzen
-                #nextyear = int(self.combo_jahr.get())+1
-                #self.combo_jahr.set(nextyear)
+                nextyear = self.dateEditJahr.date().toPyDate()
+                nextyear = str(nextyear).split("-")
+                nextyear = int(nextyear[0])+1
+                self.dateEditJahr.setDate(QtCore.QDate(nextyear,1,1))
             # Datum des aktuellen Montags speichern
             aktmo = self.label_Mo.text()
             print(aktmo)
