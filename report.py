@@ -187,6 +187,8 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
         startfile(filename)
     elif sys.platform == "darwin":
         subprocess.call(('open',filename))
+    elif sys.platform == "linux":
+        subprocess.call(('xdg-open',filename))
     
 
 if __name__ == "__main__":

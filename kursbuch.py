@@ -40,7 +40,7 @@ if sys.platform == "darwin":
 # nur für das alphabetisch richtige Sortieren der Kursmitglieder
 if sys.platform == "win32":
     locale.setlocale(locale.LC_ALL, 'deu_deu')
-elif sys.platform == "darwin":
+elif sys.platform == "darwin" or sys.platform == "linux":
     locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
@@ -150,10 +150,10 @@ class Database:
             if path.exists(home+"\\pyKursbuch") == False:
                 mkdir(home+"\\pyKursbuch")
             self.dbpath = home+"\\pyKursbuch\\"
-        elif sys.platform == "darwin":
+        elif sys.platform == "darwin" or sys.platform == "linux":
             home = environ['HOME']
             if path.exists(home+"/pyKursbuch") == False:
-                mkdir("mkdir "+home+"/pyKursbuch")
+                mkdir(home+"/pyKursbuch")
             self.dbpath = home+"/pyKursbuch/"
         
         self.verbindung = sqlite3.connect(self.dbpath+"kurs.db")
