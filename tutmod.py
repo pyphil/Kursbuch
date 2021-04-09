@@ -3,7 +3,9 @@ from calendar import Calendar
 from datetime import date, timedelta, datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
+import locale
 
+locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
     def __init__(self):
@@ -14,6 +16,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
 
         self.set_cur_year_month()
         self.setMonth(True)
+        
+        self.pushButtonWeekafter.clicked.connect(self.weekafter)
 
     def set_cur_year_month(self):
         self.dateEditJahr.setDate(QtCore.QDate(date.today().year,1,1))
@@ -24,9 +28,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
         pass
 
     def setMonth(self, set=True):
-        y = int(self.comboBoxMonat.currentIndex())
-        print(y)
-        self.m = y+1
+        y = str(self.dateEditJahr.date().toPyDate())
+        y = y.split("-")
+        y = int(y[0])
+        print("Jahr",y)
+        self.m = int(self.comboBoxMonat.currentIndex())+1
         print("Monat: ",self.m)
 
         cal = Calendar()
@@ -58,8 +64,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
             # Wenn zu Beginn aus datensatz_anzeigen aufgerufen, 
             # aktuelle Woche setzen
             self.weekno = currentweek
-            print(self.weekno)
-            # self.weekafter(True)
+            print("aktuelle Wochennummer", self.weekno)
+            print(self.weeks)
+            self.weekafter(True)
         elif set=="withlast":
             # bei Button mit der letzten Woche beginnen
             self.weekno = len(self.weeks)
@@ -81,20 +88,64 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
 
         self.set_fehlzeiten()
 
-    def weekafter(self):
-        self.resetButtons()
-        self.weekno += 1
-    
-        if self.m != int(self.weeks[self.weekno][4].split("-")[1]):
-            self.weekno += 1
-        self.label_Woche.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
-        self.label_Mo_date.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+".")
-        self.label_Di_date.config(text=self.weeks[self.weekno][1].split("-")[2]+"."+self.weeks[self.weekno][1].split("-")[1]+".")
-        self.label_Mi_date.config(text=self.weeks[self.weekno][2].split("-")[2]+"."+self.weeks[self.weekno][2].split("-")[1]+".")
-        self.label_Do_date.config(text=self.weeks[self.weekno][3].split("-")[2]+"."+self.weeks[self.weekno][3].split("-")[1]+".")
-        self.label_Fr_date.config(text=self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
+    def weekafter(self, set=None):
+        if self.weekno+1 <= len(self.weeks)-1:
+            #self.resetButtons()
+            # wenn zu Beginn aus setmonth aufgerufen, aktuelle Woche benutzen
+            if set==True:
+                # nichts tun und self.weekno benutzen
+                pass
+            else:    
+                # Button wurde gedrückt, eine Woche weiter
+                self.weekno += 1
 
-        self.set_fehlzeiten()
+            self.label_Woche.setText(
+                     self.weeks[self.weekno][0].split("-")[2]+"."+
+                     self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+
+                     self.weeks[self.weekno][4].split("-")[2]+"."+
+                     self.weeks[self.weekno][4].split("-")[1]+".")
+            self.label_Mo.setText(
+                     self.weeks[self.weekno][0].split("-")[2]+"."+
+                     self.weeks[self.weekno][0].split("-")[1]+".")
+            self.label_Di.setText(
+                     self.weeks[self.weekno][1].split("-")[2]+"."+
+                     self.weeks[self.weekno][1].split("-")[1]+".")
+            self.label_Mi.setText(
+                     self.weeks[self.weekno][2].split("-")[2]+"."+
+                     self.weeks[self.weekno][2].split("-")[1]+".")
+            self.label_Do.setText(
+                     self.weeks[self.weekno][3].split("-")[2]+"."+
+                     self.weeks[self.weekno][3].split("-")[1]+".")
+            self.label_Fr.setText(
+                     self.weeks[self.weekno][4].split("-")[2]+"."+
+                     self.weeks[self.weekno][4].split("-")[1]+".")
+
+            #self.set_buchungen()
+        # Wenn am Ende der Wochenliste angekommen, in nächsten Monat wechseln
+        else:
+            nextmonth = self.comboBoxMonat.currentIndex()+2
+            print(nextmonth)
+            if nextmonth <= 12:
+                monat = date(9999,nextmonth,1).strftime("%B")
+                print(monat)
+                self.comboBoxMonat.setCurrentText(monat)
+            else:
+                nextmonth = 1
+                monat = date(9999,nextmonth,1).strftime("%B")
+                self.comboBoxMonat.setCurrentText(monat)
+                # neues Jahr setzen
+                #nextyear = int(self.combo_jahr.get())+1
+                #self.combo_jahr.set(nextyear)
+            # Datum des aktuellen Montags speichern
+            aktmo = self.label_Mo.text()
+            print(aktmo)
+            # neuen Monat setzen
+            self.setMonth()
+            # wenn der neue Montag in der gleichen Woche liegt, noch eine 
+            # Woche vor
+            # if aktmo == self.label_Mo_date["text"]:
+            #     self.weekafter()
+        # self.set_fehlzeiten()
 
     def set_fehlzeiten(self):
         """Führt alle set-Methoden aus, indem vorher die Liste aus der db

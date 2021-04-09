@@ -101,19 +101,16 @@
    <property name="geometry">
     <rect>
      <x>376</x>
-     <y>202</y>
-     <width>40</width>
-     <height>32</height>
+     <y>214</y>
+     <width>43</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Mo 24.12.</string>
+    <string>24.12.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -958,13 +955,13 @@
    <property name="geometry">
     <rect>
      <x>423</x>
-     <y>202</y>
-     <width>42</width>
-     <height>32</height>
+     <y>214</y>
+     <width>43</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Di 12.12.</string>
+    <string>12.12.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -977,13 +974,13 @@
    <property name="geometry">
     <rect>
      <x>571</x>
-     <y>202</y>
-     <width>40</width>
-     <height>32</height>
+     <y>214</y>
+     <width>43</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Fr 28.12.</string>
+    <string>28.12.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -996,13 +993,13 @@
    <property name="geometry">
     <rect>
      <x>472</x>
-     <y>202</y>
+     <y>214</y>
      <width>43</width>
-     <height>32</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Mi 26.12.</string>
+    <string>26.12.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1015,13 +1012,13 @@
    <property name="geometry">
     <rect>
      <x>522</x>
-     <y>202</y>
-     <width>42</width>
-     <height>32</height>
+     <y>214</y>
+     <width>43</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Do 27.12.</string>
+    <string>27.12.</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -1898,6 +1895,86 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label_32">
+   <property name="geometry">
+    <rect>
+     <x>376</x>
+     <y>200</y>
+     <width>43</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mo</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_33">
+   <property name="geometry">
+    <rect>
+     <x>423</x>
+     <y>200</y>
+     <width>43</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Di</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_34">
+   <property name="geometry">
+    <rect>
+     <x>472</x>
+     <y>200</y>
+     <width>43</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mi</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_35">
+   <property name="geometry">
+    <rect>
+     <x>522</x>
+     <y>200</y>
+     <width>43</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Do</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_36">
+   <property name="geometry">
+    <rect>
+     <x>571</x>
+     <y>200</y>
+     <width>43</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fr</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>
