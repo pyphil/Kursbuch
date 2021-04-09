@@ -16,8 +16,12 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
         self.setMonth(True)
 
     def set_cur_year_month(self):
-        # self.combo_jahr.set(date.today().year)
+        self.dateEditJahr.setDate(QtCore.QDate(date.today().year,1,1))
         self.comboBoxMonat.setCurrentText(datetime.now().strftime("%B"))
+
+    def fillTableWidget(self):
+        """ füllt die Schülernamen der gewählten Klasse ein"""
+        pass
 
     def setMonth(self, set=True):
         y = int(self.comboBoxMonat.currentIndex())
