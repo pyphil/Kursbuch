@@ -140,6 +140,8 @@ class Database:
                     self.ui.sync()
                 if access == True:
                     self.ui.statusBar.showMessage("Datenbank erfolgreich synchronisiert.")
+                    # Fill Kursauswahl combobox again with new data from downloaded db
+                    self.ui.kursauswahlMenue()
             if self.sync == 0:
                 self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
             sys.exit(self.app.exec_())
