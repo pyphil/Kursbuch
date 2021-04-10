@@ -15,8 +15,7 @@ class Ui_PdfExportieren(object):
     def setupUi(self, PdfExportieren):
         PdfExportieren.setObjectName("PdfExportieren")
         PdfExportieren.setWindowModality(QtCore.Qt.ApplicationModal)
-        PdfExportieren.resize(358, 203)
-        PdfExportieren.setMinimumSize(QtCore.QSize(304, 184))
+        PdfExportieren.resize(326, 176)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         PdfExportieren.setWindowIcon(icon)

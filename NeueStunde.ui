@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
-    <height>494</height>
+    <width>440</width>
+    <height>446</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -166,12 +166,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>31</width>
-              <height>0</height>
-             </size>
             </property>
             <property name="minimum">
              <number>1</number>
