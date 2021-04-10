@@ -1393,6 +1393,8 @@ class Gui(Ui_MainWindow):
             self.MainWindow.resize(1200,800)
         if res.width() > 3500:
             self.MainWindow.resize(2500,1500)
+        if res.height() <= 768:
+            self.MainWindow.resize(1034,690)
 
          
         # Auf dem Desktop zentrieren
