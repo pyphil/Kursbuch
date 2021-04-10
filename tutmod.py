@@ -13,6 +13,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
         self.setupUi(self)
         self.show()
         self.comboBoxMonat.activated.connect(self.setMonth)
+        self.dateEditJahr.dateChanged.connect(self.setMonth)
 
         self.set_cur_year_month()
         self.setMonth(True)
@@ -145,8 +146,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
             self.setMonth()
             # wenn der neue Montag in der gleichen Woche liegt, noch eine 
             # Woche vor
-            # if aktmo == self.label_Mo_date["text"]:
-            #     self.weekafter()
+            if aktmo == self.label_Mo.text():
+                self.weekafter()
         # self.set_fehlzeiten()
 
     def set_fehlzeiten(self):
