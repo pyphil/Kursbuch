@@ -674,11 +674,6 @@ class Database:
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
         s = list(self.susc.execute("SELECT pk, Name, Vorname, Klasse FROM sus"))
         return s
-
-    def reloadkursdb(self):
-        self.susc.close()
-        self.susverbindung.close()
-        self.loadkursdb()
     
     def close(self):
         self.c.close()
@@ -1364,7 +1359,6 @@ class Sync(Ui_Syncdialog,QtWidgets.QDialog):
             self.gui.tableWidget.setRowCount(0)
             self.gui.disableFieldsStd()
             self.gui.disableFieldsKurs()
-            self.db.reloadkursdb()
             self.info.close()
         else:
             self.info = Infobox("Datenbank auf dem Server wird gelöscht ...", self.gui)
