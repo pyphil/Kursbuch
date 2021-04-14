@@ -7,18 +7,56 @@ import locale
 
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
-class Tutmod(Ui_Tutmodgui, QtWidgets.QWidget):
-    def __init__(self):
-        super(Tutmod, self).__init__()
+class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
+    def __init__(self, db, gui):
+        super(Tutmod, self).__init__(gui.MainWindow)
         self.setupUi(self)
         self.show()
+
+        self.db = db
+        self.gui = gui
+
         self.comboBoxMonat.activated.connect(self.setMonth)
         self.dateEditJahr.dateChanged.connect(self.setMonth)
+
+        klassen = ["5a", "5b", "5c", "5d", "5e",
+                   "6a", "6b", "6c", "6d", "6e",
+                   "7a", "7b", "7c", "7d", "7e",
+                   "8a", "8b", "8c", "8d", "8e",
+                   "9a", "9b", "9c", "9d", "9e",
+                   "10a", "10b", "10c", "10d", "10e",
+                    "EF", "Q1", "Q2"]
+        self.comboBoxKlasse.addItems(klassen)
 
         self.set_cur_year_month()
         self.setMonth(True)
         
         self.pushButtonWeekafter.clicked.connect(self.weekafter)
+
+
+    def zeigeKlasse(self):
+        """ Zeigt die Liste der Schüler der ausgewählten Klasse """
+
+        # gefilterte Liste bei jedem Aufruf leer bereitstellen
+        self.filtered = []
+
+        # ausgewählte Klasse
+        klasse = self.comboBox.currentText()
+
+        # Filtern nach Klasse
+        alle = self.db.getGesamtliste()
+        z = 0
+        for i in alle:
+            if i[3] == klasse:
+                self.tableWidget.setRowCount(z+1)
+                self.tableWidget.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
+                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+                self.filtered.append([i[1], i[2], i[0], i[3]])
+                z += 1
+
+
+
 
     def set_cur_year_month(self):
         self.dateEditJahr.setDate(QtCore.QDate(date.today().year,1,1))

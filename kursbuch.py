@@ -9,6 +9,7 @@ import keyring
 import threading
 import _thread
 import report
+import tutmod
 from ftps_conn import FTPS_conn
 from os import path, system, environ, mkdir
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -1440,7 +1441,10 @@ class Gui(Ui_MainWindow):
         self.pushButtonDelStd.clicked.connect(self.stundeDel)
         self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
+
+        # Menu
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
+        self.actionTutorenmodus.triggered.connect(self.start_tutmod)
 
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1,False)
@@ -1817,9 +1821,9 @@ class Gui(Ui_MainWindow):
     def sync(self):
         self.sdialog = Sync(self.db, self)
 
-    def tutmod(self):
-        pass
+    def start_tutmod(self):
         """ Objekt für Tutorenmodus instanziieren und starten"""
+        self.tmod = tutmod.Tutmod(self.db, self)
 
     def kursheftAnzeigen(self):
         # Kursbuch Dialog instanziieren
