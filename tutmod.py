@@ -16,8 +16,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.db = db
         self.gui = gui
 
-        self.comboBoxMonat.activated.connect(self.setMonth)
-        self.dateEditJahr.dateChanged.connect(self.setMonth)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -31,6 +29,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.set_cur_year_month()
         self.setMonth(True)
         
+        self.comboBoxKlasse.activated.connect(self.zeigeKlasse)
+        self.comboBoxMonat.activated.connect(self.setMonth)
+        self.dateEditJahr.dateChanged.connect(self.setMonth)
         self.pushButtonWeekafter.clicked.connect(self.weekafter)
 
 
@@ -41,7 +42,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.filtered = []
 
         # ausgewählte Klasse
-        klasse = self.comboBox.currentText()
+        klasse = self.comboBoxKlasse.currentText()
+        print(klasse)
 
         # Filtern nach Klasse
         alle = self.db.getGesamtliste()
