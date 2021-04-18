@@ -28,7 +28,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
         self.set_cur_year_month()
         self.setMonth(True)
-        
+        self.tableWidget.setColumnWidth(0,180)
+
         self.comboBoxKlasse.activated.connect(self.zeigeKlasse)
         self.comboBoxMonat.activated.connect(self.setMonth)
         self.dateEditJahr.dateChanged.connect(self.setMonth)
