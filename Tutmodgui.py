@@ -338,7 +338,7 @@ class Ui_Tutmodgui(object):
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.layoutWidget)
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)

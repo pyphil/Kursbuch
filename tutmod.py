@@ -34,6 +34,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.comboBoxMonat.activated.connect(self.setMonth)
         self.dateEditJahr.dateChanged.connect(self.setMonth)
         self.pushButtonWeekafter.clicked.connect(self.weekafter)
+        self.tableWidget.clicked.connect(self.set_fehlzeiten)
 
 
     def zeigeKlasse(self):
@@ -57,7 +58,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
                 self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
-
+        #print(self.filtered)
 
 
 
@@ -132,7 +133,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
     def weekafter(self, set=None):
         if self.weekno+1 <= len(self.weeks)-1:
-            #self.resetButtons()
+            self.resetButtons()
             # wenn zu Beginn aus setmonth aufgerufen, aktuelle Woche benutzen
             if set==True:
                 # nichts tun und self.weekno benutzen
@@ -189,19 +190,25 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # Woche vor
             if aktmo == self.label_Mo.text():
                 self.weekafter()
-        # self.set_fehlzeiten()
+        #self.set_fehlzeiten()
 
     def set_fehlzeiten(self):
         """Führt alle set-Methoden aus, indem vorher die Liste aus der db
         geholt wird und den Methoden u oder e oder ""? übergeben wird """
-        # TODO Schüler-pk übergeben
-        self.student_pk = 1
+        
+        # Button reset
+        self.resetButtons()
+        
+        # Schüler-pk setzen
+        auswahl = int(self.tableWidget.currentRow())
+        self.student_pk = self.filtered[auswahl][2]
+        print(self.student_pk)
 
         # DB-Verbindung
-        verbindung = sqlite3.connect("kurs.db")
-        c = verbindung.cursor()
+        # verbindung = sqlite3.connect("kurs.db")
+        # c = verbindung.cursor()
 
-        # Liste generieren (wenn es das Datum+Std nicht gibt gibt sqlite das
+        # Liste generieren (wenn es das Datum+Std nicht gibt, gibt sqlite das
         # Datum selbst zurück)
         setlist = []
         self.datelistweek = []
@@ -218,7 +225,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             datelist.append('"'+i+"_7"'"')
             self.datelistweek.append(datelist)
             for d in datelist:
-                item = list(c.execute("""SELECT """+d+""" 
+                item = list(self.db.susc.execute("""SELECT """+d+""" 
                                                 FROM "sus"
                                                 WHERE pk = ?;
                                             """,
@@ -228,55 +235,56 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             setlist.append(fehlzlist)
         
         # DB-Verindung schließen
-        c.close()
-        verbindung.close()
+        # c.close()
+        # verbindung.close()
         
         #print(setlist[0][0][0][0])
-        print(self.datelistweek)
+        #print(self.datelistweek)
+        print(setlist[0][0][0][0])
         
         # set-Methoden aufrufen
 
         self.set1_1(setlist[0][0][0][0])
-        self.set1_2(setlist[1][0][0][0])
-        self.set1_3(setlist[2][0][0][0])
-        self.set1_4(setlist[3][0][0][0])
-        self.set1_5(setlist[4][0][0][0])
+        # self.set1_2(setlist[1][0][0][0])
+        # self.set1_3(setlist[2][0][0][0])
+        # self.set1_4(setlist[3][0][0][0])
+        # self.set1_5(setlist[4][0][0][0])
        
-        self.set2_1(setlist[0][1][0][0])
-        self.set2_2(setlist[1][1][0][0])
-        self.set2_3(setlist[2][1][0][0])
-        self.set2_4(setlist[3][1][0][0])
-        self.set2_5(setlist[4][1][0][0])
+        # self.set2_1(setlist[0][1][0][0])
+        # self.set2_2(setlist[1][1][0][0])
+        # self.set2_3(setlist[2][1][0][0])
+        # self.set2_4(setlist[3][1][0][0])
+        # self.set2_5(setlist[4][1][0][0])
 
-        self.set3_1(setlist[0][2][0][0])
-        self.set3_2(setlist[1][2][0][0])
-        self.set3_3(setlist[2][2][0][0])
-        self.set3_4(setlist[3][2][0][0])
-        self.set3_5(setlist[4][2][0][0])
+        # self.set3_1(setlist[0][2][0][0])
+        # self.set3_2(setlist[1][2][0][0])
+        # self.set3_3(setlist[2][2][0][0])
+        # self.set3_4(setlist[3][2][0][0])
+        # self.set3_5(setlist[4][2][0][0])
 
-        self.set4_1(setlist[0][3][0][0])
-        self.set4_2(setlist[1][3][0][0])
-        self.set4_3(setlist[2][3][0][0])
-        self.set4_4(setlist[3][3][0][0])
-        self.set4_5(setlist[4][3][0][0])
+        # self.set4_1(setlist[0][3][0][0])
+        # self.set4_2(setlist[1][3][0][0])
+        # self.set4_3(setlist[2][3][0][0])
+        # self.set4_4(setlist[3][3][0][0])
+        # self.set4_5(setlist[4][3][0][0])
 
-        self.set5_1(setlist[0][4][0][0])
-        self.set5_2(setlist[1][4][0][0])
-        self.set5_3(setlist[2][4][0][0])
-        self.set5_4(setlist[3][4][0][0])
-        self.set5_5(setlist[4][4][0][0])
+        # self.set5_1(setlist[0][4][0][0])
+        # self.set5_2(setlist[1][4][0][0])
+        # self.set5_3(setlist[2][4][0][0])
+        # self.set5_4(setlist[3][4][0][0])
+        # self.set5_5(setlist[4][4][0][0])
 
-        self.set6_1(setlist[0][5][0][0])
-        self.set6_2(setlist[1][5][0][0])
-        self.set6_3(setlist[2][5][0][0])
-        self.set6_4(setlist[3][5][0][0])
-        self.set6_5(setlist[4][5][0][0])
+        # self.set6_1(setlist[0][5][0][0])
+        # self.set6_2(setlist[1][5][0][0])
+        # self.set6_3(setlist[2][5][0][0])
+        # self.set6_4(setlist[3][5][0][0])
+        # self.set6_5(setlist[4][5][0][0])
 
-        self.set7_1(setlist[0][6][0][0])
-        self.set7_2(setlist[1][6][0][0])
-        self.set7_3(setlist[2][6][0][0])
-        self.set7_4(setlist[3][6][0][0])
-        self.set7_5(setlist[4][6][0][0])
+        # self.set7_1(setlist[0][6][0][0])
+        # self.set7_2(setlist[1][6][0][0])
+        # self.set7_3(setlist[2][6][0][0])
+        # self.set7_4(setlist[3][6][0][0])
+        # self.set7_5(setlist[4][6][0][0])
 
 
     def set1_1(self, val=None):
@@ -294,8 +302,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_1.config(background='#c0c0c0', text='')
                 self.writeFehlzeit(self.datelistweek[0][0],0)
         else:
-            if val == 1:
-                self.button1_1.config(background='#f5010a', text='u')
+            if val == "1":
+                #self.button1_1.config(background='#f5010a', text='u')
+                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("U")
             if val == 2:
                 self.button1_1.config(background='#00e100', text='e')
             if val == 3:
@@ -1086,11 +1096,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 pass                  
 
     def writeFehlzeit(self, d, f):
-        print(d,f)
+        #print(d,f)
 
         # DB-Verbindung
-        verbindung = sqlite3.connect("kurs.db")
-        c = verbindung.cursor()
+        # verbindung = sqlite3.connect("kurs.db")
+        # c = verbindung.cursor()
         # TODO mit try exception abfangen und bei nicht existierender Spalte diese anlegen
         c.execute(""" UPDATE sus
                     SET """+d+""" = ?
@@ -1104,55 +1114,80 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         verbindung.close()
 
     def resetButtons(self):
-        self.button1_1.config(background='#c0c0c0', text='')
-        self.button1_2.config(background='#c0c0c0', text='')
-        self.button1_3.config(background='#c0c0c0', text='')
-        self.button1_4.config(background='#c0c0c0', text='')
-        self.button1_5.config(background='#c0c0c0', text='')
+        """ setzt alle Fehlzeiten-Buttons zurück"""
+        self.button1_1.setStyleSheet("")
+        self.button1_1.setText("")
+        self.button1_2.setStyleSheet("")
+        self.button1_2.setText("")
+        self.button1_3.setStyleSheet("")
+        self.button1_3.setText("")
+        self.button1_4.setStyleSheet("")
+        self.button1_4.setText("")
+        self.button1_5.setStyleSheet("")
+        self.button1_5.setText("")
         
-        self.button2_1.config(background='#c0c0c0', text='')
-        self.button2_2.config(background='#c0c0c0', text='')
-        self.button2_3.config(background='#c0c0c0', text='')
-        self.button2_4.config(background='#c0c0c0', text='')
-        self.button2_5.config(background='#c0c0c0', text='')
+        self.button2_1.setStyleSheet("")
+        self.button2_1.setText("")
+        self.button2_2.setStyleSheet("")
+        self.button2_2.setText("")
+        self.button2_3.setStyleSheet("")
+        self.button2_3.setText("")
+        self.button2_4.setStyleSheet("")
+        self.button2_4.setText("")
+        self.button2_5.setStyleSheet("")
+        self.button2_5.setText("")
         
-        self.button3_1.config(background='#c0c0c0', text='')
-        self.button3_2.config(background='#c0c0c0', text='')
-        self.button3_3.config(background='#c0c0c0', text='')
-        self.button3_4.config(background='#c0c0c0', text='')
-        self.button3_5.config(background='#c0c0c0', text='')
+        self.button3_1.setStyleSheet("")
+        self.button3_1.setText("")
+        self.button3_2.setStyleSheet("")
+        self.button3_2.setText("")
+        self.button3_3.setStyleSheet("")
+        self.button3_3.setText("")
+        self.button3_4.setStyleSheet("")
+        self.button3_4.setText("")
+        self.button3_5.setStyleSheet("")
+        self.button3_5.setText("")
         
-        self.button4_1.config(background='#c0c0c0', text='')
-        self.button4_2.config(background='#c0c0c0', text='')
-        self.button4_3.config(background='#c0c0c0', text='')
-        self.button4_4.config(background='#c0c0c0', text='')
-        self.button4_5.config(background='#c0c0c0', text='')
+        self.button4_1.setStyleSheet("")
+        self.button4_1.setText("")
+        self.button4_2.setStyleSheet("")
+        self.button4_2.setText("")
+        self.button4_3.setStyleSheet("")
+        self.button4_3.setText("")
+        self.button4_4.setStyleSheet("")
+        self.button4_4.setText("")
+        self.button4_5.setStyleSheet("")
+        self.button4_5.setText("")
         
-        self.button5_1.config(background='#c0c0c0', text='')
-        self.button5_2.config(background='#c0c0c0', text='')
-        self.button5_3.config(background='#c0c0c0', text='')
-        self.button5_4.config(background='#c0c0c0', text='')
-        self.button5_5.config(background='#c0c0c0', text='')
+        self.button5_1.setStyleSheet("")
+        self.button5_1.setText("")
+        self.button5_2.setStyleSheet("")
+        self.button5_2.setText("")
+        self.button5_3.setStyleSheet("")
+        self.button5_3.setText("")
+        self.button5_4.setStyleSheet("")
+        self.button5_4.setText("")
+        self.button5_5.setStyleSheet("")
+        self.button5_5.setText("")
         
-        self.button6_1.config(background='#c0c0c0', text='')
-        self.button6_2.config(background='#c0c0c0', text='')
-        self.button6_3.config(background='#c0c0c0', text='')
-        self.button6_4.config(background='#c0c0c0', text='')
-        self.button6_5.config(background='#c0c0c0', text='')
+        self.button6_1.setStyleSheet("")
+        self.button6_1.setText("")
+        self.button6_2.setStyleSheet("")
+        self.button6_2.setText("")
+        self.button6_3.setStyleSheet("")
+        self.button6_3.setText("")
+        self.button6_4.setStyleSheet("")
+        self.button6_4.setText("")
+        self.button6_5.setStyleSheet("")
+        self.button6_5.setText("")
         
-        self.button7_1.config(background='#c0c0c0', text='')
-        self.button7_2.config(background='#c0c0c0', text='')
-        self.button7_3.config(background='#c0c0c0', text='')
-        self.button7_4.config(background='#c0c0c0', text='')
-        self.button7_5.config(background='#c0c0c0', text='')
-
-
-
-    def run(self):
-        self.mainwindow.mainloop()
-
-if __name__ == '__main__':
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    ui = Tutmod()
-    sys.exit(app.exec_())
+        self.button7_1.setStyleSheet("")
+        self.button7_1.setText("")
+        self.button7_2.setStyleSheet("")
+        self.button7_2.setText("")
+        self.button7_3.setStyleSheet("")
+        self.button7_3.setText("")
+        self.button7_4.setStyleSheet("")
+        self.button7_4.setText("")
+        self.button7_5.setStyleSheet("")
+        self.button7_5.setText("")
