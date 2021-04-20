@@ -190,7 +190,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # Woche vor
             if aktmo == self.label_Mo.text():
                 self.weekafter()
-        #self.set_fehlzeiten()
+        if set == True:
+            pass
+        else:
+            self.set_fehlzeiten()
 
     def set_fehlzeiten(self):
         """Führt alle set-Methoden aus, indem vorher die Liste aus der db
@@ -198,7 +201,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         
         # Button reset
         self.resetButtons()
-        
+
         # Schüler-pk setzen
         auswahl = int(self.tableWidget.currentRow())
         self.student_pk = self.filtered[auswahl][2]
