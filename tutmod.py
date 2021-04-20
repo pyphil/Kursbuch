@@ -34,6 +34,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.comboBoxMonat.activated.connect(self.setMonth)
         self.dateEditJahr.dateChanged.connect(self.setMonth)
         self.pushButtonWeekafter.clicked.connect(self.weekafter)
+        self.pushButtonWeekbefore.clicked.connect(self.weekbefore)
         self.tableWidget.clicked.connect(self.set_fehlzeiten)
 
 
@@ -122,12 +123,13 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
     def weekbefore(self):
         self.resetButtons()
         self.weekno -= 1
-        self.label_Woche.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
-        self.label_Mo_date.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+".")
-        self.label_Di_date.config(text=self.weeks[self.weekno][1].split("-")[2]+"."+self.weeks[self.weekno][1].split("-")[1]+".")
-        self.label_Mi_date.config(text=self.weeks[self.weekno][2].split("-")[2]+"."+self.weeks[self.weekno][2].split("-")[1]+".")
-        self.label_Do_date.config(text=self.weeks[self.weekno][3].split("-")[2]+"."+self.weeks[self.weekno][3].split("-")[1]+".")
-        self.label_Fr_date.config(text=self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
+        self.set_weeks()
+        #self.label_Woche.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
+        #self.label_Mo_date.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+".")
+        #self.label_Di_date.config(text=self.weeks[self.weekno][1].split("-")[2]+"."+self.weeks[self.weekno][1].split("-")[1]+".")
+        #self.label_Mi_date.config(text=self.weeks[self.weekno][2].split("-")[2]+"."+self.weeks[self.weekno][2].split("-")[1]+".")
+        #self.label_Do_date.config(text=self.weeks[self.weekno][3].split("-")[2]+"."+self.weeks[self.weekno][3].split("-")[1]+".")
+        #self.label_Fr_date.config(text=self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
 
         self.set_fehlzeiten()
 
@@ -142,6 +144,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 # Button wurde gedrückt, eine Woche weiter
                 self.weekno += 1
 
+            self.set_weeks()
+            """
             self.label_Woche.setText(
                      self.weeks[self.weekno][0].split("-")[2]+"."+
                      self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+
@@ -162,7 +166,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             self.label_Fr.setText(
                      self.weeks[self.weekno][4].split("-")[2]+"."+
                      self.weeks[self.weekno][4].split("-")[1]+".")
-
+            """
             #self.set_buchungen()
         # Wenn am Ende der Wochenliste angekommen, in nächsten Monat wechseln
         else:
@@ -194,6 +198,28 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             pass
         else:
             self.set_fehlzeiten()
+
+    def set_weeks(self):
+        self.label_Woche.setText(
+                    self.weeks[self.weekno][0].split("-")[2]+"."+
+                    self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+
+                    self.weeks[self.weekno][4].split("-")[2]+"."+
+                    self.weeks[self.weekno][4].split("-")[1]+".")
+        self.label_Mo.setText(
+                    self.weeks[self.weekno][0].split("-")[2]+"."+
+                    self.weeks[self.weekno][0].split("-")[1]+".")
+        self.label_Di.setText(
+                    self.weeks[self.weekno][1].split("-")[2]+"."+
+                    self.weeks[self.weekno][1].split("-")[1]+".")
+        self.label_Mi.setText(
+                    self.weeks[self.weekno][2].split("-")[2]+"."+
+                    self.weeks[self.weekno][2].split("-")[1]+".")
+        self.label_Do.setText(
+                    self.weeks[self.weekno][3].split("-")[2]+"."+
+                    self.weeks[self.weekno][3].split("-")[1]+".")
+        self.label_Fr.setText(
+                    self.weeks[self.weekno][4].split("-")[2]+"."+
+                    self.weeks[self.weekno][4].split("-")[1]+".")
 
     def set_fehlzeiten(self):
         """Führt alle set-Methoden aus, indem vorher die Liste aus der db
