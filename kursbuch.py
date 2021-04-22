@@ -610,7 +610,7 @@ class Database:
             liste.append(item[0])
         return liste
 
-    def writeFehlzeiten(self, pk, f, k, date):
+    def writeFehlzeiten(self, pk, f, date):
         # Anführungsstriche um das Datum setzen
         date='"'+date+'"'
         self.susc.execute("""UPDATE "sus" 
@@ -1816,7 +1816,7 @@ class Gui(Ui_MainWindow):
         sender = sender.split(",")
         fstatus = sender[0]
         pk = self.sus[int(sender[1])][0]
-        self.db.writeFehlzeiten(pk,fstatus,self.kurs, self.datum)
+        self.db.writeFehlzeiten(pk,fstatus, self.datum)
 
     def sync(self):
         self.sdialog = Sync(self.db, self)

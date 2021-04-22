@@ -37,6 +37,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekbefore.clicked.connect(self.weekbefore)
         self.tableWidget.clicked.connect(self.set_fehlzeiten)
 
+        self.button1_1.clicked.connect(self.set1_1)
 
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
@@ -121,17 +122,36 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
 
     def weekbefore(self):
-        self.resetButtons()
-        self.weekno -= 1
-        self.set_weeks()
-        #self.label_Woche.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
-        #self.label_Mo_date.config(text=self.weeks[self.weekno][0].split("-")[2]+"."+self.weeks[self.weekno][0].split("-")[1]+".")
-        #self.label_Di_date.config(text=self.weeks[self.weekno][1].split("-")[2]+"."+self.weeks[self.weekno][1].split("-")[1]+".")
-        #self.label_Mi_date.config(text=self.weeks[self.weekno][2].split("-")[2]+"."+self.weeks[self.weekno][2].split("-")[1]+".")
-        #self.label_Do_date.config(text=self.weeks[self.weekno][3].split("-")[2]+"."+self.weeks[self.weekno][3].split("-")[1]+".")
-        #self.label_Fr_date.config(text=self.weeks[self.weekno][4].split("-")[2]+"."+self.weeks[self.weekno][4].split("-")[1]+".")
+        if self.weekno <= 0:    
+            # Wenn am Anfang der Wochenliste angekommen, in vorherigen Monat wechseln
+            previousmonth = self.comboBoxMonat.currentIndex()
+            if previousmonth >= 1:
+                monat = date(9999,previousmonth,1).strftime("%B")
+                self.comboBoxMonat.setCurrentText(monat)
+            else:
+                previousmonth = 12
+                monat = date(9999,previousmonth,1).strftime("%B")
+                self.comboBoxMonat.setCurrentText(monat)
+                # vorheriges Jahr setzen
+                previousyear = int(self.combo_jahr.get())-1
+                self.dateEditJahr.setDate(QtCore.QDate(previousyear,1,1))
+            # Datum des aktuellen Montags speichern
+            aktmo = self.label_Mo.text()
+            # neuen Monat setzen, dafür withlast übergeben, um am Ende zu
+            # beginnen
+            self.setMonth("withlast")
+            self.weekbefore()
+            # wenn der neue Montag in der gleichen Woche liegt, noch eine 
+            # Woche vor
+            if aktmo == self.label_Mo.text():
+               self.weekbefore()
+        else:
+            self.resetButtons()
+            self.weekno -= 1
 
-        self.set_fehlzeiten()
+            self.set_weeks()
+
+            self.set_fehlzeiten()
 
     def weekafter(self, set=None):
         if self.weekno+1 <= len(self.weeks)-1:
@@ -145,28 +165,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.weekno += 1
 
             self.set_weeks()
-            """
-            self.label_Woche.setText(
-                     self.weeks[self.weekno][0].split("-")[2]+"."+
-                     self.weeks[self.weekno][0].split("-")[1]+"."+" bis "+
-                     self.weeks[self.weekno][4].split("-")[2]+"."+
-                     self.weeks[self.weekno][4].split("-")[1]+".")
-            self.label_Mo.setText(
-                     self.weeks[self.weekno][0].split("-")[2]+"."+
-                     self.weeks[self.weekno][0].split("-")[1]+".")
-            self.label_Di.setText(
-                     self.weeks[self.weekno][1].split("-")[2]+"."+
-                     self.weeks[self.weekno][1].split("-")[1]+".")
-            self.label_Mi.setText(
-                     self.weeks[self.weekno][2].split("-")[2]+"."+
-                     self.weeks[self.weekno][2].split("-")[1]+".")
-            self.label_Do.setText(
-                     self.weeks[self.weekno][3].split("-")[2]+"."+
-                     self.weeks[self.weekno][3].split("-")[1]+".")
-            self.label_Fr.setText(
-                     self.weeks[self.weekno][4].split("-")[2]+"."+
-                     self.weeks[self.weekno][4].split("-")[1]+".")
-            """
+
             #self.set_buchungen()
         # Wenn am Ende der Wochenliste angekommen, in nächsten Monat wechseln
         else:
@@ -317,13 +316,15 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
 
     def set1_1(self, val=None):
+        print("PRESSED")
         if val == None:
-            if self.button1_1.config('text')[4] == '':
+            if self.button1_1.text() == '':
                 self.button1_1.config(background='#f5010a', text='u')
                 self.writeFehlzeit(self.datelistweek[0][0],1)
-            elif self.button1_1.config('text')[4] == 'u':
-                self.button1_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][0],2)
+            elif self.button1_1.text() == 'u':
+                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("e")
+                self.db.writeFehlzeit(self.student_pk,2,self.datelistweek[0][0])
             elif self.button1_1.config('text')[4] == 'e':
                 self.button1_1.config(background='#ffff80', text='S')
                 self.writeFehlzeit(self.datelistweek[0][0],3)
@@ -332,13 +333,18 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.writeFehlzeit(self.datelistweek[0][0],0)
         else:
             if val == "1":
-                #self.button1_1.config(background='#f5010a', text='u')
                 self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
-                self.button1_1.setText("U")
-            if val == 2:
-                self.button1_1.config(background='#00e100', text='e')
-            if val == 3:
-                self.button1_1.config(background='#ffff80', text='S')
+                self.button1_1.setText("u")
+            if val == "2":
+                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("e")
+            if val == "3":
+                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("S")
+            if val == "4":
+                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("Q")
+
             else:
                 pass
     def set1_2(self, val=None):
@@ -1123,24 +1129,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_5.config(background='#ffff80', text='S')
             else:
                 pass                  
-
-    def writeFehlzeit(self, d, f):
-        #print(d,f)
-
-        # DB-Verbindung
-        # verbindung = sqlite3.connect("kurs.db")
-        # c = verbindung.cursor()
-        # TODO mit try exception abfangen und bei nicht existierender Spalte diese anlegen
-        c.execute(""" UPDATE sus
-                    SET """+d+""" = ?
-                    WHERE pk = ?;
-                    """,
-                    (f,self.student_pk))
-        verbindung.commit()
-
-        # DB-Verbindung schließen
-        c.close()
-        verbindung.close()
 
     def resetButtons(self):
         """ setzt alle Fehlzeiten-Buttons zurück"""
