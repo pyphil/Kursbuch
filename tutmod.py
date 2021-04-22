@@ -244,15 +244,17 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         for i in self.weeks[self.weekno]:
             fehlzlist = []
             datelist = []
-            datelist.append('"'+i+"_1"'"')
-            datelist.append('"'+i+"_2"'"')
-            datelist.append('"'+i+"_3"'"')
-            datelist.append('"'+i+"_4"'"')
-            datelist.append('"'+i+"_5"'"')
-            datelist.append('"'+i+"_6"'"')
-            datelist.append('"'+i+"_7"'"')
+            datelist.append(i+"_1")
+            datelist.append(i+"_2")
+            datelist.append(i+"_3")
+            datelist.append(i+"_4")
+            datelist.append(i+"_5")
+            datelist.append(i+"_6")
+            datelist.append(i+"_7")
             self.datelistweek.append(datelist)
+            print(datelist)
             for d in datelist:
+                d = '"'+d+'"'
                 item = list(self.db.susc.execute("""SELECT """+d+""" 
                                                 FROM "sus"
                                                 WHERE pk = ?;
@@ -316,33 +318,41 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
 
     def set1_1(self, val=None):
-        print("PRESSED")
-        if val == None:
+        if val == False:
+            print("PRESSED")
             if self.button1_1.text() == '':
-                self.button1_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][0],1)
-            elif self.button1_1.text() == 'u':
                 self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][0])
+            elif self.button1_1.text() == 'u':
+                self.button1_1.setStyleSheet("background-color: rgb(89, 209, 117);")
                 self.button1_1.setText("e")
-                self.db.writeFehlzeit(self.student_pk,2,self.datelistweek[0][0])
-            elif self.button1_1.config('text')[4] == 'e':
-                self.button1_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][0],3)
-            elif self.button1_1.config('text')[4] == 'S':
-                self.button1_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][0],0)
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][0])
+            elif self.button1_1.text() == 'e':
+                self.button1_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][0])
+            elif self.button1_1.text() == 'S':
+                self.button1_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][0])
+            elif self.button1_1.text() == 'Q':
+                self.button1_1.setStyleSheet("")
+                self.button1_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][0])
+
         else:
             if val == "1":
                 self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
                 self.button1_1.setText("u")
             if val == "2":
-                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setStyleSheet("background-color: rgb(89, 209, 117);")
                 self.button1_1.setText("e")
             if val == "3":
-                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setStyleSheet("background-color: rgb(255, 255, 127);")
                 self.button1_1.setText("S")
             if val == "4":
-                self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_1.setText("Q")
 
             else:
