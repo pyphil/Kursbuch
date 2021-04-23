@@ -38,6 +38,47 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.tableWidget.clicked.connect(self.set_fehlzeiten)
 
         self.button1_1.clicked.connect(self.set1_1)
+        self.button1_2.clicked.connect(self.set1_2)
+        self.button1_3.clicked.connect(self.set1_3)
+        self.button1_4.clicked.connect(self.set1_4)
+        self.button1_5.clicked.connect(self.set1_5)
+
+        self.button2_1.clicked.connect(self.set2_1)
+        self.button2_2.clicked.connect(self.set2_2)
+        self.button2_3.clicked.connect(self.set2_3)
+        self.button2_4.clicked.connect(self.set2_4)
+        self.button2_5.clicked.connect(self.set2_5)
+        
+        self.button3_1.clicked.connect(self.set3_1)
+        self.button3_2.clicked.connect(self.set3_2)
+        self.button3_3.clicked.connect(self.set3_3)
+        self.button3_4.clicked.connect(self.set3_4)
+        self.button3_5.clicked.connect(self.set3_5)
+
+        self.button4_1.clicked.connect(self.set4_1)
+        self.button4_2.clicked.connect(self.set4_2)
+        self.button4_3.clicked.connect(self.set4_3)
+        self.button4_4.clicked.connect(self.set4_4)
+        self.button4_5.clicked.connect(self.set4_5)
+
+        self.button5_1.clicked.connect(self.set5_1)
+        self.button5_2.clicked.connect(self.set5_2)
+        self.button5_3.clicked.connect(self.set5_3)
+        self.button5_4.clicked.connect(self.set5_4)
+        self.button5_5.clicked.connect(self.set5_5)
+
+        self.button6_1.clicked.connect(self.set6_1)
+        self.button6_2.clicked.connect(self.set6_2)
+        self.button6_3.clicked.connect(self.set6_3)
+        self.button6_4.clicked.connect(self.set6_4)
+        self.button6_5.clicked.connect(self.set6_5)
+
+        self.button7_1.clicked.connect(self.set7_1)
+        self.button7_2.clicked.connect(self.set7_2)
+        self.button7_3.clicked.connect(self.set7_3)
+        self.button7_4.clicked.connect(self.set7_4)
+        self.button7_5.clicked.connect(self.set7_5)
+
 
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
@@ -275,46 +316,46 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         # set-Methoden aufrufen
 
         self.set1_1(setlist[0][0][0][0])
-        # self.set1_2(setlist[1][0][0][0])
-        # self.set1_3(setlist[2][0][0][0])
-        # self.set1_4(setlist[3][0][0][0])
-        # self.set1_5(setlist[4][0][0][0])
+        self.set1_2(setlist[1][0][0][0])
+        self.set1_3(setlist[2][0][0][0])
+        self.set1_4(setlist[3][0][0][0])
+        self.set1_5(setlist[4][0][0][0])
        
-        # self.set2_1(setlist[0][1][0][0])
-        # self.set2_2(setlist[1][1][0][0])
-        # self.set2_3(setlist[2][1][0][0])
-        # self.set2_4(setlist[3][1][0][0])
-        # self.set2_5(setlist[4][1][0][0])
+        self.set2_1(setlist[0][1][0][0])
+        self.set2_2(setlist[1][1][0][0])
+        self.set2_3(setlist[2][1][0][0])
+        self.set2_4(setlist[3][1][0][0])
+        self.set2_5(setlist[4][1][0][0])
 
-        # self.set3_1(setlist[0][2][0][0])
-        # self.set3_2(setlist[1][2][0][0])
-        # self.set3_3(setlist[2][2][0][0])
-        # self.set3_4(setlist[3][2][0][0])
-        # self.set3_5(setlist[4][2][0][0])
+        self.set3_1(setlist[0][2][0][0])
+        self.set3_2(setlist[1][2][0][0])
+        self.set3_3(setlist[2][2][0][0])
+        self.set3_4(setlist[3][2][0][0])
+        self.set3_5(setlist[4][2][0][0])
 
-        # self.set4_1(setlist[0][3][0][0])
-        # self.set4_2(setlist[1][3][0][0])
-        # self.set4_3(setlist[2][3][0][0])
-        # self.set4_4(setlist[3][3][0][0])
-        # self.set4_5(setlist[4][3][0][0])
+        self.set4_1(setlist[0][3][0][0])
+        self.set4_2(setlist[1][3][0][0])
+        self.set4_3(setlist[2][3][0][0])
+        self.set4_4(setlist[3][3][0][0])
+        self.set4_5(setlist[4][3][0][0])
 
-        # self.set5_1(setlist[0][4][0][0])
-        # self.set5_2(setlist[1][4][0][0])
-        # self.set5_3(setlist[2][4][0][0])
-        # self.set5_4(setlist[3][4][0][0])
-        # self.set5_5(setlist[4][4][0][0])
+        self.set5_1(setlist[0][4][0][0])
+        self.set5_2(setlist[1][4][0][0])
+        self.set5_3(setlist[2][4][0][0])
+        self.set5_4(setlist[3][4][0][0])
+        self.set5_5(setlist[4][4][0][0])
 
-        # self.set6_1(setlist[0][5][0][0])
-        # self.set6_2(setlist[1][5][0][0])
-        # self.set6_3(setlist[2][5][0][0])
-        # self.set6_4(setlist[3][5][0][0])
-        # self.set6_5(setlist[4][5][0][0])
+        self.set6_1(setlist[0][5][0][0])
+        self.set6_2(setlist[1][5][0][0])
+        self.set6_3(setlist[2][5][0][0])
+        self.set6_4(setlist[3][5][0][0])
+        self.set6_5(setlist[4][5][0][0])
 
-        # self.set7_1(setlist[0][6][0][0])
-        # self.set7_2(setlist[1][6][0][0])
-        # self.set7_3(setlist[2][6][0][0])
-        # self.set7_4(setlist[3][6][0][0])
-        # self.set7_5(setlist[4][6][0][0])
+        self.set7_1(setlist[0][6][0][0])
+        self.set7_2(setlist[1][6][0][0])
+        self.set7_3(setlist[2][6][0][0])
+        self.set7_4(setlist[3][6][0][0])
+        self.set7_5(setlist[4][6][0][0])
 
 
     def set1_1(self, val=None):
@@ -354,791 +395,1301 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_1.setText("Q")
-
             else:
                 pass
+
     def set1_2(self, val=None):
-        if val == None:
-            if self.button1_2.config('text')[4] == '':
-                self.button1_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][0],1)
-            elif self.button1_2.config('text')[4] == 'u':
-                self.button1_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][0],2)
-            elif self.button1_2.config('text')[4] == 'e':
-                self.button1_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][0],3)
-            elif self.button1_2.config('text')[4] == 'S':
-                self.button1_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][0],0)
+        if val == False:
+            if self.button1_2.text() == '':
+                self.button1_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][0])
+            elif self.button1_2.text() == 'u':
+                self.button1_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][0])
+            elif self.button1_2.text() == 'e':
+                self.button1_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][0])
+            elif self.button1_2.text() == 'S':
+                self.button1_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][0])
+            elif self.button1_2.text() == 'Q':
+                self.button1_2.setStyleSheet("")
+                self.button1_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][0])
         else:
             if val == 1:
-                self.button1_2.config(background='#f5010a', text='u')
+                self.button1_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_2.setText("u")
             if val == 2:
-                self.button1_2.config(background='#00e100', text='e')
+                self.button1_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_2.setText("e")
             if val == 3:
-                self.button1_2.config(background='#ffff80', text='S')
+                self.button1_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_2.setText("S")
+            if val == 4:
+                self.button1_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_2.setText("Q")
             else:
                 pass                   
+
     def set1_3(self, val=None):
-        if val == None:
-            if self.button1_3.config('text')[4] == '':
-                self.button1_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][0],1)
-            elif self.button1_3.config('text')[4] == 'u':
-                self.button1_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][0],2)
-            elif self.button1_3.config('text')[4] == 'e':
-                self.button1_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][0],3)
-            elif self.button1_3.config('text')[4] == 'S':
-                self.button1_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][0],0)
+        if val == False:
+            if self.button1_3.text() == '':
+                self.button1_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][0])
+            elif self.button1_3.text() == 'u':
+                self.button1_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][0])
+            elif self.button1_3.text() == 'e':
+                self.button1_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][0])
+            elif self.button1_3.text() == 'S':
+                self.button1_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][0])
+            elif self.button1_3.text() == 'Q':
+                self.button1_3.setStyleSheet("")
+                self.button1_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][0])
         else:
             if val == 1:
-                self.button1_3.config(background='#f5010a', text='u')
+                self.button1_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_3.setText("u")
             if val == 2:
-                self.button1_3.config(background='#00e100', text='e')
+                self.button1_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_3.setText("e")
             if val == 3:
-                self.button1_3.config(background='#ffff80', text='S')
+                self.button1_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_3.setText("S")
+            if val == 4:
+                self.button1_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_3.setText("Q")
             else:
                 pass                   
+
     def set1_4(self, val=None):
-        if val == None:
-            if self.button1_4.config('text')[4] == '':
-                self.button1_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][0],1)
-            elif self.button1_4.config('text')[4] == 'u':
-                self.button1_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][0],2)
-            elif self.button1_4.config('text')[4] == 'e':
-                self.button1_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][0],3)
-            elif self.button1_4.config('text')[4] == 'S':
-                self.button1_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][0],0)
+        if val == False:
+            if self.button1_4.text() == '':
+                self.button1_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][0])
+            elif self.button1_4.text() == 'u':
+                self.button1_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][0])
+            elif self.button1_4.text() == 'e':
+                self.button1_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][0])
+            elif self.button1_4.text() == 'S':
+                self.button1_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][0])
+            elif self.button1_4.text() == 'Q':
+                self.button1_4.setStyleSheet("")
+                self.button1_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][0])
         else:
             if val == 1:
-                self.button1_4.config(background='#f5010a', text='u')
+                self.button1_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_4.setText("u")
             if val == 2:
-                self.button1_4.config(background='#00e100', text='e')
+                self.button1_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_4.setText("e")
             if val == 3:
-                self.button1_4.config(background='#ffff80', text='S')
+                self.button1_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_4.setText("S")
+            if val == 4:
+                self.button1_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_4.setText("Q")
             else:
                 pass                   
+
     def set1_5(self, val=None):
-        if val == None:
-            if self.button1_5.config('text')[4] == '':
-                self.button1_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][0],1)
-            elif self.button1_5.config('text')[4] == 'u':
-                self.button1_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][0],2)
-            elif self.button1_5.config('text')[4] == 'e':
-                self.button1_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][0],3)
-            elif self.button1_5.config('text')[4] == 'S':
-                self.button1_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][0],0)
+        if val == False:
+            if self.button1_5.text() == '':
+                self.button1_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][0])
+            elif self.button1_5.text() == 'u':
+                self.button1_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][0])
+            elif self.button1_5.text() == 'e':
+                self.button1_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][0])
+            elif self.button1_5.text() == 'S':
+                self.button1_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][0])
+            elif self.button1_5.text() == 'Q':
+                self.button1_5.setStyleSheet("")
+                self.button1_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][0])
         else:
             if val == 1:
-                self.button1_5.config(background='#f5010a', text='u')
+                self.button1_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button1_5.setText("u")
             if val == 2:
-                self.button1_5.config(background='#00e100', text='e')
+                self.button1_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button1_5.setText("e")
             if val == 3:
-                self.button1_5.config(background='#ffff80', text='S')
+                self.button1_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button1_5.setText("S")
+            if val == 4:
+                self.button1_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button1_5.setText("Q")
             else:
                 pass                     
+
     def set2_1(self, val=None):
-        if val == None:
-            if self.button2_1.config('text')[4] == '':
-                self.button2_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][1],1)
-            elif self.button2_1.config('text')[4] == 'u':
-                self.button2_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][1],2)
-            elif self.button2_1.config('text')[4] == 'e':
-                self.button2_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][1],3)
-            elif self.button2_1.config('text')[4] == 'S':
-                self.button2_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][1],0)
+        if val == False:
+            if self.button2_1.text() == '':
+                self.button2_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][1])
+            elif self.button2_1.text() == 'u':
+                self.button2_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][1])
+            elif self.button2_1.text() == 'e':
+                self.button2_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][1])
+            elif self.button2_1.text() == 'S':
+                self.button2_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][1])
+            elif self.button2_1.text() == 'Q':
+                self.button2_1.setStyleSheet("")
+                self.button2_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][1])
         else:
             if val == 1:
-                self.button2_1.config(background='#f5010a', text='u')
+                self.button2_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_1.setText("u")
             if val == 2:
-                self.button2_1.config(background='#00e100', text='e')
+                self.button2_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_1.setText("e")
             if val == 3:
-                self.button2_1.config(background='#ffff80', text='S')
+                self.button2_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_1.setText("S")
+            if val == 4:
+                self.button2_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_1.setText("Q")
             else:
                 pass                     
+
     def set2_2(self, val=None):
-        if val == None:
-            if self.button2_2.config('text')[4] == '':
-                self.button2_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][1],1)
-            elif self.button2_2.config('text')[4] == 'u':
-                self.button2_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][1],2)
-            elif self.button2_2.config('text')[4] == 'e':
-                self.button2_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][1],3)
-            elif self.button2_2.config('text')[4] == 'S':
-                self.button2_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][1],0)
+        if val == False:
+            if self.button2_2.text() == '':
+                self.button2_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][1])
+            elif self.button2_2.text() == 'u':
+                self.button2_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][1])
+            elif self.button2_2.text() == 'e':
+                self.button2_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][1])
+            elif self.button2_2.text() == 'S':
+                self.button2_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][1])
+            elif self.button2_2.text() == 'Q':
+                self.button2_2.setStyleSheet("")
+                self.button2_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][1])
         else:
             if val == 1:
-                self.button2_2.config(background='#f5010a', text='u')
+                self.button2_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_2.setText("u")
             if val == 2:
-                self.button2_2.config(background='#00e100', text='e')
+                self.button2_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_2.setText("e")
             if val == 3:
-                self.button2_2.config(background='#ffff80', text='S')
+                self.button2_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_2.setText("S")
+            if val == 4:
+                self.button2_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_2.setText("Q")
             else:
                 pass                     
+
     def set2_3(self, val=None):
-        if val == None:
-            if self.button2_3.config('text')[4] == '':
-                self.button2_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][1],1)
-            elif self.button2_3.config('text')[4] == 'u':
-                self.button2_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][1],2)
-            elif self.button2_3.config('text')[4] == 'e':
-                self.button2_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][1],3)
-            elif self.button2_3.config('text')[4] == 'S':
-                self.button2_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][1],0)
+        if val == False:
+            if self.button2_3.text() == '':
+                self.button2_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][1])
+            elif self.button2_3.text() == 'u':
+                self.button2_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][1])
+            elif self.button2_3.text() == 'e':
+                self.button2_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][1])
+            elif self.button2_3.text() == 'S':
+                self.button2_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][1])
+            elif self.button2_3.text() == 'Q':
+                self.button2_3.setStyleSheet("")
+                self.button2_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][1])
         else:
             if val == 1:
-                self.button2_3.config(background='#f5010a', text='u')
+                self.button2_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_3.setText("u")
             if val == 2:
-                self.button2_3.config(background='#00e100', text='e')
+                self.button2_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_3.setText("e")
             if val == 3:
-                self.button2_3.config(background='#ffff80', text='S')
+                self.button2_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_3.setText("S")
+            if val == 4:
+                self.button2_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_3.setText("Q")
             else:
                 pass                     
+
     def set2_4(self, val=None):
-        if val == None:
-            if self.button2_4.config('text')[4] == '':
-                self.button2_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][1],1)
-            elif self.button2_4.config('text')[4] == 'u':
-                self.button2_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][1],2)
-            elif self.button2_4.config('text')[4] == 'e':
-                self.button2_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][1],3)
-            elif self.button2_4.config('text')[4] == 'S':
-                self.button2_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][1],0)
+        if val == False:
+            if self.button2_4.text() == '':
+                self.button2_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][1])
+            elif self.button2_4.text() == 'u':
+                self.button2_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][1])
+            elif self.button2_4.text() == 'e':
+                self.button2_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][1])
+            elif self.button2_4.text() == 'S':
+                self.button2_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][1])
+            elif self.button2_4.text() == 'Q':
+                self.button2_4.setStyleSheet("")
+                self.button2_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][1])
         else:
             if val == 1:
-                self.button2_4.config(background='#f5010a', text='u')
+                self.button2_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_4.setText("u")
             if val == 2:
-                self.button2_4.config(background='#00e100', text='e')
+                self.button2_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_4.setText("e")
             if val == 3:
-                self.button2_4.config(background='#ffff80', text='S')
+                self.button2_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_4.setText("S")
+            if val == 4:
+                self.button2_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_4.setText("Q")
             else:
                 pass                     
+
     def set2_5(self, val=None):
-        if val == None:
-            if self.button2_5.config('text')[4] == '':
-                self.button2_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][1],1)
-            elif self.button2_5.config('text')[4] == 'u':
-                self.button2_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][1],2)
-            elif self.button2_5.config('text')[4] == 'e':
-                self.button2_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][1],3)
-            elif self.button2_5.config('text')[4] == 'S':
-                self.button2_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][1],0)
+        if val == False:
+            if self.button2_5.text() == '':
+                self.button2_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][1])
+            elif self.button2_5.text() == 'u':
+                self.button2_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][1])
+            elif self.button2_5.text() == 'e':
+                self.button2_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][1])
+            elif self.button2_5.text() == 'S':
+                self.button2_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][1])
+            elif self.button2_5.text() == 'Q':
+                self.button2_5.setStyleSheet("")
+                self.button2_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][1])
         else:
             if val == 1:
-                self.button2_5.config(background='#f5010a', text='u')
+                self.button2_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button2_5.setText("u")
             if val == 2:
-                self.button2_5.config(background='#00e100', text='e')
+                self.button2_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button2_5.setText("e")
             if val == 3:
-                self.button2_5.config(background='#ffff80', text='S')
+                self.button2_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button2_5.setText("S")
+            if val == 4:
+                self.button2_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button2_5.setText("Q")
             else:
                 pass                
+
     def set3_1(self, val=None):
-        if val == None:
-            if self.button3_1.config('text')[4] == '':
-                self.button3_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][2],1)
-            elif self.button3_1.config('text')[4] == 'u':
-                self.button3_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][2],2)
-            elif self.button3_1.config('text')[4] == 'e':
-                self.button3_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][2],3)
-            elif self.button3_1.config('text')[4] == 'S':
-                self.button3_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][2],0)
+        if val == False:
+            if self.button3_1.text() == '':
+                self.button3_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][2])
+            elif self.button3_1.text() == 'u':
+                self.button3_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][2])
+            elif self.button3_1.text() == 'e':
+                self.button3_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][2])
+            elif self.button3_1.text() == 'S':
+                self.button3_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][2])
+            elif self.button3_1.text() == 'Q':
+                self.button3_1.setStyleSheet("")
+                self.button3_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][2])
         else:
             if val == 1:
-                self.button3_1.config(background='#f5010a', text='u')
+                self.button3_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_1.setText("u")
             if val == 2:
-                self.button3_1.config(background='#00e100', text='e')
+                self.button3_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_1.setText("e")
             if val == 3:
-                self.button3_1.config(background='#ffff80', text='S')
+                self.button3_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_1.setText("S")
+            if val == 4:
+                self.button3_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_1.setText("Q")
             else:
                 pass            
+
     def set3_2(self, val=None):
-        if val == None:
-            if self.button3_2.config('text')[4] == '':
-                self.button3_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][2],1)
-            elif self.button3_2.config('text')[4] == 'u':
-                self.button3_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][2],2)
-            elif self.button3_2.config('text')[4] == 'e':
-                self.button3_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][2],3)
-            elif self.button3_2.config('text')[4] == 'S':
-                self.button3_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][2],0)
+        if val == False:
+            if self.button3_2.text() == '':
+                self.button3_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][2])
+            elif self.button3_2.text() == 'u':
+                self.button3_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][2])
+            elif self.button3_2.text() == 'e':
+                self.button3_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][2])
+            elif self.button3_2.text() == 'S':
+                self.button3_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][2])
+            elif self.button3_2.text() == 'Q':
+                self.button3_2.setStyleSheet("")
+                self.button3_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][2])
         else:
             if val == 1:
-                self.button3_2.config(background='#f5010a', text='u')
+                self.button3_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_2.setText("u")
             if val == 2:
-                self.button3_2.config(background='#00e100', text='e')
+                self.button3_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_2.setText("e")
             if val == 3:
-                self.button3_2.config(background='#ffff80', text='S')
+                self.button3_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_2.setText("S")
+            if val == 4:
+                self.button3_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_2.setText("Q")
             else:
                 pass                
+
     def set3_3(self, val=None):
-        if val == None:
-            if self.button3_3.config('text')[4] == '':
-                self.button3_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][2],1)
-            elif self.button3_3.config('text')[4] == 'u':
-                self.button3_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][2],2)
-            elif self.button3_3.config('text')[4] == 'e':
-                self.button3_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][2],3)
-            elif self.button3_3.config('text')[4] == 'S':
-                self.button3_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][2],0)
+        if val == False:
+            if self.button3_3.text() == '':
+                self.button3_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][2])
+            elif self.button3_3.text() == 'u':
+                self.button3_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][2])
+            elif self.button3_3.text() == 'e':
+                self.button3_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][2])
+            elif self.button3_3.text() == 'S':
+                self.button3_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][2])
+            elif self.button3_3.text() == 'Q':
+                self.button3_3.setStyleSheet("")
+                self.button3_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][2])
         else:
             if val == 1:
-                self.button3_3.config(background='#f5010a', text='u')
+                self.button3_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_3.setText("u")
             if val == 2:
-                self.button3_3.config(background='#00e100', text='e')
+                self.button3_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_3.setText("e")
             if val == 3:
-                self.button3_3.config(background='#ffff80', text='S')
+                self.button3_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_3.setText("S")
+            if val == 4:
+                self.button3_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_3.setText("Q")
             else:
                 pass
+
     def set3_4(self, val=None):
-        if val == None:
-            if self.button3_4.config('text')[4] == '':
-                self.button3_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][2],1)
-            elif self.button3_4.config('text')[4] == 'u':
-                self.button3_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][2],2)
-            elif self.button3_4.config('text')[4] == 'e':
-                self.button3_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][2],3)
-            elif self.button3_4.config('text')[4] == 'S':
-                self.button3_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][2],0)
+        if val == False:
+            if self.button3_4.text() == '':
+                self.button3_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][2])
+            elif self.button3_4.text() == 'u':
+                self.button3_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][2])
+            elif self.button3_4.text() == 'e':
+                self.button3_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][2])
+            elif self.button3_4.text() == 'S':
+                self.button3_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][2])
+            elif self.button3_4.text() == 'Q':
+                self.button3_4.setStyleSheet("")
+                self.button3_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][2])
         else:
             if val == 1:
-                self.button3_4.config(background='#f5010a', text='u')
+                self.button3_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_4.setText("u")
             if val == 2:
-                self.button3_4.config(background='#00e100', text='e')
+                self.button3_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_4.setText("e")
             if val == 3:
-                self.button3_4.config(background='#ffff80', text='S')
+                self.button3_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_4.setText("S")
+            if val == 4:
+                self.button3_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_4.setText("Q")
             else:
                 pass
+
     def set3_5(self, val=None):
-        if val == None:
-            if self.button3_5.config('text')[4] == '':
-                self.button3_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][2],1)
-            elif self.button3_5.config('text')[4] == 'u':
-                self.button3_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][2],2)
-            elif self.button3_5.config('text')[4] == 'e':
-                self.button3_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][2],3)
-            elif self.button3_5.config('text')[4] == 'S':
-                self.button3_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][2],0)
+        if val == False:
+            if self.button3_5.text() == '':
+                self.button3_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][2])
+            elif self.button3_5.text() == 'u':
+                self.button3_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][2])
+            elif self.button3_5.text() == 'e':
+                self.button3_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][2])
+            elif self.button3_5.text() == 'S':
+                self.button3_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][2])
+            elif self.button3_5.text() == 'Q':
+                self.button3_5.setStyleSheet("")
+                self.button3_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][2])
         else:
             if val == 1:
-                self.button3_5.config(background='#f5010a', text='u')
+                self.button3_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button3_5.setText("u")
             if val == 2:
-                self.button3_5.config(background='#00e100', text='e')
+                self.button3_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button3_5.setText("e")
             if val == 3:
-                self.button3_5.config(background='#ffff80', text='S')
+                self.button3_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button3_5.setText("S")
+            if val == 4:
+                self.button3_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button3_5.setText("Q")
             else:
                 pass                
+
     def set4_1(self, val=None):
-        if val == None:
-            if self.button4_1.config('text')[4] == '':
-                self.button4_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][3],1)
-            elif self.button4_1.config('text')[4] == 'u':
-                self.button4_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][3],2)
-            elif self.button4_1.config('text')[4] == 'e':
-                self.button4_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][3],3)
-            elif self.button4_1.config('text')[4] == 'S':
-                self.button4_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][3],0)
+        if val == False:
+            if self.button4_1.text() == '':
+                self.button4_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][3])
+            elif self.button4_1.text() == 'u':
+                self.button4_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][3])
+            elif self.button4_1.text() == 'e':
+                self.button4_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][3])
+            elif self.button4_1.text() == 'S':
+                self.button4_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][3])
+            elif self.button4_1.text() == 'Q':
+                self.button4_1.setStyleSheet("")
+                self.button4_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][3])
         else:
             if val == 1:
-                self.button4_1.config(background='#f5010a', text='u')
+                self.button4_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_1.setText("u")
             if val == 2:
-                self.button4_1.config(background='#00e100', text='e')
+                self.button4_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_1.setText("e")
             if val == 3:
-                self.button4_1.config(background='#ffff80', text='S')
+                self.button4_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_1.setText("S")
+            if val == 4:
+                self.button4_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_1.setText("Q")
             else:
                 pass                
+
     def set4_2(self, val=None):
-        if val == None:
-            if self.button4_2.config('text')[4] == '':
-                self.button4_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][3],1)
-            elif self.button4_2.config('text')[4] == 'u':
-                self.button4_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][3],2)
-            elif self.button4_2.config('text')[4] == 'e':
-                self.button4_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][3],3)
-            elif self.button4_2.config('text')[4] == 'S':
-                self.button4_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][3],0)
+        if val == False:
+            if self.button4_2.text() == '':
+                self.button4_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][3])
+            elif self.button4_2.text() == 'u':
+                self.button4_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][3])
+            elif self.button4_2.text() == 'e':
+                self.button4_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][3])
+            elif self.button4_2.text() == 'S':
+                self.button4_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][3])
+            elif self.button4_2.text() == 'Q':
+                self.button4_2.setStyleSheet("")
+                self.button4_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][3])
         else:
             if val == 1:
-                self.button4_2.config(background='#f5010a', text='u')
+                self.button4_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_2.setText("u")
             if val == 2:
-                self.button4_2.config(background='#00e100', text='e')
+                self.button4_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_2.setText("e")
             if val == 3:
-                self.button4_2.config(background='#ffff80', text='S')
+                self.button4_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_2.setText("S")
+            if val == 4:
+                self.button4_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_2.setText("Q")
             else:
                 pass                     
+
     def set4_3(self, val=None):
-        if val == None:
-            if self.button4_3.config('text')[4] == '':
-                self.button4_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][3],1)
-            elif self.button4_3.config('text')[4] == 'u':
-                self.button4_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][3],2)
-            elif self.button4_3.config('text')[4] == 'e':
-                self.button4_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][3],3)
-            elif self.button4_3.config('text')[4] == 'S':
-                self.button4_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][3],0)
+        if val == False:
+            if self.button4_3.text() == '':
+                self.button4_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][3])
+            elif self.button4_3.text() == 'u':
+                self.button4_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][3])
+            elif self.button4_3.text() == 'e':
+                self.button4_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][3])
+            elif self.button4_3.text() == 'S':
+                self.button4_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][3])
+            elif self.button4_3.text() == 'Q':
+                self.button4_3.setStyleSheet("")
+                self.button4_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][3])
         else:
             if val == 1:
-                self.button4_3.config(background='#f5010a', text='u')
+                self.button4_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_3.setText("u")
             if val == 2:
-                self.button4_3.config(background='#00e100', text='e')
+                self.button4_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_3.setText("e")
             if val == 3:
-                self.button4_3.config(background='#ffff80', text='S')
+                self.button4_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_3.setText("S")
+            if val == 4:
+                self.button4_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_3.setText("Q")
             else:
                 pass
+
     def set4_4(self, val=None):
-        if val == None:
-            if self.button4_4.config('text')[4] == '':
-                self.button4_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][3],1)
-            elif self.button4_4.config('text')[4] == 'u':
-                self.button4_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][3],2)
-            elif self.button4_4.config('text')[4] == 'e':
-                self.button4_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][3],3)
-            elif self.button4_4.config('text')[4] == 'S':
-                self.button4_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][3],0)
+        if val == False:
+            if self.button4_4.text() == '':
+                self.button4_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][3])
+            elif self.button4_4.text() == 'u':
+                self.button4_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][3])
+            elif self.button4_4.text() == 'e':
+                self.button4_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][3])
+            elif self.button4_4.text() == 'S':
+                self.button4_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][3])
+            elif self.button4_4.text() == 'Q':
+                self.button4_4.setStyleSheet("")
+                self.button4_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][3])
         else:
             if val == 1:
-                self.button4_4.config(background='#f5010a', text='u')
+                self.button4_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_4.setText("u")
             if val == 2:
-                self.button4_4.config(background='#00e100', text='e')
+                self.button4_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_4.setText("e")
             if val == 3:
-                self.button4_4.config(background='#ffff80', text='S')
+                self.button4_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_4.setText("S")
+            if val == 4:
+                self.button4_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_4.setText("Q")
             else:
                 pass
+
     def set4_5(self, val=None):
-        if val == None:
-            if self.button4_5.config('text')[4] == '':
-                self.button4_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][3],1)
-            elif self.button4_5.config('text')[4] == 'u':
-                self.button4_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][3],2)
-            elif self.button4_5.config('text')[4] == 'e':
-                self.button4_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][3],3)
-            elif self.button4_5.config('text')[4] == 'S':
-                self.button4_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][3],0)
+        if val == False:
+            if self.button4_5.text() == '':
+                self.button4_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][3])
+            elif self.button4_5.text() == 'u':
+                self.button4_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][3])
+            elif self.button4_5.text() == 'e':
+                self.button4_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][3])
+            elif self.button4_5.text() == 'S':
+                self.button4_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][3])
+            elif self.button4_5.text() == 'Q':
+                self.button4_5.setStyleSheet("")
+                self.button4_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][3])
         else:
             if val == 1:
-                self.button4_5.config(background='#f5010a', text='u')
+                self.button4_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button4_5.setText("u")
             if val == 2:
-                self.button4_5.config(background='#00e100', text='e')
+                self.button4_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button4_5.setText("e")
             if val == 3:
-                self.button4_5.config(background='#ffff80', text='S')
+                self.button4_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button4_5.setText("S")
+            if val == 4:
+                self.button4_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button4_5.setText("Q")
             else:
                 pass                     
+
     def set5_1(self, val=None):
-        if val == None:
-            if self.button5_1.config('text')[4] == '':
-                self.button5_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][4],1)
-            elif self.button5_1.config('text')[4] == 'u':
-                self.button5_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][4],2)
-            elif self.button5_1.config('text')[4] == 'e':
-                self.button5_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][4],3)
-            elif self.button5_1.config('text')[4] == 'S':
-                self.button5_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][4],0)
+        if val == False:
+            if self.button5_1.text() == '':
+                self.button5_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][4])
+            elif self.button5_1.text() == 'u':
+                self.button5_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][4])
+            elif self.button5_1.text() == 'e':
+                self.button5_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][4])
+            elif self.button5_1.text() == 'S':
+                self.button5_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][4])
+            elif self.button5_1.text() == 'Q':
+                self.button5_1.setStyleSheet("")
+                self.button5_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][4])
         else:
             if val == 1:
-                self.button5_1.config(background='#f5010a', text='u')
+                self.button5_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_1.setText("u")
             if val == 2:
-                self.button5_1.config(background='#00e100', text='e')
+                self.button5_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_1.setText("e")
             if val == 3:
-                self.button5_1.config(background='#ffff80', text='S')
+                self.button5_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_1.setText("S")
+            if val == 4:
+                self.button5_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_1.setText("Q")
             else:
                 pass                     
+
     def set5_2(self, val=None):
-        if val == None:
-            if self.button5_2.config('text')[4] == '':
-                self.button5_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][4],1)
-            elif self.button5_2.config('text')[4] == 'u':
-                self.button5_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][4],2)
-            elif self.button5_2.config('text')[4] == 'e':
-                self.button5_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][4],3)
-            elif self.button5_2.config('text')[4] == 'S':
-                self.button5_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][4],0)
+        if val == False:
+            if self.button5_2.text() == '':
+                self.button5_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][4])
+            elif self.button5_2.text() == 'u':
+                self.button5_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][4])
+            elif self.button5_2.text() == 'e':
+                self.button5_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][4])
+            elif self.button5_2.text() == 'S':
+                self.button5_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][4])
+            elif self.button5_2.text() == 'Q':
+                self.button5_2.setStyleSheet("")
+                self.button5_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][4])
         else:
             if val == 1:
-                self.button5_2.config(background='#f5010a', text='u')
+                self.button5_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_2.setText("u")
             if val == 2:
-                self.button5_2.config(background='#00e100', text='e')
+                self.button5_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_2.setText("e")
             if val == 3:
-                self.button5_2.config(background='#ffff80', text='S')
+                self.button5_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_2.setText("S")
+            if val == 4:
+                self.button5_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_2.setText("Q")
             else:
                 pass                         
+
     def set5_3(self, val=None):
-        if val == None:
-            if self.button5_3.config('text')[4] == '':
-                self.button5_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][4],1)
-            elif self.button5_3.config('text')[4] == 'u':
-                self.button5_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][4],2)
-            elif self.button5_3.config('text')[4] == 'e':
-                self.button5_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][4],3)
-            elif self.button5_3.config('text')[4] == 'S':
-                self.button5_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][4],0)
+        if val == False:
+            if self.button5_3.text() == '':
+                self.button5_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][4])
+            elif self.button5_3.text() == 'u':
+                self.button5_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][4])
+            elif self.button5_3.text() == 'e':
+                self.button5_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][4])
+            elif self.button5_3.text() == 'S':
+                self.button5_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][4])
+            elif self.button5_3.text() == 'Q':
+                self.button5_3.setStyleSheet("")
+                self.button5_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][4])
         else:
             if val == 1:
-                self.button5_3.config(background='#f5010a', text='u')
+                self.button5_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_3.setText("u")
             if val == 2:
-                self.button5_3.config(background='#00e100', text='e')
+                self.button5_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_3.setText("e")
             if val == 3:
-                self.button5_3.config(background='#ffff80', text='S')
+                self.button5_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_3.setText("S")
+            if val == 4:
+                self.button5_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_3.setText("Q")
             else:
                 pass                         
+
     def set5_4(self, val=None):
-        if val == None:
-            if self.button5_4.config('text')[4] == '':
-                self.button5_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][4],1)
-            elif self.button5_4.config('text')[4] == 'u':
-                self.button5_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][4],2)
-            elif self.button5_4.config('text')[4] == 'e':
-                self.button5_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][4],3)
-            elif self.button5_4.config('text')[4] == 'S':
-                self.button5_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][4],0)
+        if val == False:
+            if self.button5_4.text() == '':
+                self.button5_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][4])
+            elif self.button5_4.text() == 'u':
+                self.button5_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][4])
+            elif self.button5_4.text() == 'e':
+                self.button5_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][4])
+            elif self.button5_4.text() == 'S':
+                self.button5_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][4])
+            elif self.button5_4.text() == 'Q':
+                self.button5_4.setStyleSheet("")
+                self.button5_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][4])
         else:
             if val == 1:
-                self.button5_4.config(background='#f5010a', text='u')
+                self.button5_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_4.setText("u")
             if val == 2:
-                self.button5_4.config(background='#00e100', text='e')
+                self.button5_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_4.setText("e")
             if val == 3:
-                self.button5_4.config(background='#ffff80', text='S')
+                self.button5_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_4.setText("S")
+            if val == 4:
+                self.button5_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_4.setText("Q")
             else:
                 pass                         
+
     def set5_5(self, val=None):
-        if val == None:
-            if self.button5_5.config('text')[4] == '':
-                self.button5_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][4],1)
-            elif self.button5_5.config('text')[4] == 'u':
-                self.button5_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][4],2)
-            elif self.button5_5.config('text')[4] == 'e':
-                self.button5_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][4],3)
-            elif self.button5_5.config('text')[4] == 'S':
-                self.button5_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][4],0)
+        if val == False:
+            if self.button5_5.text() == '':
+                self.button5_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][4])
+            elif self.button5_5.text() == 'u':
+                self.button5_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][4])
+            elif self.button5_5.text() == 'e':
+                self.button5_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][4])
+            elif self.button5_5.text() == 'S':
+                self.button5_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][4])
+            elif self.button5_5.text() == 'Q':
+                self.button5_5.setStyleSheet("")
+                self.button5_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][4])
         else:
             if val == 1:
-                self.button5_5.config(background='#f5010a', text='u')
+                self.button5_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button5_5.setText("u")
             if val == 2:
-                self.button5_5.config(background='#00e100', text='e')
+                self.button5_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button5_5.setText("e")
             if val == 3:
-                self.button5_5.config(background='#ffff80', text='S')
+                self.button5_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button5_5.setText("S")
+            if val == 4:
+                self.button5_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button5_5.setText("Q")
             else:
                 pass                         
+
     def set6_1(self, val=None):
-        if val == None:
-            if self.button6_1.config('text')[4] == '':
-                self.button6_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][5],1)
-            elif self.button6_1.config('text')[4] == 'u':
-                self.button6_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][5],2)
-            elif self.button6_1.config('text')[4] == 'e':
-                self.button6_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][5],3)
-            elif self.button6_1.config('text')[4] == 'S':
-                self.button6_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][5],0)
+        if val == False:
+            if self.button6_1.text() == '':
+                self.button6_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][5])
+            elif self.button6_1.text() == 'u':
+                self.button6_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][5])
+            elif self.button6_1.text() == 'e':
+                self.button6_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][5])
+            elif self.button6_1.text() == 'S':
+                self.button6_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][5])
+            elif self.button6_1.text() == 'Q':
+                self.button6_1.setStyleSheet("")
+                self.button6_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][5])
         else:
             if val == 1:
-                self.button6_1.config(background='#f5010a', text='u')
+                self.button6_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_1.setText("u")
             if val == 2:
-                self.button6_1.config(background='#00e100', text='e')
+                self.button6_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_1.setText("e")
             if val == 3:
-                self.button6_1.config(background='#ffff80', text='S')
+                self.button6_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_1.setText("S")
+            if val == 4:
+                self.button6_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_1.setText("Q")
             else:
                 pass                         
+
     def set6_2(self, val=None):
-        if val == None:
-            if self.button6_2.config('text')[4] == '':
-                self.button6_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][5],1)
-            elif self.button6_2.config('text')[4] == 'u':
-                self.button6_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][5],2)
-            elif self.button6_2.config('text')[4] == 'e':
-                self.button6_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][5],3)
-            elif self.button6_2.config('text')[4] == 'S':
-                self.button6_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][5],0)
+        if val == False:
+            if self.button6_2.text() == '':
+                self.button6_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][5])
+            elif self.button6_2.text() == 'u':
+                self.button6_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][5])
+            elif self.button6_2.text() == 'e':
+                self.button6_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][5])
+            elif self.button6_2.text() == 'S':
+                self.button6_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][5])
+            elif self.button6_2.text() == 'Q':
+                self.button6_2.setStyleSheet("")
+                self.button6_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][5])
         else:
             if val == 1:
-                self.button6_2.config(background='#f5010a', text='u')
+                self.button6_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_2.setText("u")
             if val == 2:
-                self.button6_2.config(background='#00e100', text='e')
+                self.button6_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_2.setText("e")
             if val == 3:
-                self.button6_2.config(background='#ffff80', text='S')
+                self.button6_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_2.setText("S")
+            if val == 4:
+                self.button6_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_2.setText("Q")
             else:
                 pass                          
+
     def set6_3(self, val=None):
-        if val == None:
-            if self.button6_3.config('text')[4] == '':
-                self.button6_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][5],1)
-            elif self.button6_3.config('text')[4] == 'u':
-                self.button6_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][5],2)
-            elif self.button6_3.config('text')[4] == 'e':
-                self.button6_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][5],3)
-            elif self.button6_3.config('text')[4] == 'S':
-                self.button6_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][5],0)
+        if val == False:
+            if self.button6_3.text() == '':
+                self.button6_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][5])
+            elif self.button6_3.text() == 'u':
+                self.button6_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][5])
+            elif self.button6_3.text() == 'e':
+                self.button6_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][5])
+            elif self.button6_3.text() == 'S':
+                self.button6_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][5])
+            elif self.button6_3.text() == 'Q':
+                self.button6_3.setStyleSheet("")
+                self.button6_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][5])
         else:
             if val == 1:
-                self.button6_3.config(background='#f5010a', text='u')
+                self.button6_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_3.setText("u")
             if val == 2:
-                self.button6_3.config(background='#00e100', text='e')
+                self.button6_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_3.setText("e")
             if val == 3:
-                self.button6_3.config(background='#ffff80', text='S')
+                self.button6_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_3.setText("S")
+            if val == 4:
+                self.button6_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_3.setText("Q")
             else:
                 pass                          
+
     def set6_4(self, val=None):
-        if val == None:
-            if self.button6_4.config('text')[4] == '':
-                self.button6_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][5],1)
-            elif self.button6_4.config('text')[4] == 'u':
-                self.button6_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][5],2)
-            elif self.button6_4.config('text')[4] == 'e':
-                self.button6_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][5],3)
-            elif self.button6_4.config('text')[4] == 'S':
-                self.button6_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][5],0)
+        if val == False:
+            if self.button6_4.text() == '':
+                self.button6_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][5])
+            elif self.button6_4.text() == 'u':
+                self.button6_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][5])
+            elif self.button6_4.text() == 'e':
+                self.button6_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][5])
+            elif self.button6_4.text() == 'S':
+                self.button6_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][5])
+            elif self.button6_4.text() == 'Q':
+                self.button6_4.setStyleSheet("")
+                self.button6_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][5])
         else:
             if val == 1:
-                self.button6_4.config(background='#f5010a', text='u')
+                self.button6_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_4.setText("u")
             if val == 2:
-                self.button6_4.config(background='#00e100', text='e')
+                self.button6_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_4.setText("e")
             if val == 3:
-                self.button6_4.config(background='#ffff80', text='S')
+                self.button6_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_4.setText("S")
+            if val == 4:
+                self.button6_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_4.setText("Q")
             else:
                 pass                          
+
     def set6_5(self, val=None):
-        if val == None:
-            if self.button6_5.config('text')[4] == '':
-                self.button6_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][5],1)
-            elif self.button6_5.config('text')[4] == 'u':
-                self.button6_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][5],2)
-            elif self.button6_5.config('text')[4] == 'e':
-                self.button6_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][5],3)
-            elif self.button6_5.config('text')[4] == 'S':
-                self.button6_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][5],0)
+        if val == False:
+            if self.button6_5.text() == '':
+                self.button6_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][5])
+            elif self.button6_5.text() == 'u':
+                self.button6_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][5])
+            elif self.button6_5.text() == 'e':
+                self.button6_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][5])
+            elif self.button6_5.text() == 'S':
+                self.button6_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][5])
+            elif self.button6_5.text() == 'Q':
+                self.button6_5.setStyleSheet("")
+                self.button6_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][5])
         else:
             if val == 1:
-                self.button6_5.config(background='#f5010a', text='u')
+                self.button6_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button6_5.setText("u")
             if val == 2:
-                self.button6_5.config(background='#00e100', text='e')
+                self.button6_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button6_5.setText("e")
             if val == 3:
-                self.button6_5.config(background='#ffff80', text='S')
+                self.button6_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button6_5.setText("S")
+            if val == 4:
+                self.button6_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button6_5.setText("Q")
             else:
                 pass                          
+
     def set7_1(self, val=None):
-        if val == None:
-            if self.button7_1.config('text')[4] == '':
-                self.button7_1.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[0][6],1)
-            elif self.button7_1.config('text')[4] == 'u':
-                self.button7_1.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[0][6],2)
-            elif self.button7_1.config('text')[4] == 'e':
-                self.button7_1.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[0][6],3)
-            elif self.button7_1.config('text')[4] == 'S':
-                self.button7_1.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[0][6],0)
+        if val == False:
+            if self.button7_1.text() == '':
+                self.button7_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_1.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[0][6])
+            elif self.button7_1.text() == 'u':
+                self.button7_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_1.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[0][6])
+            elif self.button7_1.text() == 'e':
+                self.button7_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_1.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[0][6])
+            elif self.button7_1.text() == 'S':
+                self.button7_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_1.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[0][6])
+            elif self.button7_1.text() == 'Q':
+                self.button7_1.setStyleSheet("")
+                self.button7_1.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][6])
         else:
             if val == 1:
-                self.button7_1.config(background='#f5010a', text='u')
+                self.button7_1.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_1.setText("u")
             if val == 2:
-                self.button7_1.config(background='#00e100', text='e')
+                self.button7_1.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_1.setText("e")
             if val == 3:
-                self.button7_1.config(background='#ffff80', text='S')
+                self.button7_1.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_1.setText("S")
+            if val == 4:
+                self.button7_1.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_1.setText("Q")
             else:
                 pass                          
+
     def set7_2(self, val=None):
-        if val == None:
-            if self.button7_2.config('text')[4] == '':
-                self.button7_2.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[1][6],1)
-            elif self.button7_2.config('text')[4] == 'u':
-                self.button7_2.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[1][6],2)
-            elif self.button7_2.config('text')[4] == 'e':
-                self.button7_2.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[1][6],3)
-            elif self.button7_2.config('text')[4] == 'S':
-                self.button7_2.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[1][6],0)
+        if val == False:
+            if self.button7_2.text() == '':
+                self.button7_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_2.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[1][6])
+            elif self.button7_2.text() == 'u':
+                self.button7_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_2.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[1][6])
+            elif self.button7_2.text() == 'e':
+                self.button7_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_2.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[1][6])
+            elif self.button7_2.text() == 'S':
+                self.button7_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_2.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[1][6])
+            elif self.button7_2.text() == 'Q':
+                self.button7_2.setStyleSheet("")
+                self.button7_2.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][6])
         else:
             if val == 1:
-                self.button7_2.config(background='#f5010a', text='u')
+                self.button7_2.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_2.setText("u")
             if val == 2:
-                self.button7_2.config(background='#00e100', text='e')
+                self.button7_2.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_2.setText("e")
             if val == 3:
-                self.button7_2.config(background='#ffff80', text='S')
+                self.button7_2.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_2.setText("S")
+            if val == 4:
+                self.button7_2.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_2.setText("Q")
             else:
                 pass                          
+
     def set7_3(self, val=None):
-        if val == None:
-            if self.button7_3.config('text')[4] == '':
-                self.button7_3.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[2][6],1)
-            elif self.button7_3.config('text')[4] == 'u':
-                self.button7_3.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[2][6],2)
-            elif self.button7_3.config('text')[4] == 'e':
-                self.button7_3.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[2][6],3)
-            elif self.button7_3.config('text')[4] == 'S':
-                self.button7_3.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[2][6],0)
+        if val == False:
+            if self.button7_3.text() == '':
+                self.button7_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_3.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[2][6])
+            elif self.button7_3.text() == 'u':
+                self.button7_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_3.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[2][6])
+            elif self.button7_3.text() == 'e':
+                self.button7_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_3.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[2][6])
+            elif self.button7_3.text() == 'S':
+                self.button7_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_3.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[2][6])
+            elif self.button7_3.text() == 'Q':
+                self.button7_3.setStyleSheet("")
+                self.button7_3.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][6])
         else:
             if val == 1:
-                self.button7_3.config(background='#f5010a', text='u')
+                self.button7_3.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_3.setText("u")
             if val == 2:
-                self.button7_3.config(background='#00e100', text='e')
+                self.button7_3.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_3.setText("e")
             if val == 3:
-                self.button7_3.config(background='#ffff80', text='S')
+                self.button7_3.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_3.setText("S")
+            if val == 4:
+                self.button7_3.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_3.setText("Q")
             else:
                 pass                      
+
     def set7_4(self, val=None):
-        if val == None:
-            if self.button7_4.config('text')[4] == '':
-                self.button7_4.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[3][6],1)
-            elif self.button7_4.config('text')[4] == 'u':
-                self.button7_4.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[3][6],2)
-            elif self.button7_4.config('text')[4] == 'e':
-                self.button7_4.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[3][6],3)
-            elif self.button7_4.config('text')[4] == 'S':
-                self.button7_4.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[3][6],0)
+        if val == False:
+            if self.button7_4.text() == '':
+                self.button7_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_4.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[3][6])
+            elif self.button7_4.text() == 'u':
+                self.button7_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_4.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[3][6])
+            elif self.button7_4.text() == 'e':
+                self.button7_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_4.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[3][6])
+            elif self.button7_4.text() == 'S':
+                self.button7_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_4.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[3][6])
+            elif self.button7_4.text() == 'Q':
+                self.button7_4.setStyleSheet("")
+                self.button7_4.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][6])
         else:
             if val == 1:
-                self.button7_4.config(background='#f5010a', text='u')
+                self.button7_4.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_4.setText("u")
             if val == 2:
-                self.button7_4.config(background='#00e100', text='e')
+                self.button7_4.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_4.setText("e")
             if val == 3:
-                self.button7_4.config(background='#ffff80', text='S')
+                self.button7_4.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_4.setText("S")
+            if val == 4:
+                self.button7_4.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_4.setText("Q")
             else:
                 pass                  
+
     def set7_5(self, val=None):
-        if val == None:
-            if self.button7_5.config('text')[4] == '':
-                self.button7_5.config(background='#f5010a', text='u')
-                self.writeFehlzeit(self.datelistweek[4][6],1)
-            elif self.button7_5.config('text')[4] == 'u':
-                self.button7_5.config(background='#00e100', text='e')
-                self.writeFehlzeit(self.datelistweek[4][6],2)
-            elif self.button7_5.config('text')[4] == 'e':
-                self.button7_5.config(background='#ffff80', text='S')
-                self.writeFehlzeit(self.datelistweek[4][6],3)
-            elif self.button7_5.config('text')[4] == 'S':
-                self.button7_5.config(background='#c0c0c0', text='')
-                self.writeFehlzeit(self.datelistweek[4][6],0)
+        if val == False:
+            if self.button7_5.text() == '':
+                self.button7_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_5.setText("u")
+                self.db.writeFehlzeiten(self.student_pk,1,self.datelistweek[4][6])
+            elif self.button7_5.text() == 'u':
+                self.button7_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_5.setText("e")
+                self.db.writeFehlzeiten(self.student_pk,2,self.datelistweek[4][6])
+            elif self.button7_5.text() == 'e':
+                self.button7_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_5.setText("S")
+                self.db.writeFehlzeiten(self.student_pk,3,self.datelistweek[4][6])
+            elif self.button7_5.text() == 'S':
+                self.button7_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_5.setText("Q")
+                self.db.writeFehlzeiten(self.student_pk,4,self.datelistweek[4][6])
+            elif self.button7_5.text() == 'Q':
+                self.button7_5.setStyleSheet("")
+                self.button7_5.setText("")
+                self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][6])
         else:
             if val == 1:
-                self.button7_5.config(background='#f5010a', text='u')
+                self.button7_5.setStyleSheet("background-color: rgb(216, 109, 109);")
+                self.button7_5.setText("u")
             if val == 2:
-                self.button7_5.config(background='#00e100', text='e')
+                self.button7_5.setStyleSheet("background-color: rgb(89, 209, 117);")
+                self.button7_5.setText("e")
             if val == 3:
-                self.button7_5.config(background='#ffff80', text='S')
+                self.button7_5.setStyleSheet("background-color: rgb(255, 255, 127);")
+                self.button7_5.setText("S")
+            if val == 4:
+                self.button7_5.setStyleSheet("background-color: rgb(160, 209, 255);")
+                self.button7_5.setText("Q")
             else:
                 pass                  
+
 
     def resetButtons(self):
         """ setzt alle Fehlzeiten-Buttons zurück"""
