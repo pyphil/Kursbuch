@@ -591,14 +591,7 @@ class Database:
                                 WHERE zuab = 0
                                 """))
  
-        try:
-            # Prüfen, ob es schon eine Spalte für das Datum gibt und ggf.
-            # versuchen, die Spalte hinzuzufügen
-            self.susc.execute("""ALTER TABLE sus ADD """+date+""" VARCHAR(12)
-                           """)
-            self.susverbindung.commit()
-        except:
-            pass
+        self.addTableDate(date)
         
         liste = []
         for i in pkliste:
@@ -610,9 +603,25 @@ class Database:
             liste.append(item[0])
         return liste
 
-    def writeFehlzeiten(self, pk, f, date):
+    def addTableDate(self, date):
+        """ Versuchen eine neue Spalte für das Datum anzulegen,
+        sonst pass 
+        """
+        try:
+            self.susc.execute("""ALTER TABLE sus ADD """+date+""" VARCHAR(12)
+                           """)
+            self.susverbindung.commit()
+        except:
+            pass
+
+    def writeFehlzeiten(self, pk, f, date, tut=None):
         # Anführungsstriche um das Datum setzen
         date='"'+date+'"'
+
+        # Wenn aus Tutorenmodus aufgerufen
+        if tut == True:
+            self.addTableDate(date)
+
         self.susc.execute("""UPDATE "sus" 
                           SET """+date+""" = ?
                           WHERE pk = ?;
