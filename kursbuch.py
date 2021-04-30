@@ -690,7 +690,9 @@ class Database:
                                       WHERE pk = ?
                                     """,
                                     (studentpk,)))
-        return sfz
+        names = list(self.susc.execute("""PRAGMA table_info(sus)"""))
+
+        return sfz,names
 
     
     def close(self):

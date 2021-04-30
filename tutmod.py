@@ -274,6 +274,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         auswahl = int(self.tableWidget.currentRow())
         self.student_pk = self.filtered[auswahl][2]
 
+        self.countfz()
         # DB-Verbindung
         # verbindung = sqlite3.connect("kurs.db")
         # c = verbindung.cursor()
@@ -1763,4 +1764,29 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button7_5.setText("")
 
     def countfz(self):
-        print(self.db.getSFehlzeiten(self.student_pk))
+        columns = self.db.getSFehlzeiten(self.student_pk)
+
+        u = 0
+        e = 0
+
+        for i in range(len(columns[1])):
+            if i >= 6:
+                print(columns[1][i][1], " --> ", columns[0][0][i])
+                # start = datetime.strptime("2021-04-19", "%Y-%m-%d")
+                start = datetime.strptime(str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
+                end = datetime.strptime(str(self.dateEdit_2.date().toPyDate()), "%Y-%m-%d")
+                date = datetime.strptime(columns[1][i][1].split("_")[0], "%Y-%m-%d")
+                if start <= date <= end:
+                    if columns[0][0][i] == "1":
+                        u += 1
+                    if columns[0][0][i] == "2":
+                        e += 1
+        print("u:",u)
+        print("e:",e)
+        self.label_16.setText(str(e))
+        self.label_17.setText(str(u))
+        
+        
+
+
+        
