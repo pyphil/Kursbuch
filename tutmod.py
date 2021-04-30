@@ -79,6 +79,19 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button7_4.clicked.connect(self.set7_4)
         self.button7_5.clicked.connect(self.set7_5)
 
+        self.disableButtons()
+
+    def disableButtons(self):
+        self.comboBoxMonat.setEnabled(False)
+        self.dateEditJahr.setEnabled(False)
+        self.pushButtonWeekafter.setEnabled(False)
+        self.pushButtonWeekbefore.setEnabled(False)
+    
+    def enableButtons(self):
+        self.comboBoxMonat.setEnabled(True)
+        self.dateEditJahr.setEnabled(True)
+        self.pushButtonWeekafter.setEnabled(True)
+        self.pushButtonWeekbefore.setEnabled(True)
 
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
@@ -195,14 +208,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             self.set_fehlzeiten()
 
     def weekafter(self, set=None):
-        if self.weekno+1 <= len(self.weeks)-1:
+        if self.weekno+1 <= len(self.weeks)-1 or set == True:
             self.resetButtons()
-            # wenn zu Beginn aus setmonth aufgerufen, aktuelle Woche benutzen
-            if set==True:
-                # nichts tun und self.weekno benutzen
-                pass
-            else:    
-                # Button wurde gedrückt, eine Woche weiter
+            # Wenn zu Beginn aus setmonth aufgerufen, aktuelle Woche benutzen.
+            # Nur wenn Button wurde gedrückt, eine Woche weiter
+            if set!=True:   
                 self.weekno += 1
 
             self.set_weeks()
@@ -267,8 +277,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         """Führt alle set-Methoden aus, indem vorher die Liste aus der db
         geholt wird und den Methoden u oder e oder ""? übergeben wird """
         
-        # Button reset
+        # Button reset and enable navigation
         self.resetButtons()
+        self.enableButtons()
 
         # Schüler-pk setzen
         auswahl = int(self.tableWidget.currentRow())
