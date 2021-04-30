@@ -1785,7 +1785,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         print("e:",e)
         self.label_16.setText(str(e))
         self.label_17.setText(str(u))
-        
+        self.label_19.setText(str(u+e))
         
 
 
