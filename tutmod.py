@@ -1761,3 +1761,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button7_4.setText("")
         self.button7_5.setStyleSheet("")
         self.button7_5.setText("")
+
+    def countfz(self):
+        print(self.db.getSFehlzeiten(self.student_pk))

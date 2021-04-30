@@ -684,6 +684,14 @@ class Database:
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
         s = list(self.susc.execute("SELECT pk, Name, Vorname, Klasse FROM sus"))
         return s
+
+    def getSFehlzeiten(self,studentpk):
+        sfz = list(self.susc.execute("""SELECT * FROM sus 
+                                      WHERE pk = ?
+                                    """,
+                                    (studentpk,)))
+        return sfz
+
     
     def close(self):
         self.c.close()
