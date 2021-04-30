@@ -101,7 +101,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
         # ausgewählte Klasse
         klasse = self.comboBoxKlasse.currentText()
-        print(klasse)
 
         # Filtern nach Klasse
         alle = self.db.getGesamtliste()
@@ -114,9 +113,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
                 self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
-        #print(self.filtered)
-
-
 
     def set_cur_year_month(self):
         self.dateEditJahr.setDate(QtCore.QDate(date.today().year,1,1))
@@ -130,9 +126,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         y = str(self.dateEditJahr.date().toPyDate())
         y = y.split("-")
         y = int(y[0])
-        print("Jahr",y)
         self.m = int(self.comboBoxMonat.currentIndex())+1
-        print("Monat: ",self.m)
 
         cal = Calendar()
 
@@ -163,8 +157,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # Wenn zu Beginn aus datensatz_anzeigen aufgerufen, 
             # aktuelle Woche setzen
             self.weekno = currentweek
-            print("aktuelle Wochennummer", self.weekno)
-            print(self.weeks)
             self.weekafter(True)
         elif set=="withlast":
             # bei Button mit der letzten Woche beginnen
@@ -223,10 +215,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         else:
             if set!=True:
                 nextmonth = self.comboBoxMonat.currentIndex()+2
-                print(nextmonth)
                 if nextmonth <= 12:
                     monat = date(9999,nextmonth,1).strftime("%B")
-                    print(monat)
                     self.comboBoxMonat.setCurrentText(monat)
                 else:
                     nextmonth = 1
@@ -239,7 +229,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                     self.dateEditJahr.setDate(QtCore.QDate(nextyear,1,1))
                 # Datum des aktuellen Montags speichern
                 aktmo = self.label_Mo.text()
-                print(aktmo)
                 # neuen Monat setzen
                 self.setMonth()
                 # wenn der neue Montag in der gleichen Woche liegt, noch eine 
@@ -284,7 +273,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         # Schüler-pk setzen
         auswahl = int(self.tableWidget.currentRow())
         self.student_pk = self.filtered[auswahl][2]
-        print(self.student_pk)
 
         # DB-Verbindung
         # verbindung = sqlite3.connect("kurs.db")
@@ -306,7 +294,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             datelist.append(i+"_6")
             datelist.append(i+"_7")
             self.datelistweek.append(datelist)
-            print(datelist)
+
             for d in datelist:
                 d = '"'+d+'"'
                 item = list(self.db.susc.execute("""SELECT """+d+""" 
@@ -317,14 +305,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 fehlzlist.append(item)
             
             setlist.append(fehlzlist)
-        
-        # DB-Verindung schließen
-        # c.close()
-        # verbindung.close()
-        
-        #print(setlist[0][0][0][0])
-        #print(self.datelistweek)
-        print(setlist[0][0][0][0])
         
         # set-Methoden aufrufen
 
@@ -373,7 +353,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
     def set1_1(self, val=None):
         if val == False:
-            print("PRESSED")
             if self.button1_1.text() == '':
                 self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
                 self.button1_1.setText("u")
