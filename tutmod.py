@@ -374,7 +374,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_1.setStyleSheet("")
                 self.button1_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][0],True)
-
+            self.countfz()
         else:
             if val == "1":
                 self.button1_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -388,8 +388,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_1.setText("Q")
-            else:
-                pass
+            
 
     def set1_2(self, val=None):
         if val == False:
@@ -413,6 +412,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_2.setStyleSheet("")
                 self.button1_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][0],True)
+            self.countfz()                   
         else:
             if val == "1":
                 self.button1_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -426,8 +426,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_2.setText("Q")
-            else:
-                pass                   
+            
 
     def set1_3(self, val=None):
         if val == False:
@@ -451,6 +450,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_3.setStyleSheet("")
                 self.button1_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][0],True)
+            self.countfz()                   
         else:
             if val == "1":
                 self.button1_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -464,8 +464,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_3.setText("Q")
-            else:
-                pass                   
+            
 
     def set1_4(self, val=None):
         if val == False:
@@ -489,6 +488,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_4.setStyleSheet("")
                 self.button1_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][0],True)
+            self.countfz()                   
         else:
             if val == "1":
                 self.button1_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -502,8 +502,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_4.setText("Q")
-            else:
-                pass                   
+            
 
     def set1_5(self, val=None):
         if val == False:
@@ -527,6 +526,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_5.setStyleSheet("")
                 self.button1_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][0],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button1_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -540,8 +540,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button1_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button1_5.setText("Q")
-            else:
-                pass                     
+            
 
     def set2_1(self, val=None):
         if val == False:
@@ -565,6 +564,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_1.setStyleSheet("")
                 self.button2_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][1],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button2_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -578,8 +578,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button2_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button2_1.setText("Q")
-            else:
-                pass                     
+            
 
     def set2_2(self, val=None):
         if val == False:
@@ -603,6 +602,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_2.setStyleSheet("")
                 self.button2_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][1],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button2_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -616,8 +616,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button2_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button2_2.setText("Q")
-            else:
-                pass                     
+            
 
     def set2_3(self, val=None):
         if val == False:
@@ -641,6 +640,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_3.setStyleSheet("")
                 self.button2_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][1],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button2_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -654,8 +654,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button2_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button2_3.setText("Q")
-            else:
-                pass                     
+            
 
     def set2_4(self, val=None):
         if val == False:
@@ -679,6 +678,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_4.setStyleSheet("")
                 self.button2_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][1],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button2_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -692,8 +692,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button2_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button2_4.setText("Q")
-            else:
-                pass                     
+            
 
     def set2_5(self, val=None):
         if val == False:
@@ -717,6 +716,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_5.setStyleSheet("")
                 self.button2_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][1],True)
+            self.countfz()                
         else:
             if val == "1":
                 self.button2_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -730,8 +730,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button2_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button2_5.setText("Q")
-            else:
-                pass                
+            
 
     def set3_1(self, val=None):
         if val == False:
@@ -755,6 +754,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_1.setStyleSheet("")
                 self.button3_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][2],True)
+            self.countfz()            
         else:
             if val == "1":
                 self.button3_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -768,8 +768,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button3_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button3_1.setText("Q")
-            else:
-                pass            
+            
 
     def set3_2(self, val=None):
         if val == False:
@@ -793,6 +792,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_2.setStyleSheet("")
                 self.button3_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][2],True)
+            self.countfz()                
         else:
             if val == "1":
                 self.button3_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -806,8 +806,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button3_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button3_2.setText("Q")
-            else:
-                pass                
+            
 
     def set3_3(self, val=None):
         if val == False:
@@ -831,6 +830,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_3.setStyleSheet("")
                 self.button3_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][2],True)
+            self.countfz()
         else:
             if val == "1":
                 self.button3_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -844,8 +844,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button3_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button3_3.setText("Q")
-            else:
-                pass
+            
 
     def set3_4(self, val=None):
         if val == False:
@@ -869,6 +868,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_4.setStyleSheet("")
                 self.button3_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][2],True)
+            self.countfz()
         else:
             if val == "1":
                 self.button3_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -882,8 +882,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button3_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button3_4.setText("Q")
-            else:
-                pass
+            
 
     def set3_5(self, val=None):
         if val == False:
@@ -907,6 +906,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_5.setStyleSheet("")
                 self.button3_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][2],True)
+            self.countfz()                
         else:
             if val == "1":
                 self.button3_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -920,8 +920,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button3_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button3_5.setText("Q")
-            else:
-                pass                
+            
 
     def set4_1(self, val=None):
         if val == False:
@@ -945,6 +944,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_1.setStyleSheet("")
                 self.button4_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][3],True)
+            self.countfz()                
         else:
             if val == "1":
                 self.button4_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -958,8 +958,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button4_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button4_1.setText("Q")
-            else:
-                pass                
+            
 
     def set4_2(self, val=None):
         if val == False:
@@ -983,6 +982,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_2.setStyleSheet("")
                 self.button4_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][3],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button4_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -996,8 +996,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button4_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button4_2.setText("Q")
-            else:
-                pass                     
+            
 
     def set4_3(self, val=None):
         if val == False:
@@ -1021,6 +1020,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_3.setStyleSheet("")
                 self.button4_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][3],True)
+            self.countfz()
         else:
             if val == "1":
                 self.button4_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1034,8 +1034,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button4_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button4_3.setText("Q")
-            else:
-                pass
+            
 
     def set4_4(self, val=None):
         if val == False:
@@ -1059,6 +1058,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_4.setStyleSheet("")
                 self.button4_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][3],True)
+            self.countfz()
         else:
             if val == "1":
                 self.button4_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1072,8 +1072,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button4_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button4_4.setText("Q")
-            else:
-                pass
+            
 
     def set4_5(self, val=None):
         if val == False:
@@ -1097,6 +1096,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_5.setStyleSheet("")
                 self.button4_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][3],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button4_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1110,8 +1110,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button4_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button4_5.setText("Q")
-            else:
-                pass                     
+            
 
     def set5_1(self, val=None):
         if val == False:
@@ -1135,6 +1134,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_1.setStyleSheet("")
                 self.button5_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][4],True)
+            self.countfz()                     
         else:
             if val == "1":
                 self.button5_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1148,8 +1148,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button5_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button5_1.setText("Q")
-            else:
-                pass                     
+            
 
     def set5_2(self, val=None):
         if val == False:
@@ -1173,6 +1172,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_2.setStyleSheet("")
                 self.button5_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][4],True)
+            self.countfz()                         
         else:
             if val == "1":
                 self.button5_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1186,8 +1186,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button5_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button5_2.setText("Q")
-            else:
-                pass                         
+            
 
     def set5_3(self, val=None):
         if val == False:
@@ -1211,6 +1210,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_3.setStyleSheet("")
                 self.button5_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][4],True)
+            self.countfz()                         
         else:
             if val == "1":
                 self.button5_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1224,8 +1224,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button5_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button5_3.setText("Q")
-            else:
-                pass                         
+            
 
     def set5_4(self, val=None):
         if val == False:
@@ -1249,6 +1248,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_4.setStyleSheet("")
                 self.button5_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][4],True)
+            self.countfz()                         
         else:
             if val == "1":
                 self.button5_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1262,8 +1262,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button5_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button5_4.setText("Q")
-            else:
-                pass                         
+            
 
     def set5_5(self, val=None):
         if val == False:
@@ -1287,6 +1286,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_5.setStyleSheet("")
                 self.button5_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][4],True)
+            self.countfz()                         
         else:
             if val == "1":
                 self.button5_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1300,8 +1300,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button5_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button5_5.setText("Q")
-            else:
-                pass                         
+            
 
     def set6_1(self, val=None):
         if val == False:
@@ -1325,6 +1324,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_1.setStyleSheet("")
                 self.button6_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][5],True)
+            self.countfz()                         
         else:
             if val == "1":
                 self.button6_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1338,8 +1338,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button6_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button6_1.setText("Q")
-            else:
-                pass                         
+            
 
     def set6_2(self, val=None):
         if val == False:
@@ -1363,6 +1362,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_2.setStyleSheet("")
                 self.button6_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][5],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button6_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1376,8 +1376,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button6_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button6_2.setText("Q")
-            else:
-                pass                          
+            
 
     def set6_3(self, val=None):
         if val == False:
@@ -1401,6 +1400,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_3.setStyleSheet("")
                 self.button6_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][5],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button6_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1414,8 +1414,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button6_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button6_3.setText("Q")
-            else:
-                pass                          
+            
 
     def set6_4(self, val=None):
         if val == False:
@@ -1439,6 +1438,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_4.setStyleSheet("")
                 self.button6_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][5],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button6_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1452,8 +1452,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button6_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button6_4.setText("Q")
-            else:
-                pass                          
+            
 
     def set6_5(self, val=None):
         if val == False:
@@ -1477,6 +1476,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_5.setStyleSheet("")
                 self.button6_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][5],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button6_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1490,8 +1490,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button6_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button6_5.setText("Q")
-            else:
-                pass                          
+            
 
     def set7_1(self, val=None):
         if val == False:
@@ -1515,6 +1514,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_1.setStyleSheet("")
                 self.button7_1.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[0][6],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button7_1.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1528,8 +1528,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button7_1.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button7_1.setText("Q")
-            else:
-                pass                          
+            
 
     def set7_2(self, val=None):
         if val == False:
@@ -1553,6 +1552,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_2.setStyleSheet("")
                 self.button7_2.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[1][6],True)
+            self.countfz()                          
         else:
             if val == "1":
                 self.button7_2.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1566,8 +1566,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button7_2.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button7_2.setText("Q")
-            else:
-                pass                          
+            
 
     def set7_3(self, val=None):
         if val == False:
@@ -1591,6 +1590,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_3.setStyleSheet("")
                 self.button7_3.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[2][6],True)
+            self.countfz()                      
         else:
             if val == "1":
                 self.button7_3.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1604,8 +1604,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button7_3.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button7_3.setText("Q")
-            else:
-                pass                      
+            
 
     def set7_4(self, val=None):
         if val == False:
@@ -1629,6 +1628,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_4.setStyleSheet("")
                 self.button7_4.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[3][6],True)
+            self.countfz()                  
         else:
             if val == "1":
                 self.button7_4.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1642,8 +1642,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button7_4.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button7_4.setText("Q")
-            else:
-                pass                  
+            
 
     def set7_5(self, val=None):
         if val == False:
@@ -1667,6 +1666,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_5.setStyleSheet("")
                 self.button7_5.setText("")
                 self.db.writeFehlzeiten(self.student_pk,0,self.datelistweek[4][6],True)
+            self.countfz()                  
         else:
             if val == "1":
                 self.button7_5.setStyleSheet("background-color: rgb(216, 109, 109);")
@@ -1680,8 +1680,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             if val == "4":
                 self.button7_5.setStyleSheet("background-color: rgb(160, 209, 255);")
                 self.button7_5.setText("Q")
-            else:
-                pass                  
+            
 
 
     def resetButtons(self):
