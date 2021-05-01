@@ -36,6 +36,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekafter.clicked.connect(self.weekafter)
         self.pushButtonWeekbefore.clicked.connect(self.weekbefore)
         self.tableWidget.clicked.connect(self.set_fehlzeiten)
+        self.dateEdit.dateChanged.connect(self.countfz)
+        self.dateEdit_2.dateChanged.connect(self.countfz)
+        self.dateEdit_3.dateChanged.connect(self.countfz)
+        self.dateEdit_4.dateChanged.connect(self.countfz)
 
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
