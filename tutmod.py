@@ -1771,11 +1771,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
         u = 0
         e = 0
+        u_2 = 0
+        e_2 = 0
 
         for i in range(len(columns[1])):
             if i >= 6:
-                print(columns[1][i][1], " --> ", columns[0][0][i])
-                # start = datetime.strptime("2021-04-19", "%Y-%m-%d")
                 start = datetime.strptime(str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
                 end = datetime.strptime(str(self.dateEdit_2.date().toPyDate()), "%Y-%m-%d")
                 date = datetime.strptime(columns[1][i][1].split("_")[0], "%Y-%m-%d")
@@ -1784,11 +1784,23 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                         u += 1
                     if columns[0][0][i] == "2":
                         e += 1
+                start_2 = datetime.strptime(str(self.dateEdit_3.date().toPyDate()), "%Y-%m-%d")
+                end_2 = datetime.strptime(str(self.dateEdit_4.date().toPyDate()), "%Y-%m-%d")
+                date = datetime.strptime(columns[1][i][1].split("_")[0], "%Y-%m-%d")
+                if start_2 <= date <= end_2:
+                    if columns[0][0][i] == "1":
+                        u_2 += 1
+                    if columns[0][0][i] == "2":
+                        e_2 += 1
         print("u:",u)
         print("e:",e)
         self.label_16.setText(str(e))
         self.label_17.setText(str(u))
         self.label_19.setText(str(u+e))
+        self.label_22.setText(str(e_2))
+        self.label_23.setText(str(u_2))
+        self.label_25.setText(str(u_2+e_2))
+        
         
 
 
