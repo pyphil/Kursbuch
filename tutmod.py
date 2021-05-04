@@ -153,10 +153,12 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # Monat liegt, anhängen an weeks
             # leading zero, führende Null hinzufügen: "%02d" % (self.m,)
             if ("%02d" % (self.m,)) != date_fr.split("-")[1] and w == 0:
-                pass
+                # Wenn ausgefiltert, currentweek um eine Woche erniedrigen
+                w -= 1
             else:
                 self.weeks.append(oneweek)
             w += 1
+
         if set==True:
             # Wenn zu Beginn aus datensatz_anzeigen aufgerufen, 
             # aktuelle Woche setzen
