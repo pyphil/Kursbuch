@@ -40,6 +40,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.dateEdit_2.dateChanged.connect(self.countfz)
         self.dateEdit_3.dateChanged.connect(self.countfz)
         self.dateEdit_4.dateChanged.connect(self.countfz)
+        self.pushButtonListeKlasse_1.clicked.connect(self.getKlassenFehlz)
 
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
@@ -1768,8 +1769,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button7_5.setStyleSheet("")
         self.button7_5.setText("")
 
-    def countfz(self):
-        columns = self.db.getSFehlzeiten(self.student_pk)
+    def countfz(self, event=None, student=None):
+        if student == None:
+            columns = self.db.getSFehlzeiten(self.student_pk)
+        else:
+            columns = self.db.getSFehlzeiten(student)
 
         u = 0
         e = 0
@@ -1794,16 +1798,20 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                         u_2 += 1
                     if columns[0][0][i] == "2":
                         e_2 += 1
-        print("u:",u)
-        print("e:",e)
-        self.label_16.setText(str(e))
-        self.label_17.setText(str(u))
-        self.label_19.setText(str(u+e))
-        self.label_22.setText(str(e_2))
-        self.label_23.setText(str(u_2))
-        self.label_25.setText(str(u_2+e_2))
+        if student == None:
+            self.label_16.setText(str(e))
+            self.label_17.setText(str(u))
+            self.label_19.setText(str(u+e))
+            self.label_22.setText(str(e_2))
+            self.label_23.setText(str(u_2))
+            self.label_25.setText(str(u_2+e_2))
+        else:
+            g = u+e
+            return g, u
         
         
-
-
+    def getKlassenFehlz(self):
+        for i in self.filtered:
+            liste = self.countfz(None, i[2])
+            print(i[0], i[1],"Gesamt:", liste[0], "unentschuldigt:", liste[1])
         
