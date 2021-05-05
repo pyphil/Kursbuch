@@ -55,6 +55,7 @@ guidlist = list(c.execute("SELECT guid FROM sus"))
 
 for i in guidlist:
     if str(i[0]) in exporttext:
+        # TODO hier prüfen, ob schon mit 0 gesetzt, sonst schreiben und Ausgabe
         # Abgang auf 0 setzen
         c.execute(""" UPDATE sus
                     SET Abgang = 0
@@ -63,6 +64,7 @@ for i in guidlist:
                 (i[0],))
         verbindung.commit()
     else:
+        # TODO hier prüfen, ob schon mit 1 gesetzt, sonst schreiben und Ausgabe
         # Abgang auf 1 setzen
         c.execute(""" UPDATE sus
                     SET Abgang = 1
