@@ -329,7 +329,6 @@ class Ui_Tutmodgui(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBoxKlasse.sizePolicy().hasHeightForWidth())
         self.comboBoxKlasse.setSizePolicy(sizePolicy)
-        self.comboBoxKlasse.setEditable(True)
         self.comboBoxKlasse.setMaxVisibleItems(15)
         self.comboBoxKlasse.setObjectName("comboBoxKlasse")
         self.gridLayout.addWidget(self.comboBoxKlasse, 0, 2, 1, 1)

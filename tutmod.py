@@ -16,7 +16,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.db = db
         self.gui = gui
 
-
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
                    "7a", "7b", "7c", "7d", "7e",
@@ -25,6 +24,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                    "10a", "10b", "10c", "10d", "10e",
                     "EF", "Q1", "Q2"]
         self.comboBoxKlasse.addItems(klassen)
+        # let non editable combobox in fusion style still respect maxitems
+        self.comboBoxKlasse.setStyleSheet("combobox-popup: 0;")
 
         self.set_cur_year_month()
         self.setMonth(True)
@@ -112,12 +113,19 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         z = 0
         for i in alle:
             if i[3] == klasse:
-                self.tableWidget.setRowCount(z+1)
-                self.tableWidget.setItem(
-                    z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
-                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
                 self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
+        # Sortiertung nach Nachname
+        self.filtered = sorted(self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        
+        # Ausgabe in TableWidget
+        z = 0
+        for i in self.filtered:
+            self.tableWidget.setRowCount(z+1)
+            self.tableWidget.setItem(
+                z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
 
     def set_cur_year_month(self):
         self.dateEditJahr.setDate(QtCore.QDate(date.today().year,1,1))

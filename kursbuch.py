@@ -1098,12 +1098,19 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         z = 0
         for i in alle:
             if i[3] == klasse:
-                self.tableWidget.setRowCount(z+1)
-                self.tableWidget.setItem(
-                    z,0,QtWidgets.QTableWidgetItem(i[1]+", "+i[2]))
-                self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
                 self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
+        # Sortiertung nach Nachname
+        self.filtered = sorted(self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        
+        # Ausgabe in TableWidget
+        z = 0
+        for i in self.filtered:
+            self.tableWidget.setRowCount(z+1)
+            self.tableWidget.setItem(
+                z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
 
     def susadd(self):
         selection = self.tableWidget.selectionModel().selectedRows()
@@ -1468,6 +1475,7 @@ class Gui(Ui_MainWindow):
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1,False)
 
+        # Stylesheet für Combobox ändern
         self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
 
         # alle focusChanged Events der App an self.leave leiten
