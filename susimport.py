@@ -51,27 +51,30 @@ f.close()
 # Abgang auf 1 setzen, sonst 0
 
 # Liste der guids in db holen
-guidlist = list(c.execute("SELECT guid FROM sus"))
+guidlist = list(c.execute("SELECT guid, Abgang, Name, Vorname, Klasse FROM sus"))
 
 for i in guidlist:
     if str(i[0]) in exporttext:
-        # TODO hier prüfen, ob schon mit 0 gesetzt, sonst schreiben und Ausgabe
-        # Abgang auf 0 setzen
-        c.execute(""" UPDATE sus
-                    SET Abgang = 0
-                    WHERE guid = ?
-                """,
-                (i[0],))
-        verbindung.commit()
+        # prüfen, ob schon mit 0 gesetzt, sonst schreiben und Ausgabe
+        if i[1] != 0:
+            # Abgang auf 0 setzen
+            c.execute(""" UPDATE sus
+                        SET Abgang = 0
+                        WHERE guid = ?
+                    """,
+                    (i[0],))
+            verbindung.commit()
+            print("Abgänger zurückgeholt: "+i[2]+", "+i[3]+", "+i[4])
     else:
-        # TODO hier prüfen, ob schon mit 1 gesetzt, sonst schreiben und Ausgabe
-        # Abgang auf 1 setzen
-        c.execute(""" UPDATE sus
-                    SET Abgang = 1
-                    WHERE guid = ?
-                """,
-                (i[0],))
-        verbindung.commit()
+        # prüfen, ob schon mit 1 gesetzt, sonst schreiben und Ausgabe
+        if i[1] != 1:
+            # Abgang auf 1 setzen
+            c.execute(""" UPDATE sus
+                        SET Abgang = 1
+                        WHERE guid = ?
+                    """,
+                    (i[0],))
+            verbindung.commit()
+            print("Abgang: "+i[2]+", "+i[3]+", "+i[4])
 
-print("Abgänger manuell in db überprüfen!")
 print("Fertig")
