@@ -391,7 +391,10 @@ class Database:
                                         WHERE pk = ?;
                                     """,
                                     (pk,)))
-        datum = liste[0][0]
+        if liste == []:
+            datum = None
+        else:
+            datum = liste[0][0]
         return datum
 
     def getRowOfDate(self,k,d):
@@ -1594,10 +1597,11 @@ class Gui(Ui_MainWindow):
                 pass
             else:
                 dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
-                row = self.db.getRowOfDate(self.kurs, dateofpk)
-                self.tableWidget.selectRow(row)
-                self.tableWidget.scrollToItem(self.tableWidget.item(row,0))
-                self.datensatzAnzeigen()
+                if dateofpk != None:
+                    row = self.db.getRowOfDate(self.kurs, dateofpk)
+                    self.tableWidget.selectRow(row)
+                    self.tableWidget.scrollToItem(self.tableWidget.item(row,0))
+                    self.datensatzAnzeigen()
 
 
     def datensatzAnzeigen(self):
