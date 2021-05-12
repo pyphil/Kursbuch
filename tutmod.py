@@ -1830,7 +1830,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         e = 0
         u_2 = 0
         e_2 = 0
-        self.dateEdit.setDate(QtCore.QDate(2021,5,5))
+        #self.db.getTutmodDatePreset(self.klasse)
+        #self.dateEdit.setDate(QtCore.QDate(2021,5,5))
         for i in range(len(columns[1])):
             if i >= 6:
                 start = datetime.strptime(str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
@@ -1859,7 +1860,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         else:
             g = u+e
             return g, u
-        print(self.dateEdit.date())
+        print(self.dateEdit.date().toPyDate())
         #self.db.writeTutmodDatePreset(self.klasse, start...)
         
     def getKlassenFehlz(self):
