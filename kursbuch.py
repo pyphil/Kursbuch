@@ -1475,8 +1475,9 @@ class Gui(Ui_MainWindow):
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
         self.actionTutorenmodus.triggered.connect(self.start_tutmod)
 
-        if self.db.nosus == 1:
+        if self.db.nosus == 0:
             self.tabWidget.setTabEnabled(1,False)
+            self.actionTutorenmodus.setDisabled(True)
 
         # Stylesheet für Combobox ändern
         self.comboBoxKurs.setStyleSheet("combobox-popup: 0;")
