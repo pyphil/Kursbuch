@@ -131,6 +131,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button1_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -150,6 +153,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button1_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -169,6 +175,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button1_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -211,6 +220,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button1_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -230,6 +242,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button1_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -249,6 +264,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button2_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -271,6 +289,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button2_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -290,6 +311,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button2_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -309,6 +333,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button2_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -351,6 +378,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button2_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -370,6 +400,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button3_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -389,6 +422,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button3_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -408,6 +444,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button3_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -453,6 +492,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button3_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -472,6 +514,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button3_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -491,6 +536,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button4_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -513,6 +561,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button4_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -532,6 +583,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button4_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -551,6 +605,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button4_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -593,6 +650,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button4_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -615,6 +675,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button5_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -634,6 +697,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button5_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -653,6 +719,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button5_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -672,6 +741,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button5_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -691,6 +763,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button5_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -733,6 +808,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button6_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -752,6 +830,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button6_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -771,6 +852,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button6_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -790,6 +874,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button6_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -832,6 +919,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button6_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>
@@ -851,6 +941,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button7_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>472</x>
@@ -870,6 +963,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button7_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>423</x>
@@ -889,6 +985,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button7_4">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>522</x>
@@ -908,6 +1007,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button7_1">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>376</x>
@@ -927,6 +1029,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button7_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>571</x>

@@ -99,6 +99,49 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekafter.setEnabled(True)
         self.pushButtonWeekbefore.setEnabled(True)
 
+        self.button1_1.setEnabled(True)
+        self.button1_2.setEnabled(True)
+        self.button1_3.setEnabled(True)
+        self.button1_4.setEnabled(True)
+        self.button1_5.setEnabled(True)
+
+        self.button2_1.setEnabled(True)
+        self.button2_2.setEnabled(True)
+        self.button2_3.setEnabled(True)
+        self.button2_4.setEnabled(True)
+        self.button2_5.setEnabled(True)
+        
+        self.button3_1.setEnabled(True)
+        self.button3_2.setEnabled(True)
+        self.button3_3.setEnabled(True)
+        self.button3_4.setEnabled(True)
+        self.button3_5.setEnabled(True)
+
+        self.button4_1.setEnabled(True)
+        self.button4_2.setEnabled(True)
+        self.button4_3.setEnabled(True)
+        self.button4_4.setEnabled(True)
+        self.button4_5.setEnabled(True)
+
+        self.button5_1.setEnabled(True)
+        self.button5_2.setEnabled(True)
+        self.button5_3.setEnabled(True)
+        self.button5_4.setEnabled(True)
+        self.button5_5.setEnabled(True)
+
+        self.button6_1.setEnabled(True)
+        self.button6_2.setEnabled(True)
+        self.button6_3.setEnabled(True)
+        self.button6_4.setEnabled(True)
+        self.button6_5.setEnabled(True)
+
+        self.button7_1.setEnabled(True)
+        self.button7_2.setEnabled(True)
+        self.button7_3.setEnabled(True)
+        self.button7_4.setEnabled(True)
+        self.button7_5.setEnabled(True)
+        
+
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
 
@@ -106,13 +149,13 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.filtered = []
 
         # ausgewählte Klasse
-        klasse = self.comboBoxKlasse.currentText()
+        self.klasse = self.comboBoxKlasse.currentText()
 
         # Filtern nach Klasse
         alle = self.db.getGesamtliste()
         z = 0
         for i in alle:
-            if i[3] == klasse:
+            if i[3] == self.klasse:
                 self.filtered.append([i[1], i[2], i[0], i[3]])
                 z += 1
         # Sortiertung nach Nachname
@@ -1787,7 +1830,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         e = 0
         u_2 = 0
         e_2 = 0
-
+        self.dateEdit.setDate(QtCore.QDate(2021,5,5))
         for i in range(len(columns[1])):
             if i >= 6:
                 start = datetime.strptime(str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
@@ -1816,7 +1859,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         else:
             g = u+e
             return g, u
-        
+        print(self.dateEdit.date())
+        #self.db.writeTutmodDatePreset(self.klasse, start...)
         
     def getKlassenFehlz(self):
         for i in self.filtered:
