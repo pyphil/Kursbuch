@@ -12,6 +12,7 @@ import report
 import tutmod
 from ftps_conn import FTPS_conn
 from os import path, system, environ, mkdir
+from urllib.request import urlopen
 from PyQt5 import QtCore, QtGui, QtWidgets
 from MainWindow import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
@@ -55,6 +56,7 @@ class Database:
         self.feriendaten = ""
         self.nosus = 0
         self.req_dbversion = 1
+        current_version = "1.2.0"
 
         # Verbindung zur lokalen Datenbank herstellen
         self.loadkursdb()
@@ -145,6 +147,19 @@ class Database:
                     self.ui.kursauswahlMenue()
             if self.sync == 0:
                 self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
+
+            # Auf neue Version prüfen
+            try:
+                content = urlopen('https://raw.githubusercontent.com/pyphil/Kursbuch/main/version')
+                version = str(content.read())
+                version = version.split("'")[1].split("\\")[0]
+                if current_version == version:
+                    print("pyKursbuch ist aktuell.")
+                else:
+                    print("Eine neue Version ist verfügbar: https://github.com/pyphil/Kursbuch/releases/tag/v"+version)
+            except:
+                print("No network connection for update check.")
+
             sys.exit(self.app.exec_())
 
     def loadkursdb(self):
@@ -1475,7 +1490,7 @@ class Gui(Ui_MainWindow):
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
         self.actionTutorenmodus.triggered.connect(self.start_tutmod)
 
-        if self.db.nosus == 0:
+        if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1,False)
             self.actionTutorenmodus.setDisabled(True)
 
