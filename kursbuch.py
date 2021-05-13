@@ -22,6 +22,7 @@ from Susverwgui import Ui_Susverwgui
 from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 from infobox import Ui_Infobox
+from Abgangsdatum import Ui_Abgangsdatum
 
 # join program path dirname and ferien.db to provide absolute path to ferien.db
 if getattr(sys, 'frozen', False):
@@ -1255,7 +1256,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             else:
                 self.liste3.append(self.liste2sorted[i.row()])
                 # TODO Abgangsdatum erfragen und in kurs.db speichern
-                print("Abgangsdatum für "+self.liste2sorted[i.row()][0]+", "+self.liste2sorted[i.row()][1]+": ")
+                #print("Abgangsdatum für "+self.liste2sorted[i.row()][0]+", "+self.liste2sorted[i.row()][1]+": ")
+                sname = self.liste2sorted[i.row()]
+                self.abgdatum = Abgangsdatum_Dialog(sname, self.db, self.gui)
 
         # Liste mit Umlauten korrekt sortieren: üblicherweise 
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
@@ -1338,6 +1341,25 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
         if self.gui.tabWidget.currentIndex() == 1:
             self.gui.fehlzeitenAnzeige(1)
+
+
+class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
+    def __init__(self, sname, db, gui):
+        super(Abgangsdatum_Dialog,self).__init__(gui.MainWindow)
+        self.setupUi(self)
+        self.show()
+
+        self.sname = sname
+        self.db = db
+        self.labelSname.setText(self.sname[0]+", "+self.sname[1])
+        self.pushButtonOK.clicked.connect(self.ok)
+        self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
+
+    def ok(self):
+        abgdatum = self.dateEdit.date().toPyDate()
+        print(self.sname[2], abgdatum)
+
+
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
     def __init__(self, tn, kurs, krzl, dbpath, nosus, gui):
