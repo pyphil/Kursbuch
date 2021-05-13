@@ -712,6 +712,28 @@ class Database:
 
         return sfz,names
 
+    def writeTutmodDatePreset(self, klasse, datelist):
+        kategorie = "TutmodDatePreset_"+klasse
+        print(kategorie)
+
+        self.c.execute("""DELETE FROM settings 
+                          WHERE Kategorie = ?
+                       """,
+                       (kategorie,))
+
+        self.c.execute("""INSERT INTO settings (Kategorie, Inhalt)
+                          VALUES (?, ?);
+                        """,
+                        (kategorie, datelist))
+        self.verbindung.commit()                
+
+    def getTutmodDatePreset(self, klasse):
+        kategorie = "TutmodDatePreset_"+klasse
+        datelist = list(self.c.execute("""SELECT Inhalt FROM settings
+                                          WHERE Kategorie = ?
+                                       """,
+                                       (kategorie,)))
+        return datelist[0][0]
     
     def close(self):
         self.c.close()

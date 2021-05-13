@@ -1830,8 +1830,15 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         e = 0
         u_2 = 0
         e_2 = 0
-        #self.db.getTutmodDatePreset(self.klasse)
-        #self.dateEdit.setDate(QtCore.QDate(2021,5,5))
+        if event == None:
+            try: 
+                datelist = self.db.getTutmodDatePreset(self.klasse).split(",")
+                self.dateEdit.setDate(QtCore.QDate.fromString(datelist[0], "yyyy-MM-dd"))
+                self.dateEdit_2.setDate(QtCore.QDate.fromString(datelist[1], "yyyy-MM-dd"))
+                self.dateEdit_3.setDate(QtCore.QDate.fromString(datelist[2], "yyyy-MM-dd"))
+                self.dateEdit_4.setDate(QtCore.QDate.fromString(datelist[3], "yyyy-MM-dd"))
+            except:
+                pass
         for i in range(len(columns[1])):
             if i >= 6:
                 start = datetime.strptime(str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
@@ -1860,8 +1867,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         else:
             g = u+e
             return g, u
-        print(self.dateEdit.date().toPyDate())
-        #self.db.writeTutmodDatePreset(self.klasse, start...)
+        datelist = str(self.dateEdit.date().toPyDate())+","+str(self.dateEdit_2.date().toPyDate())+","+str(self.dateEdit_3.date().toPyDate())+","+str(self.dateEdit_4.date().toPyDate())
+        print(datelist)
+        self.db.writeTutmodDatePreset(self.klasse, datelist)
         
     def getKlassenFehlz(self):
         for i in self.filtered:
