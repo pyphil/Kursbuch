@@ -1254,6 +1254,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 pass
             else:
                 self.liste3.append(self.liste2sorted[i.row()])
+                # TODO Abgangsdatum erfragen und in kurs.db speichern
+                print("Abgangsdatum für "+self.liste2sorted[i.row()][0]+", "+self.liste2sorted[i.row()][1]+": ")
+
         # Liste mit Umlauten korrekt sortieren: üblicherweise 
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
         # labmda Funktion für jede Liste in der Liste
