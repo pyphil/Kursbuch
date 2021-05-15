@@ -1255,8 +1255,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 pass
             else:
                 self.liste3.append(self.liste2sorted[i.row()])
-                # TODO Abgangsdatum erfragen und in kurs.db speichern
-                #print("Abgangsdatum für "+self.liste2sorted[i.row()][0]+", "+self.liste2sorted[i.row()][1]+": ")
+                # Abgangsdatum erfragen und in kurs.db speichern
                 sname = self.liste2sorted[i.row()]
                 self.abgdatum = Abgangsdatum_Dialog(sname, self.db, self.gui)
 
@@ -1357,8 +1356,8 @@ class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
 
     def ok(self):
         abgdatum = self.dateEdit.date().toPyDate()
+        # TODO Datum in Datenbank sichern
         print(self.sname[2], abgdatum)
-
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
