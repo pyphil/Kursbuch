@@ -1315,9 +1315,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.gui.fehlzeitenAnzeige(1)
 
 
-class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
+class Abgangsdatum_Dialog(Ui_Abgangsdatum, QtWidgets.QDialog):
     def __init__(self, selection, db, susverw):
-        super(Abgangsdatum_Dialog,self).__init__(gui.MainWindow)
+        super(Abgangsdatum_Dialog, self).__init__(susverw)
         self.setupUi(self)
         self.show()
 
@@ -1331,14 +1331,13 @@ class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
 
     def ok(self):
         
-        for i in selection:
+        for i in self.selection:
             if self.liste2sorted[i.row()] in self.liste3:
                 pass
             else:
                 self.liste3.append(self.liste2sorted[i.row()])
                 # Abgangsdatum erfragen und in kurs.db speichern
                 sname = self.liste2sorted[i.row()]
-                
 
         # Liste mit Umlauten korrekt sortieren: üblicherweise 
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
@@ -1358,7 +1357,7 @@ class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
 
         # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
         # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-        for i in sorted(selection, reverse = True):
+        for i in sorted(self.selection, reverse = True):
             del self.liste2sorted[i.row()]
         self.liste2 = self.liste2sorted
 
