@@ -569,7 +569,7 @@ class Database:
 
     def getSuSListe(self,k,m):
         """ Über diese Methode erhält die Mitgliederverwaltung die
-        Listen der aktiven (mode=normal) oder Abgänger (mode=abg)
+        Listen der aktiven (mode=normal) oder Abgänger/Zugänge (mode=abzu)
         """
         tn = self.get_tn(k)
         kurssus = tn+"_sus"
@@ -580,8 +580,9 @@ class Database:
                                     FROM """+kurssus+""" 
                                     WHERE zuab = 0
                                     """))
-        if mode == "abg":
-            pkliste = list(self.c.execute("""SELECT pk 
+        # mode == "abzu":
+        else:
+            pkliste = list(self.c.execute("""SELECT pk, Datum
                                     FROM """+kurssus+"""
                                     WHERE zuab = 1 
                                     """))
@@ -592,7 +593,13 @@ class Database:
                                           WHERE pk = ?;
                                        """,
                                         (i[0],)))
-            susliste.append([item[0][1],item[0][2],item[0][0],item[0][3]])
+            if mode == "normal":
+                susliste.append(
+                    [item[0][1], item[0][2], item[0][0], item[0][3]])
+            else:
+                susliste.append(
+                    [item[0][1], item[0][2], item[0][0], item[0][3], i[1]])
+
         return susliste
 
     def getSuS(self, date, k):
@@ -1073,8 +1080,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.show()
 
         self.tableWidget.setColumnWidth(0,190)
-        self.tableWidget_2.setColumnWidth(0,190)
-        self.tableWidget_3.setColumnWidth(0,190)
+        self.tableWidget_2.setColumnWidth(0,250)
+        self.tableWidget_3.setColumnWidth(0,250)
 
         # Listen bereitstellen
         self.liste2 = []
@@ -1095,14 +1102,17 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             z += 1
 
         # Zeigt die Liste der Abgänger im Kurs
-        self.liste3 = self.db.getSuSListe(self.kurs, "abg")
+        self.liste3 = self.db.getSuSListe(self.kurs, "abzu")
         self.liste3sorted = self.liste3
         z = 0
         for i in self.liste3sorted:
             self.tableWidget_3.setRowCount(z+1)
             self.tableWidget_3.setItem(
                     z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_3.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_3.setItem(
+                    z,1,QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_3.setItem(
+                    z,2,QtWidgets.QTableWidgetItem(i[4]))
             z += 1
 
 
@@ -1250,46 +1260,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
     def abgangAdd(self):
         selection = self.tableWidget_2.selectionModel().selectedRows()
 
-        for i in selection:
-            if self.liste2sorted[i.row()] in self.liste3:
-                pass
-            else:
-                self.liste3.append(self.liste2sorted[i.row()])
-                # Abgangsdatum erfragen und in kurs.db speichern
-                sname = self.liste2sorted[i.row()]
-                self.abgdatum = Abgangsdatum_Dialog(sname, self.db, self.gui)
+        self.abgdial = Abgangsdatum_Dialog(selection, self.db, self)
 
-        # Liste mit Umlauten korrekt sortieren: üblicherweise 
-        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
-        # labmda Funktion für jede Liste in der Liste
-        self.liste3sorted = sorted(self.liste3, key=lambda i: locale.strxfrm(i[0]))
 
-        z = 0
-        for i in self.liste3sorted:
-            self.tableWidget_3.setRowCount(z+1)
-            self.tableWidget_3.setItem(
-                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_3.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
-            z += 1
-
-        # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
-        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-        for i in sorted(selection, reverse = True):
-            del self.liste2sorted[i.row()]
-        self.liste2 = self.liste2sorted
-
-        z = 0
-        for i in self.liste2sorted:
-            self.tableWidget_2.setRowCount(z+1)
-            self.tableWidget_2.setItem(
-                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
-            z += 1
-
-        # Auswahl wieder aufheben
-        self.tableWidget_2.clearSelection()
-
-        self.save()
     
     def abgangDel(self):
         selection = self.tableWidget_3.selectionModel().selectedRows()
@@ -1343,21 +1316,70 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
 
 class Abgangsdatum_Dialog(Ui_Abgangsdatum,QtWidgets.QDialog):
-    def __init__(self, sname, db, gui):
+    def __init__(self, selection, db, susverw):
         super(Abgangsdatum_Dialog,self).__init__(gui.MainWindow)
         self.setupUi(self)
         self.show()
 
-        self.sname = sname
+        self.selection = selection
         self.db = db
+        self.susverw = susverw
+        
         self.labelSname.setText(self.sname[0]+", "+self.sname[1])
         self.pushButtonOK.clicked.connect(self.ok)
         self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
 
     def ok(self):
+        
+        for i in selection:
+            if self.liste2sorted[i.row()] in self.liste3:
+                pass
+            else:
+                self.liste3.append(self.liste2sorted[i.row()])
+                # Abgangsdatum erfragen und in kurs.db speichern
+                sname = self.liste2sorted[i.row()]
+                
+
+        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
+        # labmda Funktion für jede Liste in der Liste
+        self.liste3sorted = sorted(self.liste3, key=lambda i: locale.strxfrm(i[0]))
+
+        z = 0
+        for i in self.liste3sorted:
+            self.tableWidget_3.setRowCount(z+1)
+            self.tableWidget_3.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_3.setItem(
+                    z,1,QtWidgets.QTableWidgetItem(i[3]))
+            # self.tableWidget_3.setItem(
+            #         z,2,QtWidgets.QTableWidgetItem(i[4]))
+            z += 1
+
+        # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        for i in sorted(selection, reverse = True):
+            del self.liste2sorted[i.row()]
+        self.liste2 = self.liste2sorted
+
+        z = 0
+        for i in self.liste2sorted:
+            self.tableWidget_2.setRowCount(z+1)
+            self.tableWidget_2.setItem(
+                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+            z += 1
+
+        # Auswahl wieder aufheben
+        self.tableWidget_2.clearSelection()
+
+        self.save()
+
         abgdatum = self.dateEdit.date().toPyDate()
         # TODO Datum in Datenbank sichern
-        print(self.sname[2], abgdatum)
+        #print(self.sname[2], abgdatum)
+
+        self.close()
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
