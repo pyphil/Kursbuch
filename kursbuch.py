@@ -1332,10 +1332,10 @@ class Abgangsdatum_Dialog(Ui_Abgangsdatum, QtWidgets.QDialog):
     def ok(self):
         
         for i in self.selection:
-            if self.liste2sorted[i.row()] in self.liste3:
+            if self.susverw.liste2sorted[i.row()] in self.liste3:
                 pass
             else:
-                self.liste3.append(self.liste2sorted[i.row()])
+                self.susverw.liste3.append(self.susverw.liste2sorted[i.row()])
                 # Abgangsdatum erfragen und in kurs.db speichern
                 sname = self.liste2sorted[i.row()]
 
