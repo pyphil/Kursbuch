@@ -1356,26 +1356,26 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
             z += 1
         self.close()
 
-        # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
-        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-        for i in sorted(self.selection, reverse = True):
-            del self.liste2sorted[i.row()]
-        self.liste2 = self.liste2sorted
+        # # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+        # # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+        # for i in sorted(self.selection, reverse = True):
+        #     del self.liste2sorted[i.row()]
+        # self.liste2 = self.liste2sorted
 
-        z = 0
-        for i in self.liste2sorted:
-            self.tableWidget_2.setRowCount(z+1)
-            self.tableWidget_2.setItem(
-                    z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
-            z += 1
+        # z = 0
+        # for i in self.liste2sorted:
+        #     self.tableWidget_2.setRowCount(z+1)
+        #     self.tableWidget_2.setItem(
+        #             z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+        #     self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
+        #     z += 1
 
-        # Auswahl wieder aufheben
-        self.tableWidget_2.clearSelection()
+        # # Auswahl wieder aufheben
+        # self.tableWidget_2.clearSelection()
 
-        self.susverw.save()
+        # self.susverw.save()
 
-        self.close()
+        # self.close()
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
