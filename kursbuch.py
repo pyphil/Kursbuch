@@ -1258,14 +1258,14 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             pass
 
     def abgangAdd(self):
-        self.selection = self.tableWidget_2.selectionModel().selectedRows()
-        for i in self.selection:
-            s_pk = self.liste2sorted[i.row()]
-            if s_pk in self.liste3:
-                pass
-            else:
-                # Dialog Abgangsdatum
-                self.abgdial = AbgangsdatumDialog(s_pk, self.db, self)
+        selection = self.tableWidget_2.selectionModel().selectedRows()
+        slist = []
+        for i in selection:
+            s = self.liste2sorted[i.row()]
+            slist.append(s)
+        
+        # Dialog Abgangsdatum
+        self.abgdial = AbgangsdatumDialog(slist, self.db, self)
     
     def abgangDel(self):
         selection = self.tableWidget_3.selectionModel().selectedRows()
@@ -1319,18 +1319,21 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
 
 class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
-    def __init__(self, s_pk, db, susverw):
+    def __init__(self, slist, db, susverw):
         super(AbgangsdatumDialog, self).__init__(susverw)
         self.setupUi(self)
         self.show()
 
-        self.s_pk = s_pk
+        self.slist = slist
         self.db = db
         self.susverw = susverw
 
-        self.labelSname.setText(self.s_pk[0]+", "+self.s_pk[1])
         self.pushButtonOK.clicked.connect(self.ok)
+        print(slist)
+    
+    def show_student(self):
         self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
+        self.labelSname.setText(self.s_pk[0]+", "+self.s_pk[1])
 
     def ok(self):
         # Abgangsdatum aus Dialog holen
