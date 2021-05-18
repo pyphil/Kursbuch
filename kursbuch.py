@@ -1259,7 +1259,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
     def abgangAdd(self):
         selection = self.tableWidget_2.selectionModel().selectedRows()
-        for i in self.selection:
+        for i in selection:
             s_pk = self.liste2sorted[i.row()]
             if s_pk in self.liste3:
                 pass
@@ -1323,33 +1323,38 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
         self.setupUi(self)
         self.show()
 
-        self.selection = selection
-        self.db = db
         self.s_pk = s_pk
-        
-        self.labelSname.setText(self.sname[0]+", "+self.sname[1])
+        self.db = db
+        self.susverw = susverw
+
+        self.labelSname.setText(self.s_pk[0]+", "+self.s_pk[1])
         self.pushButtonOK.clicked.connect(self.ok)
         self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
 
     def ok(self):
-        self.susverw.liste3.append(s_pk)
-        # Abgangsdatum erfragen und in kurs.db speichern
+        # Abgangsdatum aus Dialog holen
+        abgdatum = self.dateEdit.date().toPyDate()
+        # Zur Liste des einzelnen Schülers hinzufügen
+        self.s_pk.append(str(abgdatum))
+        # Schüler mit Datum der liste3 hinzufügen
+        self.susverw.liste3.append(self.s_pk)
 
         # Liste mit Umlauten korrekt sortieren: üblicherweise
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
         # labmda Funktion für jede Liste in der Liste
-        self.liste3sorted = sorted(self.liste3, key=lambda i: locale.strxfrm(i[0]))
+        self.susverw.liste3sorted = sorted(self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
 
         z = 0
-        for i in self.liste3sorted:
-            self.tableWidget_3.setRowCount(z+1)
-            self.tableWidget_3.setItem(
+        for i in self.susverw.liste3sorted:
+            self.susverw.tableWidget_3.setRowCount(z+1)
+            self.susverw.tableWidget_3.setItem(
                     z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_3.setItem(
+            self.susverw.tableWidget_3.setItem(
                     z,1,QtWidgets.QTableWidgetItem(i[3]))
-            # self.tableWidget_3.setItem(
-            #         z,2,QtWidgets.QTableWidgetItem(i[4]))
+            self.susverw.tableWidget_3.setItem(
+                    z,2,QtWidgets.QTableWidgetItem(i[4]))
             z += 1
+        self.close()
 
         # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
         # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
@@ -1361,18 +1366,14 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
         for i in self.liste2sorted:
             self.tableWidget_2.setRowCount(z+1)
             self.tableWidget_2.setItem(
-                    z,0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z,1,QtWidgets.QTableWidgetItem(i[3]))
+                    z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
             z += 1
 
         # Auswahl wieder aufheben
         self.tableWidget_2.clearSelection()
 
-        self.save()
-
-        abgdatum = self.dateEdit.date().toPyDate()
-        # TODO Datum in Datenbank sichern
-        #print(self.sname[2], abgdatum)
+        self.susverw.save()
 
         self.close()
 
