@@ -1259,10 +1259,12 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
     def abgangAdd(self):
         selection = self.tableWidget_2.selectionModel().selectedRows()
-
-        self.abgdial = Abgangsdatum_Dialog(selection, self.db, self)
-
-
+        for i in self.selection:
+            s_pk = self.liste2sorted[i.row()]
+            if s_pk in self.liste3:
+                pass
+            else:
+                self.abgdial = AbgangsdatumDialog(s_pk, self.db, self)
     
     def abgangDel(self):
         selection = self.tableWidget_3.selectionModel().selectedRows()
@@ -1315,31 +1317,25 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.gui.fehlzeitenAnzeige(1)
 
 
-class Abgangsdatum_Dialog(Ui_Abgangsdatum, QtWidgets.QDialog):
-    def __init__(self, selection, db, susverw):
-        super(Abgangsdatum_Dialog, self).__init__(susverw)
+class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
+    def __init__(self, s_pk, db, susverw):
+        super(AbgangsdatumDialog, self).__init__(susverw)
         self.setupUi(self)
         self.show()
 
         self.selection = selection
         self.db = db
-        self.susverw = susverw
+        self.s_pk = s_pk
         
         self.labelSname.setText(self.sname[0]+", "+self.sname[1])
         self.pushButtonOK.clicked.connect(self.ok)
         self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
 
     def ok(self):
-        
-        for i in self.selection:
-            if self.susverw.liste2sorted[i.row()] in self.liste3:
-                pass
-            else:
-                self.susverw.liste3.append(self.susverw.liste2sorted[i.row()])
-                # Abgangsdatum erfragen und in kurs.db speichern
-                sname = self.liste2sorted[i.row()]
+        self.susverw.liste3.append(s_pk)
+        # Abgangsdatum erfragen und in kurs.db speichern
 
-        # Liste mit Umlauten korrekt sortieren: üblicherweise 
+        # Liste mit Umlauten korrekt sortieren: üblicherweise
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
         # labmda Funktion für jede Liste in der Liste
         self.liste3sorted = sorted(self.liste3, key=lambda i: locale.strxfrm(i[0]))
