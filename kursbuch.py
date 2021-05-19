@@ -1329,20 +1329,37 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
         self.susverw = susverw
 
         self.pushButtonOK.clicked.connect(self.ok)
+        
         print(slist)
-    
+        self.item = 0
+        # speichert den aktueleln Schüler
+        self.s = []
+        self.show_student()
+
     def show_student(self):
-        self.dateEdit.setDate(QtCore.QDate(date.today().year,date.today().month,date.today().day))
-        self.labelSname.setText(self.s_pk[0]+", "+self.s_pk[1])
+        if self.item <= len(self.slist)-1:
+            self.s = self.slist[self.item]
+            self.dateEdit.setDate(QtCore.QDate(
+                date.today().year, date.today().month, date.today().day))
+            self.labelSname.setText(self.s[0]+", "+self.s[1])
+            self.item += 1
+        else:
+            print("Ende")
+
+    def okTMP(self):
+        self.show_student()
 
     def ok(self):
         # Abgangsdatum aus Dialog holen
         abgdatum = self.dateEdit.date().toPyDate()
         # Zur Liste des einzelnen Schülers hinzufügen
-        self.s_pk.append(str(abgdatum))
+        self.s.append(str(abgdatum))
+        print(self.s)
         # Schüler mit Datum der liste3 hinzufügen
-        self.susverw.liste3.append(self.s_pk)
+        self.susverw.liste3.append(self.s)
+        print(self.susverw.liste3)
 
+        """
         # Liste mit Umlauten korrekt sortieren: üblicherweise
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
         # labmda Funktion für jede Liste in der Liste
@@ -1378,6 +1395,7 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
 
         self.susverw.save()
         self.close()
+        """
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
