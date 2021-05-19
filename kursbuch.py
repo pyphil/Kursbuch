@@ -1258,15 +1258,15 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             pass
 
     def abgangAdd(self):
-        selection = self.tableWidget_2.selectionModel().selectedRows()
+        self.selection = self.tableWidget_2.selectionModel().selectedRows()
         slist = []
-        for i in selection:
+        for i in self.selection:
             s = self.liste2sorted[i.row()]
             slist.append(s)
-        
+
         # Dialog Abgangsdatum
         self.abgdial = AbgangsdatumDialog(slist, self.db, self)
-    
+
     def abgangDel(self):
         selection = self.tableWidget_3.selectionModel().selectedRows()
 
@@ -1311,8 +1311,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.save()
 
     def save(self):
-        self.db.writeSuSListe(self.kurs,self.liste2sorted)
-        self.db.addAbgaenger(self.kurs,self.liste3sorted)
+        self.db.writeSuSListe(self.kurs, self.liste2sorted)
+        self.db.addAbgaenger(self.kurs, self.liste3sorted)
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
         if self.gui.tabWidget.currentIndex() == 1:
             self.gui.fehlzeitenAnzeige(1)
@@ -1367,38 +1367,38 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
             self.susverw.liste3sorted = sorted(
                 self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
             print("LISTE3SORTED:", self.susverw.liste3sorted)
-        
+
             z = 0
             for i in self.susverw.liste3sorted:
                 self.susverw.tableWidget_3.setRowCount(z+1)
                 self.susverw.tableWidget_3.setItem(
-                        z, 0,QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                 self.susverw.tableWidget_3.setItem(
-                        z, 1,QtWidgets.QTableWidgetItem(i[3]))
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
                 self.susverw.tableWidget_3.setItem(
-                        z, 2,QtWidgets.QTableWidgetItem(i[4]))
+                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
                 z += 1
-        """
-        # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
-        # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-        for i in sorted(self.susverw.selection, reverse = True):
-            del self.susverw.liste2sorted[i.row()]
-        self.susverw.liste2 = self.susverw.liste2sorted
 
-        z = 0
-        for i in self.susverw.liste2sorted:
-            self.susverw.tableWidget_2.setRowCount(z+1)
-            self.susverw.tableWidget_2.setItem(
-                    z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.susverw.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
-            z += 1
+            # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+            # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+            for i in sorted(self.susverw.selection, reverse=True):
+                del self.susverw.liste2sorted[i.row()]
+            self.susverw.liste2 = self.susverw.liste2sorted
 
-        # Auswahl wieder aufheben
-        self.susverw.tableWidget_2.clearSelection()
+            z = 0
+            for i in self.susverw.liste2sorted:
+                self.susverw.tableWidget_2.setRowCount(z+1)
+                self.susverw.tableWidget_2.setItem(
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                self.susverw.tableWidget_2.setItem(
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                z += 1
 
-        self.susverw.save()
-        self.close()
-        """
+            # Auswahl wieder aufheben
+            self.susverw.tableWidget_2.clearSelection()
+
+            self.susverw.save()
+            self.close()
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren,QtWidgets.QDialog):
