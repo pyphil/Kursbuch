@@ -573,9 +573,9 @@ class Database:
 
         for i in s:
             self.c.execute("""INSERT INTO """ + kurssus + """
-                                ("pk", "zuab")
-                                VALUES (?,?);""",
-                           (i[2], 1))
+                                ("pk", "zuab", "Datum")
+                                VALUES (?,?,?);""",
+                           (i[2], 1, i[4]))
         self.verbindung.commit()
 
     def getSuSListe(self, k, m):
