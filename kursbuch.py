@@ -1,7 +1,9 @@
 import sqlite3
-from time import strftime, strptime, sleep, time
-import datetime
+# from time import strftime, strptime, sleep, time
+from time import sleep, time
+# import datetime
 from datetime import datetime, date, timedelta
+# from datetime import date, timedelta
 import locale
 import sys
 # import subprocess
@@ -33,6 +35,7 @@ else:
 
 if sys.platform == "win32":
     from keyring.backends import Windows
+    # import necessary for pyinstaller
     import win32timezone
     keyring.set_keyring(Windows.WinVaultKeyring())
 
@@ -47,8 +50,8 @@ elif sys.platform == "darwin" or sys.platform == "linux":
     locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 # Variable für subprocess.call ohne cmd fenster, -> 0 für debugging
-#CREATE_NO_WINDOW = 0x08000000
-#CREATE_NO_WINDOW = 0
+# CREATE_NO_WINDOW = 0x08000000
+# CREATE_NO_WINDOW = 0
 
 
 class Database:
@@ -88,7 +91,7 @@ class Database:
             # self.sync = list(self.c.execute("""SELECT Inhalt FROM settings
             #                           WHERE Kategorie = "sync";"""))
             # self.sync = int(self.sync[0][0])
-        except:
+        except Exception:
             # Database übergibt sich selbst dem Objekt Ersteinrichtung
             # und instanziiert es
             self.firstrun = Ersteinrichtung(self)
@@ -120,9 +123,9 @@ class Database:
                     msg_pw.setIcon(QtWidgets.QMessageBox.Information)
                     msg_pw.setWindowTitle("Zugangsdaten")
                     msg_pw.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-                    msg_pw.setText("Auf diesem Rechner ist das Passwort noch " +
-                                   "nicht zwischengespeichert. Bitte erneut " +
-                                   "eingeben")
+                    msg_pw.setText("Auf diesem Rechner ist das Passwort " +
+                                   "noch nicht zwischengespeichert. Bitte " +
+                                   "erneut eingeben")
                     msg_pw.exec_()
                     self.ui.sync()
                 if access == False:
@@ -130,9 +133,9 @@ class Database:
                     msg_access.setIcon(QtWidgets.QMessageBox.Information)
                     msg_access.setWindowTitle("Zugangsdaten")
                     msg_access.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-                    msg_access.setText("Wahrscheinlich ist das Passwort falsch " +
-                                       "oder es ist geändert worden. Bitte erneut " +
-                                       "eingeben")
+                    msg_access.setText("Wahrscheinlich ist das Passwort  " +
+                                       "falsch oder es ist geändert worden. " +
+                                       "Bitte erneut eingeben")
                     msg_access.exec_()
                     self.ui.sync()
                 if access == "host":
@@ -147,7 +150,8 @@ class Database:
                 if access == True:
                     self.ui.statusBar.showMessage(
                         "Datenbank erfolgreich synchronisiert.")
-                    # Fill Kursauswahl combobox again with new data from downloaded db
+                    # Fill Kursauswahl combobox again with new data
+                    # from downloaded db
                     self.ui.kursauswahlMenue()
             if self.sync == 0:
                 self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
@@ -155,15 +159,18 @@ class Database:
             # Auf neue Version prüfen
             try:
                 content = urlopen(
-                    'https://raw.githubusercontent.com/pyphil/Kursbuch/main/version')
+                    "https://raw.githubusercontent.com/pyphil/Kursbuch/" +
+                    "main/version")
                 version = str(content.read())
                 version = version.split("'")[1].split("\\")[0]
                 if current_version == version:
                     print("pyKursbuch ist aktuell.")
                 else:
                     print(
-                        "Eine neue Version ist verfügbar: https://github.com/pyphil/Kursbuch/releases/tag/v"+version)
-            except:
+                        "Eine neue Version ist verfügbar: " +
+                        "https://github.com/pyphil/Kursbuch/releases/tag/v"
+                        + version)
+            except Exception:
                 print("No network connection for update check.")
 
             sys.exit(self.app.exec_())
@@ -199,15 +206,15 @@ class Database:
                             PRIMARY KEY("pk")
                         )""")
         self.c.execute("""INSERT INTO "settings"
-                             ("pk","Kategorie","Inhalt") 
+                             ("pk","Kategorie","Inhalt")
                              VALUES (NULL,"Krzl",?);""",
                        (krz,))
         self.c.execute("""INSERT INTO "settings"
-                             ("Kategorie","Inhalt") 
+                             ("Kategorie","Inhalt")
                              VALUES ("sync",?);""",
                        (0,))
         self.c.execute("""INSERT INTO "settings"
-                             ("Kategorie","Inhalt") 
+                             ("Kategorie","Inhalt")
                              VALUES ("dbversion",?);""",
                        (self.req_dbversion,))
         self.verbindung.commit()
@@ -250,7 +257,7 @@ class Database:
         self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "FTPS_URL";""")
         self.c.execute("""INSERT INTO "settings"
-                            ("Kategorie","Inhalt") 
+                            ("Kategorie","Inhalt")
                             VALUES ("FTPS_URL",?);""",
                        (url,))
         self.verbindung.commit()
@@ -267,7 +274,7 @@ class Database:
             self.c.execute("""DELETE FROM "settings"
                             WHERE "Kategorie" = "sync";""")
             self.c.execute("""INSERT INTO "settings"
-                            ("Kategorie","Inhalt") 
+                            ("Kategorie","Inhalt")
                             VALUES ("sync",?);""",
                            (s,))
             self.verbindung.commit()
@@ -303,8 +310,9 @@ class Database:
                 msg_aktivate.setIcon(QtWidgets.QMessageBox.Information)
                 msg_aktivate.setWindowTitle("Synchronisation aktivieren")
                 msg_aktivate.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-                msg_aktivate.setText("Zur Einrichtung der Synchronisation bitte " +
-                                     "\"Synchronisation aktivieren\" auswählen.")
+                msg_aktivate.setText("Zur Einrichtung der Synchronisation  " +
+                                     "bitte\"Synchronisation aktivieren\" " +
+                                     "auswählen.")
                 msg_aktivate.exec_()
                 return "dontclose"
 
@@ -317,10 +325,11 @@ class Database:
                 msg_restart.setWindowTitle("Synchronisation entfernen")
                 msg_restart.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
                 msg_restart.setText("Die Synchronisation wird entfernt. Die " +
-                                    "Datenbank auf dem Server wird gelöscht, " +
-                                    "die lokale Datenbank bleibt erhalten. " +
-                                    "Das Programm wird geschlossen und muss " +
-                                    "neugestartet werden.")
+                                    "Datenbank auf dem Server wird " +
+                                    "gelöscht, die lokale Datenbank bleibt " +
+                                    "erhalten. Das Programm wird  " +
+                                    "geschlossen und muss neugestartet " +
+                                    "werden.")
                 msg_restart.setStandardButtons(
                     QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
                 abbrechen = msg_restart.button(QtWidgets.QMessageBox.Cancel)
@@ -332,7 +341,7 @@ class Database:
                     self.c.execute("""DELETE FROM "settings"
                                 WHERE "Kategorie" = "sync";""")
                     self.c.execute("""INSERT INTO "settings"
-                                ("Kategorie","Inhalt") 
+                                ("Kategorie","Inhalt")
                                 VALUES ("sync",?);""",
                                    (s,))
                     self.verbindung.commit()
@@ -350,7 +359,7 @@ class Database:
             sync = list(self.c.execute("""SELECT Inhalt FROM settings
                                         WHERE Kategorie = "sync";"""))
             sync = int(sync[0][0])
-        except:
+        except Exception:
             sync = 0
         return sync
 
@@ -413,7 +422,7 @@ class Database:
     def getDateOfPk(self, k, pk):
         """Datum zum Primary Key ausgeben"""
         tn = self.get_tn(k)
-        liste = list(self.c.execute(""" SELECT Datum FROM """+tn+""" 
+        liste = list(self.c.execute(""" SELECT Datum FROM """+tn+"""
                                         WHERE pk = ?;
                                     """,
                                     (pk,)))
@@ -425,7 +434,7 @@ class Database:
 
     def getRowOfDate(self, k, d):
         tn = self.get_tn(k)
-        listedb = list(self.c.execute(""" SELECT Datum 
+        listedb = list(self.c.execute(""" SELECT Datum
                                           FROM """+tn+"""
                                           ORDER BY Datum DESC;
                                       """))
@@ -457,7 +466,6 @@ class Database:
             string = str(i[1]).split("_")
             datum = datetime.strptime(string[0], '%Y-%m-%d')
             datum = datum.strftime('%a, %d. %b %Y')
-            # liste.append([str(i[0]),(datum+", "+string[1]+". Std."),i[2],i[3]])
             liste.append([str(i[0]), datum, string[1] +
                          ". Std.", i[2], i[3], i[4]])
         return liste
@@ -465,7 +473,7 @@ class Database:
     def getDatelist(self, k):
         """ Datumsliste aus Datenbank holen """
         tn = self.get_tn(k)
-        listedb = list(self.c.execute(""" SELECT Datum 
+        listedb = list(self.c.execute(""" SELECT Datum
                                           FROM """+tn+"""
                                           ORDER BY Datum DESC;
                                       """))
@@ -480,11 +488,11 @@ class Database:
             pass
         else:
             self.c.execute(""" UPDATE """+tn+"""
-                        SET Inhalt = ?, 
-                        Ausfall = ?, 
-                        Kompensation = ?, 
+                        SET Inhalt = ?,
+                        Ausfall = ?,
+                        Kompensation = ?,
                         Pruefung = ?,
-                        Hausaufgabe = ?, 
+                        Hausaufgabe = ?,
                         Planung = ?
                         WHERE pk = ?;
                         """,
@@ -507,13 +515,13 @@ class Database:
 
     def getDatensatz(self, pk, k):
         tn = self.get_tn(k)
-        text = list(self.c.execute("""SELECT * FROM """+tn+""" 
+        text = list(self.c.execute("""SELECT * FROM """+tn+"""
                                     WHERE pk = ?;""", (pk,)))
         return text
 
     def deleteDatensatz(self, k, pk):
         tn = self.get_tn(k)
-        self.c.execute(""" DELETE FROM """+tn+""" 
+        self.c.execute(""" DELETE FROM """+tn+"""
                            WHERE pk = ?;
                            """,
                        (pk,))
@@ -549,7 +557,7 @@ class Database:
         try:
             self.c.execute("""drop table """ + kurssus + """
                             """)
-        except:
+        except Exception:
             pass
 
         # Tabelle neu erstellen. Ohne primary key Angabe, da nur
@@ -557,7 +565,7 @@ class Database:
         self.c.execute("""CREATE TABLE """ + kurssus + """ (
                             "pk"    INTEGER,
                             "zuab"     INTEGER,
-                            "Datum"  DATE   
+                            "Datum"  DATE
                         );""")
 
         for i in s:
@@ -588,18 +596,18 @@ class Database:
 
         if mode == "normal":
             pkliste = list(self.c.execute("""SELECT pk
-                                    FROM """+kurssus+""" 
+                                    FROM """+kurssus+"""
                                     WHERE zuab = 0
                                     """))
         # mode == "abzu":
         else:
             pkliste = list(self.c.execute("""SELECT pk, Datum
                                     FROM """+kurssus+"""
-                                    WHERE zuab = 1 
+                                    WHERE zuab = 1
                                     """))
         susliste = []
         for i in pkliste:
-            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse 
+            item = list(self.susc.execute("""SELECT pk,Name,Vorname,Klasse
                                           FROM "sus"
                                           WHERE pk = ?;
                                        """,
@@ -649,7 +657,7 @@ class Database:
             self.susc.execute("""ALTER TABLE sus ADD """+date+""" VARCHAR(12)
                               """)
             self.susverbindung.commit()
-        except:
+        except Exception:
             pass
 
     def writeFehlzeiten(self, pk, f, date, tut=None):
@@ -684,7 +692,7 @@ class Database:
         else:
             self.c.execute("""INSERT INTO """+tn+"""
                                 ("pk","Datum","Inhalt","Ausfall","Kompensation",
-                                "Hausaufgabe","Planung") 
+                                "Hausaufgabe","Planung")
                                 VALUES (NULL,?,"",0,?,"","");""",
                            (datum, komp))
 
@@ -708,7 +716,7 @@ class Database:
     def getFerientext(self, date):
         ferienverbindung = sqlite3.connect(feriendbpath)
         ferienc = ferienverbindung.cursor()
-        ferientext = list(ferienc.execute("""SELECT Ferientext 
+        ferientext = list(ferienc.execute("""SELECT Ferientext
                                           FROM "ferien"
                                           WHERE Datum = ?;
                                        """,
@@ -719,11 +727,12 @@ class Database:
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
-        s = list(self.susc.execute("SELECT pk, Name, Vorname, Klasse FROM sus"))
+        s = list(self.susc.execute("""SELECT pk, Name, Vorname, Klasse
+                                      FROM sus"""))
         return s
 
     def getSFehlzeiten(self, studentpk):
-        sfz = list(self.susc.execute("""SELECT * FROM sus 
+        sfz = list(self.susc.execute("""SELECT * FROM sus
                                       WHERE pk = ?
                                     """,
                                      (studentpk,)))
@@ -735,7 +744,7 @@ class Database:
         kategorie = "TutmodDatePreset_"+klasse
         print(kategorie)
 
-        self.c.execute("""DELETE FROM settings 
+        self.c.execute("""DELETE FROM settings
                           WHERE Kategorie = ?
                        """,
                        (kategorie,))
@@ -787,11 +796,12 @@ class Database:
             if self.timestamp == currentstamp:
                 try:
                     self.ui.datensatzSpeichernIntervalThread()
-                except:
+                except Exception:
                     pass
                 self.upload()
                 self.ui.statusBar.showMessage(
-                    "Letzte Synchronisation: "+datetime.now().strftime("%d.%m.%Y, %H:%M:%S"))
+                    "Letzte Synchronisation: "+datetime.now().strftime(
+                        "%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
 
@@ -1069,7 +1079,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
             self.gui.kursAnzeigen()
             try:
                 self.gui.tableWidget.selectRow(newrow)
-            except:
+            except Exception:
                 pass
             self.gui.datensatzAnzeigen()
             self.close()
@@ -1222,7 +1232,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 self.susadd()
             else:
                 self.tableWidget.clearSelection()
-        except:
+        except Exception:
             pass
 
     def susdel(self):
@@ -1269,7 +1279,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 self.susdel()
             else:
                 self.tableWidget_2.clearSelection()
-        except:
+        except Exception:
             pass
 
     def abgangAdd(self):
@@ -1483,13 +1493,13 @@ class Sync(Ui_Syncdialog, QtWidgets.QDialog):
         try:
             if self.db.sync == 2:
                 self.checkBoxSync.setChecked(2)
-        except:
+        except Exception:
             pass
 
         try:
             self.lineEditFTPS.setText(self.db.get_FTPS_URL())
             self.lineEditPW.setText(self.db.pw)
-        except:
+        except Exception:
             pass
 
         # signals and slots
@@ -1621,7 +1631,12 @@ class Gui(Ui_MainWindow):
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
         if self.abouttoclose != 1:
-            if old == self.textEditKurshefteintrag or old == self.textEditHausaufgaben or old == self.textEdit or old == self.checkBox or old == self.checkBox_2 or old == self.checkBox_3:
+            if (old == self.textEditKurshefteintrag or
+                old == self.textEditHausaufgaben or
+                old == self.textEdit or
+                old == self.checkBox or
+                old == self.checkBox_2 or
+                    old == self.checkBox_3):
                 self.datensatzSpeichern()
 
     def kursauswahlMenue(self):
@@ -1680,7 +1695,8 @@ class Gui(Ui_MainWindow):
 
         self.enableFieldsKurs()
 
-        # Fehlzeiten Widget schließen -> bei Kurswechsel keine falschen Fehlzeiten
+        # Fehlzeiten Widget schließen -> bei Kurswechsel keine
+        # falschen Fehlzeiten
         self.verticalLayoutWidget.close()
 
     def markieren(self, *args):
@@ -1835,8 +1851,11 @@ class Gui(Ui_MainWindow):
         """Löscht die aktuelle Stunde ohne die eingetragenen Fehlzeiten"""
         msg = QtWidgets.QMessageBox(self.MainWindow)
         msg.setIcon(QtWidgets.QMessageBox.Question)
-        msg.setText("Soll die Stunde "+'"'+str(self.db.getCurrentDate(self.kurs, self.pk))+'"'+" gelöscht werden?\n\n" +
-                    "Eingetragene Fehlzeiten werden dabei nicht aus der Datenbank entfernt.")
+        msg.setText("Soll die Stunde " + '"' + str(
+            self.db.getCurrentDate(self.kurs, self.pk)) +
+            '"'+" gelöscht werden?\n\n" +
+            "Eingetragene Fehlzeiten werden dabei nicht aus " +
+            "der Datenbank entfernt.")
         msg.setWindowTitle("Stunde löschen")
         msg.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok |
@@ -1892,8 +1911,8 @@ class Gui(Ui_MainWindow):
                                              (self.kurs,)))
         tn = tabellenname[0][0]
         c_thread.execute(""" UPDATE """+tn+"""
-                    SET Inhalt = ?, 
-                    Hausaufgabe = ?, 
+                    SET Inhalt = ?,
+                    Hausaufgabe = ?,
                     Planung = ?
                     WHERE pk = ?;
                     """,
@@ -1907,7 +1926,7 @@ class Gui(Ui_MainWindow):
         if tab == 1:
             try:
                 self.verticalLayoutWidget.close()
-            except:
+            except Exception:
                 pass
 
             self.verticalLayoutWidget = QtWidgets.QWidget(self.frameContainer)
@@ -1981,7 +2000,8 @@ class Gui(Ui_MainWindow):
                     h = 300
 
                 spacerItem = QtWidgets.QSpacerItem(
-                    20, h, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+                    20, h, QtWidgets.QSizePolicy.Minimum,
+                    QtWidgets.QSizePolicy.Fixed)
                 self.verticalLayoutFehlzeiten.addItem(spacerItem)
 
     def fsSpeichern(self):
