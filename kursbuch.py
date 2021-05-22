@@ -1354,7 +1354,8 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
 
     def show_student(self):
         if self.item <= len(self.slist)-1:
-            self.s = self.slist[self.item]
+            self.s = [self.slist[self.item][0], self.slist[self.item][1], self.slist[self.item][2], self.slist[self.item][3]]
+            print(self.s)
             self.dateEdit.setDate(QtCore.QDate(
                 date.today().year, date.today().month, date.today().day))
             self.labelSname.setText(self.s[0]+", "+self.s[1])
@@ -1370,7 +1371,7 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
         print(self.s)
         # Schüler mit Datum der liste3 hinzufügen
         self.susverw.liste3.append(self.s)
-        print(self.susverw.liste3)
+        print("LISTE3",self.susverw.liste3)
 
         if self.item <= len(self.slist)-1:
             print("item:", self.item)
