@@ -1104,7 +1104,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
         self.tableWidget.setColumnWidth(0, 190)
         self.tableWidget_2.setColumnWidth(0, 250)
+        self.tableWidget_2.setColumnWidth(1, 50)
         self.tableWidget_3.setColumnWidth(0, 250)
+        self.tableWidget_3.setColumnWidth(1, 50)
 
         # Listen bereitstellen
         self.liste2 = []
