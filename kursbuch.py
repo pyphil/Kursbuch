@@ -1349,6 +1349,9 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
         self.item = 0
         # speichert den aktuellen Schüler
         self.s = []
+        # speichert, ob kein Eintrag ausgwählt ist
+        self.noselection = 0
+
         self.show_student()
 
     def show_student(self):
@@ -1360,58 +1363,63 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
             self.labelSname.setText(self.s[0]+", "+self.s[1])
             self.item += 1
         else:
-            # TODO Dialog auf Hinweis abänder, dass eine Auswahl erfolgen muss
-            pass
+            # TODO Dialog auf Hinweis abändern, dass eine Auswahl erfolgen muss
+            self.label.setText("Bitte zunächst Kursmitglieder auswählen.")
+            self.labelSname.setText("")
+            self.dateEdit.hide()
+            self.noselection = 1
 
     def ok(self):
-        # Abgangsdatum aus Dialog holen
-        abgdatum = self.dateEdit.date().toPyDate()
-        # Zur Liste des einzelnen Schülers hinzufügen
-        self.s.append(str(abgdatum))
-        # Schüler mit Datum der liste3 hinzufügen
-        self.susverw.liste3.append(self.s)
-
-        if self.item <= len(self.slist)-1:
-            self.show_student()
+        if self.noselection == 1:
+            self.close()
         else:
-            self.close()
-            # Liste mit Umlauten korrekt sortieren: üblicherweise
-            # bei Liste von Listen mit
-            # labmda Funktion für jede Liste in der Liste
-            self.susverw.liste3sorted = sorted(
-                self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
+            # Abgangsdatum aus Dialog holen
+            abgdatum = self.dateEdit.date().toPyDate()
+            # Zur Liste des einzelnen Schülers hinzufügen
+            self.s.append(str(abgdatum))
+            # Schüler mit Datum der liste3 hinzufügen
+            self.susverw.liste3.append(self.s)
 
-            z = 0
-            for i in self.susverw.liste3sorted:
-                self.susverw.tableWidget_3.setRowCount(z+1)
-                self.susverw.tableWidget_3.setItem(
-                    z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-                self.susverw.tableWidget_3.setItem(
-                    z, 1, QtWidgets.QTableWidgetItem(i[3]))
-                self.susverw.tableWidget_3.setItem(
-                    z, 2, QtWidgets.QTableWidgetItem(i[4]))
-                z += 1
+            if self.item <= len(self.slist)-1:
+                self.show_student()
+            else:
+                self.close()
+                # Liste mit Umlauten korrekt sortieren: üblicherweise
+                # bei Liste von Listen mit
+                # labmda Funktion für jede Liste in der Liste
+                self.susverw.liste3sorted = sorted(
+                    self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
 
-            # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
-            # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-            for i in sorted(self.susverw.selection, reverse=True):
-                del self.susverw.liste2sorted[i.row()]
-            self.susverw.liste2 = self.susverw.liste2sorted
+                z = 0
+                for i in self.susverw.liste3sorted:
+                    self.susverw.tableWidget_3.setRowCount(z+1)
+                    self.susverw.tableWidget_3.setItem(
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                    self.susverw.tableWidget_3.setItem(
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    self.susverw.tableWidget_3.setItem(
+                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                    z += 1
 
-            z = 0
-            for i in self.susverw.liste2sorted:
-                self.susverw.tableWidget_2.setRowCount(z+1)
-                self.susverw.tableWidget_2.setItem(
-                    z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-                self.susverw.tableWidget_2.setItem(
-                    z, 1, QtWidgets.QTableWidgetItem(i[3]))
-                z += 1
+                # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+                # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+                for i in sorted(self.susverw.selection, reverse=True):
+                    del self.susverw.liste2sorted[i.row()]
+                self.susverw.liste2 = self.susverw.liste2sorted
 
-            # Auswahl wieder aufheben
-            self.susverw.tableWidget_2.clearSelection()
+                z = 0
+                for i in self.susverw.liste2sorted:
+                    self.susverw.tableWidget_2.setRowCount(z+1)
+                    self.susverw.tableWidget_2.setItem(
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                    self.susverw.tableWidget_2.setItem(
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    z += 1
 
-            self.susverw.save()
-            self.close()
+                # Auswahl wieder aufheben
+                self.susverw.tableWidget_2.clearSelection()
+
+                self.susverw.save()
 
 
 class Kursbuch_Dialog(Ui_PdfExportieren, QtWidgets.QDialog):
