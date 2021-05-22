@@ -1346,7 +1346,6 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
 
         self.pushButtonOK.clicked.connect(self.ok)
 
-        print(slist)
         self.item = 0
         # speichert den aktuellen Schüler
         self.s = []
@@ -1354,27 +1353,25 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
 
     def show_student(self):
         if self.item <= len(self.slist)-1:
-            self.s = [self.slist[self.item][0], self.slist[self.item][1], self.slist[self.item][2], self.slist[self.item][3]]
-            print(self.s)
+            self.s = [self.slist[self.item][0], self.slist[self.item][1],
+                      self.slist[self.item][2], self.slist[self.item][3]]
             self.dateEdit.setDate(QtCore.QDate(
                 date.today().year, date.today().month, date.today().day))
             self.labelSname.setText(self.s[0]+", "+self.s[1])
             self.item += 1
         else:
-            print("Ende")
+            # TODO Dialog auf Hinweis abänder, dass eine Auswahl erfolgen muss
+            pass
 
     def ok(self):
         # Abgangsdatum aus Dialog holen
         abgdatum = self.dateEdit.date().toPyDate()
         # Zur Liste des einzelnen Schülers hinzufügen
         self.s.append(str(abgdatum))
-        print(self.s)
         # Schüler mit Datum der liste3 hinzufügen
         self.susverw.liste3.append(self.s)
-        print("LISTE3",self.susverw.liste3)
 
         if self.item <= len(self.slist)-1:
-            print("item:", self.item)
             self.show_student()
         else:
             self.close()
@@ -1383,7 +1380,6 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
             # labmda Funktion für jede Liste in der Liste
             self.susverw.liste3sorted = sorted(
                 self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
-            print("LISTE3SORTED:", self.susverw.liste3sorted)
 
             z = 0
             for i in self.susverw.liste3sorted:
@@ -1435,7 +1431,7 @@ class Kursbuch_Dialog(Ui_PdfExportieren, QtWidgets.QDialog):
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
         # Key Press Events
-        #self.PdfExportieren.keyPressEvent = self.keyPressEvent
+        # self.PdfExportieren.keyPressEvent = self.keyPressEvent
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
