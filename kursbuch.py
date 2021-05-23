@@ -24,7 +24,7 @@ from Susverwgui import Ui_Susverwgui
 from Ersteinrichtung import Ui_Ersteinrichtung
 from Syncdialog import Ui_Syncdialog
 from infobox import Ui_Infobox
-from Abgangsdatum import Ui_Abgangsdatum
+from AbZuDialog import Ui_AbZuDialog
 
 # join program path dirname and ferien.db to provide absolute path to ferien.db
 if getattr(sys, 'frozen', False):
@@ -1346,7 +1346,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.gui.fehlzeitenAnzeige(1)
 
 
-class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
+
+class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
     def __init__(self, slist, db, susverw):
         super(AbgangsdatumDialog, self).__init__(susverw)
         self.setupUi(self)
@@ -1375,7 +1376,95 @@ class AbgangsdatumDialog(Ui_Abgangsdatum, QtWidgets.QDialog):
             self.labelSname.setText(self.s[0]+", "+self.s[1])
             self.item += 1
         else:
-            # TODO Dialog auf Hinweis abändern, dass eine Auswahl erfolgen muss
+            # Dialog auf Hinweis abändern, dass eine Auswahl erfolgen muss
+            self.label.setText("Bitte zunächst Kursmitglieder auswählen.")
+            self.labelSname.setText("")
+            self.dateEdit.hide()
+            self.noselection = 1
+
+    def ok(self):
+        if self.noselection == 1:
+            self.close()
+        else:
+            # Abgangsdatum aus Dialog holen
+            abgdatum = self.dateEdit.date().toPyDate()
+            # Zur Liste des einzelnen Schülers hinzufügen
+            self.s.append(str(abgdatum))
+            # Schüler mit Datum der liste3 hinzufügen
+            self.susverw.liste3.append(self.s)
+
+            if self.item <= len(self.slist)-1:
+                self.show_student()
+            else:
+                self.close()
+                # Liste mit Umlauten korrekt sortieren: üblicherweise
+                # bei Liste von Listen mit
+                # labmda Funktion für jede Liste in der Liste
+                self.susverw.liste3sorted = sorted(
+                    self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
+
+                z = 0
+                for i in self.susverw.liste3sorted:
+                    self.susverw.tableWidget_3.setRowCount(z+1)
+                    self.susverw.tableWidget_3.setItem(
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                    self.susverw.tableWidget_3.setItem(
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    self.susverw.tableWidget_3.setItem(
+                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                    z += 1
+
+                # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
+                # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+                for i in sorted(self.susverw.selection, reverse=True):
+                    del self.susverw.liste2sorted[i.row()]
+                self.susverw.liste2 = self.susverw.liste2sorted
+
+                z = 0
+                for i in self.susverw.liste2sorted:
+                    self.susverw.tableWidget_2.setRowCount(z+1)
+                    self.susverw.tableWidget_2.setItem(
+                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                    self.susverw.tableWidget_2.setItem(
+                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    z += 1
+
+                # Auswahl wieder aufheben
+                self.susverw.tableWidget_2.clearSelection()
+
+                self.susverw.save()
+
+
+class ZugsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
+    def __init__(self, slist, db, susverw):
+        super(ZugsdatumDialog, self).__init__(susverw)
+        self.setupUi(self)
+        self.show()
+
+        self.slist = slist
+        self.db = db
+        self.susverw = susverw
+
+        self.pushButtonOK.clicked.connect(self.ok)
+
+        self.item = 0
+        # speichert den aktuellen Schüler
+        self.s = []
+        # speichert, ob kein Eintrag ausgwählt ist
+        self.noselection = 0
+
+        self.show_student()
+
+    def show_student(self):
+        if self.item <= len(self.slist)-1:
+            self.s = [self.slist[self.item][0], self.slist[self.item][1],
+                      self.slist[self.item][2], self.slist[self.item][3]]
+            self.dateEdit.setDate(QtCore.QDate(
+                date.today().year, date.today().month, date.today().day))
+            self.labelSname.setText(self.s[0]+", "+self.s[1])
+            self.item += 1
+        else:
+            # Dialog auf Hinweis abändern, dass eine Auswahl erfolgen muss
             self.label.setText("Bitte zunächst Kursmitglieder auswählen.")
             self.labelSname.setText("")
             self.dateEdit.hide()
