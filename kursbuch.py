@@ -1148,6 +1148,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.pushButtonDeleteAll.clicked.connect(self.susdelall)
         self.pushButtonAbgangAdd.clicked.connect(self.abgangAdd)
         self.pushButtonAbgangDel.clicked.connect(self.abgangDel)
+        self.pushButtonZugangsdatum.clicked.connect(self.zugangAdd)
 
         klassen = ["5a", "5b", "5c", "5d", "5e",
                    "6a", "6b", "6c", "6d", "6e",
@@ -1293,6 +1294,16 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
         # Dialog Abgangsdatum
         self.abgdial = AbgangsdatumDialog(slist, self.db, self)
+   
+    def zugangAdd(self):
+        self.selection = self.tableWidget_2.selectionModel().selectedRows()
+        slist = []
+        for i in self.selection:
+            s = self.liste2sorted[i.row()]
+            slist.append(s)
+
+        # Dialog Abgangsdatum
+        self.zugdial = ZugangsdatumDialog(slist, self.db, self)
 
     def abgangDel(self):
         selection = self.tableWidget_3.selectionModel().selectedRows()
@@ -1344,7 +1355,6 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
         if self.gui.tabWidget.currentIndex() == 1:
             self.gui.fehlzeitenAnzeige(1)
-
 
 
 class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
@@ -1435,17 +1445,18 @@ class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                 self.susverw.save()
 
 
-class ZugsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
+class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
     def __init__(self, slist, db, susverw):
-        super(ZugsdatumDialog, self).__init__(susverw)
+        super(ZugangsdatumDialog, self).__init__(susverw)
         self.setupUi(self)
         self.show()
 
         self.slist = slist
         self.db = db
         self.susverw = susverw
-
+        self.setWindowTitle("Zugangsdatum festlegen")
         self.pushButtonOK.clicked.connect(self.ok)
+
 
         self.item = 0
         # speichert den aktuellen Schüler

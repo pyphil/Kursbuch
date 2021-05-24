@@ -441,7 +441,7 @@
         <widget class="QWidget" name="verticalLayoutWidget">
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="pushButtonZugangsdatum">
             <property name="text">
              <string>Zugangsdatum festlegen</string>
             </property>
