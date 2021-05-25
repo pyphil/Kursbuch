@@ -570,9 +570,9 @@ class Database:
 
         for i in s:
             self.c.execute("""INSERT INTO """ + kurssus + """
-                                ("pk", "zuab")
-                                VALUES (?,?);""",
-                           (i[2], 0))
+                                ("pk", "zuab", "Datum")
+                                VALUES (?,?,?);""",
+                           (i[2], 0, i[4]))
         self.verbindung.commit()
 
     def addAbgaenger(self, k, s):
@@ -595,7 +595,7 @@ class Database:
         mode = m
 
         if mode == "normal":
-            pkliste = list(self.c.execute("""SELECT pk
+            pkliste = list(self.c.execute("""SELECT pk, Datum
                                     FROM """+kurssus+"""
                                     WHERE zuab = 0
                                     """))
@@ -614,7 +614,7 @@ class Database:
                                           (i[0],)))
             if mode == "normal":
                 susliste.append(
-                    [item[0][1], item[0][2], item[0][0], item[0][3]])
+                    [item[0][1], item[0][2], item[0][0], item[0][3], i[1]])
             else:
                 susliste.append(
                     [item[0][1], item[0][2], item[0][0], item[0][3], i[1]])
@@ -1123,7 +1123,10 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.tableWidget_2.setRowCount(z+1)
             self.tableWidget_2.setItem(
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 2, QtWidgets.QTableWidgetItem(i[4]))
             z += 1
 
         # Zeigt die Liste der Abgänger im Kurs
@@ -1294,7 +1297,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
         # Dialog Abgangsdatum
         self.abgdial = AbgangsdatumDialog(slist, self.db, self)
-   
+
     def zugangAdd(self):
         self.selection = self.tableWidget_2.selectionModel().selectedRows()
         slist = []
@@ -1324,7 +1327,10 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.tableWidget_2.setRowCount(z+1)
             self.tableWidget_2.setItem(
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 2, QtWidgets.QTableWidgetItem(i[4]))
             z += 1
 
         # Eintrag aus Widget 3 löschen und Ansicht aktualisieren
@@ -1437,6 +1443,8 @@ class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                     self.susverw.tableWidget_2.setItem(
                         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    self.susverw.tableWidget_2.setItem(
+                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
                     z += 1
 
                 # Auswahl wieder aufheben
@@ -1456,7 +1464,6 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
         self.susverw = susverw
         self.setWindowTitle("Zugangsdatum festlegen")
         self.pushButtonOK.clicked.connect(self.ok)
-
 
         self.item = 0
         # speichert den aktuellen Schüler
@@ -1485,12 +1492,12 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
         if self.noselection == 1:
             self.close()
         else:
-            # Abgangsdatum aus Dialog holen
-            abgdatum = self.dateEdit.date().toPyDate()
+            # Zugangsdatum aus Dialog holen
+            zugdatum = self.dateEdit.date().toPyDate()
             # Zur Liste des einzelnen Schülers hinzufügen
-            self.s.append(str(abgdatum))
-            # Schüler mit Datum der liste3 hinzufügen
-            self.susverw.liste3.append(self.s)
+            self.s.append(str(zugdatum))
+            # Schüler mit Datum der liste2 hinzufügen
+            self.susverw.liste2.append(self.s)
 
             if self.item <= len(self.slist)-1:
                 self.show_student()
@@ -1499,26 +1506,17 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                 # Liste mit Umlauten korrekt sortieren: üblicherweise
                 # bei Liste von Listen mit
                 # labmda Funktion für jede Liste in der Liste
-                self.susverw.liste3sorted = sorted(
-                    self.susverw.liste3, key=lambda i: locale.strxfrm(i[0]))
+                self.susverw.liste2sorted = sorted(
+                    self.susverw.liste2, key=lambda i: locale.strxfrm(i[0]))
 
-                z = 0
-                for i in self.susverw.liste3sorted:
-                    self.susverw.tableWidget_3.setRowCount(z+1)
-                    self.susverw.tableWidget_3.setItem(
-                        z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-                    self.susverw.tableWidget_3.setItem(
-                        z, 1, QtWidgets.QTableWidgetItem(i[3]))
-                    self.susverw.tableWidget_3.setItem(
-                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
-                    z += 1
+               
 
                 # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
                 # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
                 for i in sorted(self.susverw.selection, reverse=True):
                     del self.susverw.liste2sorted[i.row()]
                 self.susverw.liste2 = self.susverw.liste2sorted
-
+                
                 z = 0
                 for i in self.susverw.liste2sorted:
                     self.susverw.tableWidget_2.setRowCount(z+1)
@@ -1526,7 +1524,18 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                     self.susverw.tableWidget_2.setItem(
                         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    self.susverw.tableWidget_2.setItem(
+                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
                     z += 1
+
+                # z = 0
+                # for i in self.susverw.liste2sorted:
+                #     self.susverw.tableWidget_2.setRowCount(z+1)
+                #     self.susverw.tableWidget_2.setItem(
+                #         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
+                #     self.susverw.tableWidget_2.setItem(
+                #         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                #     z += 1
 
                 # Auswahl wieder aufheben
                 self.susverw.tableWidget_2.clearSelection()
