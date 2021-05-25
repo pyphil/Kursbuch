@@ -1491,7 +1491,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
     def ok(self):
         if self.noselection == 1:
             self.close()
-        else:
+        else:  
             # Zugangsdatum aus Dialog holen
             zugdatum = self.dateEdit.date().toPyDate()
             # Zur Liste des einzelnen Schülers hinzufügen
@@ -1500,8 +1500,15 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
             self.susverw.liste2.append(self.s)
 
             if self.item <= len(self.slist)-1:
+                # Bei mehreren SuS wieder den Dialog anzeigen
                 self.show_student()
             else:
+                # Einträge aus Liste 2 löschen
+                # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
+                print(self.susverw.liste2)
+                for i in sorted(self.susverw.selection, reverse=True):
+                    del self.susverw.liste2[i.row()]
+                print(self.susverw.liste2)
                 self.close()
                 # Liste mit Umlauten korrekt sortieren: üblicherweise
                 # bei Liste von Listen mit
@@ -1509,12 +1516,6 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                 self.susverw.liste2sorted = sorted(
                     self.susverw.liste2, key=lambda i: locale.strxfrm(i[0]))
 
-               
-
-                # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
-                # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-                for i in sorted(self.susverw.selection, reverse=True):
-                    del self.susverw.liste2sorted[i.row()]
                 self.susverw.liste2 = self.susverw.liste2sorted
                 
                 z = 0
@@ -1527,7 +1528,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.tableWidget_2.setItem(
                         z, 2, QtWidgets.QTableWidgetItem(i[4]))
                     z += 1
-
+                #print(self.susverw.liste2sorted)
                 # z = 0
                 # for i in self.susverw.liste2sorted:
                 #     self.susverw.tableWidget_2.setRowCount(z+1)
