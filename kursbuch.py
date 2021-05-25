@@ -1176,7 +1176,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         z = 0
         for i in alle:
             if i[3] == klasse:
-                self.filtered.append([i[1], i[2], i[0], i[3]])
+                self.filtered.append([i[1], i[2], i[0], i[3], None])
                 z += 1
         # Sortiertung nach Nachname
         self.filtered = sorted(
@@ -1356,6 +1356,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.save()
 
     def save(self):
+        print(self.liste2sorted)
         self.db.writeSuSListe(self.kurs, self.liste2sorted)
         self.db.addAbgaenger(self.kurs, self.liste3sorted)
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
