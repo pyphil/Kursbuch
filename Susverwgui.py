@@ -64,6 +64,7 @@ class Ui_Susverwgui(object):
         icon3.addPixmap(QtGui.QPixmap(".\\add-member.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButtonAddSelected.setIcon(icon3)
         self.pushButtonAddSelected.setIconSize(QtCore.QSize(30, 30))
+        self.pushButtonAddSelected.setDefault(True)
         self.pushButtonAddSelected.setObjectName("pushButtonAddSelected")
         self.gridLayout.addWidget(self.pushButtonAddSelected, 1, 0, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)

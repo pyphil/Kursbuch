@@ -1128,8 +1128,13 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
             self.tableWidget_2.setItem(
                 z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            if i[4] is not None:
+                datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                datumstr = datumstr.strftime('%d. %b %Y')
+            else:
+                datumstr = None
             self.tableWidget_2.setItem(
-                z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                z, 2, QtWidgets.QTableWidgetItem(datumstr))
             z += 1
 
         # Zeigt die Liste der Abgänger im Kurs
@@ -1142,8 +1147,13 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
             self.tableWidget_3.setItem(
                 z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            if i[4] is not None:
+                datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                datumstr = datumstr.strftime('%d. %b %Y')
+            else:
+                datumstr = None
             self.tableWidget_3.setItem(
-                z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                z, 2, QtWidgets.QTableWidgetItem(datumstr))
             z += 1
 
         # Signals and slots
@@ -1213,7 +1223,15 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.tableWidget_2.setRowCount(z+1)
             self.tableWidget_2.setItem(
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            if i[4] is not None:
+                datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                datumstr = datumstr.strftime('%d. %b %Y')
+            else:
+                datumstr = None
+            self.tableWidget_2.setItem(
+                z, 2, QtWidgets.QTableWidgetItem(datumstr))
             z += 1
 
         # Auswahl wieder aufheben
@@ -1256,7 +1274,15 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             self.tableWidget_2.setRowCount(z+1)
             self.tableWidget_2.setItem(
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-            self.tableWidget_2.setItem(z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget_2.setItem(
+                z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            if i[4] is not None:
+                datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                datumstr = datumstr.strftime('%d. %b %Y')
+            else:
+                datumstr = None
+            self.tableWidget_2.setItem(
+                z, 2, QtWidgets.QTableWidgetItem(datumstr))
             z += 1
 
         # Auswahl wieder aufheben
@@ -1334,8 +1360,13 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
                 z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
             self.tableWidget_2.setItem(
                 z, 1, QtWidgets.QTableWidgetItem(i[3]))
+            if i[4] is not None:
+                datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                datumstr = datumstr.strftime('%d. %b %Y')
+            else:
+                datumstr = None
             self.tableWidget_2.setItem(
-                z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                z, 2, QtWidgets.QTableWidgetItem(datumstr))
             z += 1
 
         # Eintrag aus Widget 3 löschen und Ansicht aktualisieren
@@ -1432,8 +1463,13 @@ class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                     self.susverw.tableWidget_3.setItem(
                         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    if i[4] is not None:
+                        datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                        datumstr = datumstr.strftime('%d. %b %Y')
+                    else:
+                        datumstr = None
                     self.susverw.tableWidget_3.setItem(
-                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                        z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
 
                 # Eintrag aus Widget 2 löschen und Ansicht aktualisieren
@@ -1449,8 +1485,13 @@ class AbgangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                     self.susverw.tableWidget_2.setItem(
                         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    if i[4] is not None:
+                        datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                        datumstr = datumstr.strftime('%d. %b %Y')
+                    else:
+                        datumstr = None
                     self.susverw.tableWidget_2.setItem(
-                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                        z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
 
                 # Auswahl wieder aufheben
@@ -1531,8 +1572,13 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
                     self.susverw.tableWidget_2.setItem(
                         z, 1, QtWidgets.QTableWidgetItem(i[3]))
+                    if i[4] is not None:
+                        datumstr = datetime.strptime(i[4], '%Y-%m-%d')
+                        datumstr = datumstr.strftime('%d. %b %Y')
+                    else:
+                        datumstr = None
                     self.susverw.tableWidget_2.setItem(
-                        z, 2, QtWidgets.QTableWidgetItem(i[4]))
+                        z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
                 #print(self.susverw.liste2sorted)
                 # z = 0
