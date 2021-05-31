@@ -214,7 +214,7 @@ class Ui_Susverwgui(object):
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.comboBox = QtWidgets.QComboBox(Susverwgui)
-        self.comboBox.setEditable(True)
+        self.comboBox.setEditable(False)
         self.comboBox.setMaxVisibleItems(15)
         self.comboBox.setObjectName("comboBox")
         self.gridLayout_2.addWidget(self.comboBox, 0, 2, 1, 1)
@@ -237,6 +237,16 @@ class Ui_Susverwgui(object):
 
         self.retranslateUi(Susverwgui)
         QtCore.QMetaObject.connectSlotsByName(Susverwgui)
+        Susverwgui.setTabOrder(self.comboBox, self.tableWidget)
+        Susverwgui.setTabOrder(self.tableWidget, self.pushButtonAddSelected)
+        Susverwgui.setTabOrder(self.pushButtonAddSelected, self.pushButtonAddAll)
+        Susverwgui.setTabOrder(self.pushButtonAddAll, self.pushButtonDeleteSelected)
+        Susverwgui.setTabOrder(self.pushButtonDeleteSelected, self.pushButtonDeleteAll)
+        Susverwgui.setTabOrder(self.pushButtonDeleteAll, self.tableWidget_2)
+        Susverwgui.setTabOrder(self.tableWidget_2, self.pushButtonAbgangAdd)
+        Susverwgui.setTabOrder(self.pushButtonAbgangAdd, self.pushButtonAbgangDel)
+        Susverwgui.setTabOrder(self.pushButtonAbgangDel, self.pushButtonZugangsdatum)
+        Susverwgui.setTabOrder(self.pushButtonZugangsdatum, self.tableWidget_3)
 
     def retranslateUi(self, Susverwgui):
         _translate = QtCore.QCoreApplication.translate

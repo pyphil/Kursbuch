@@ -1102,6 +1102,9 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         else:
             self.show()
 
+        # Stylesheet für Combobox ändern
+        self.comboBox.setStyleSheet("combobox-popup: 0;")
+
         self.tableWidget.setColumnWidth(0, 190)
         self.tableWidget_2.setColumnWidth(0, 250)
         self.tableWidget_2.setColumnWidth(1, 50)

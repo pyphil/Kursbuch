@@ -509,7 +509,7 @@
        <item row="0" column="2">
         <widget class="QComboBox" name="comboBox">
          <property name="editable">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="maxVisibleItems">
           <number>15</number>
@@ -567,6 +567,19 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBox</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>pushButtonAddSelected</tabstop>
+  <tabstop>pushButtonAddAll</tabstop>
+  <tabstop>pushButtonDeleteSelected</tabstop>
+  <tabstop>pushButtonDeleteAll</tabstop>
+  <tabstop>tableWidget_2</tabstop>
+  <tabstop>pushButtonAbgangAdd</tabstop>
+  <tabstop>pushButtonAbgangDel</tabstop>
+  <tabstop>pushButtonZugangsdatum</tabstop>
+  <tabstop>tableWidget_3</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
