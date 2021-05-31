@@ -54,7 +54,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button2_3.clicked.connect(self.set2_3)
         self.button2_4.clicked.connect(self.set2_4)
         self.button2_5.clicked.connect(self.set2_5)
-        
+
         self.button3_1.clicked.connect(self.set3_1)
         self.button3_2.clicked.connect(self.set3_2)
         self.button3_3.clicked.connect(self.set3_3)
@@ -92,12 +92,16 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.dateEditJahr.setEnabled(False)
         self.pushButtonWeekafter.setEnabled(False)
         self.pushButtonWeekbefore.setEnabled(False)
-    
+        self.pushButtonListeKlasse_1.setEnabled(False)
+        self.pushButtonListeKlasse_2.setEnabled(False)
+
     def enableButtons(self):
         self.comboBoxMonat.setEnabled(True)
         self.dateEditJahr.setEnabled(True)
         self.pushButtonWeekafter.setEnabled(True)
         self.pushButtonWeekbefore.setEnabled(True)
+        self.pushButtonListeKlasse_1.setEnabled(True)
+        self.pushButtonListeKlasse_2.setEnabled(True)
 
         self.button1_1.setEnabled(True)
         self.button1_2.setEnabled(True)

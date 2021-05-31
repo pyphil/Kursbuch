@@ -1315,6 +1315,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             if self.liste3sorted[i.row()] in self.liste2:
                 pass
             else:
+                # Abgangsdatum löschen
+                self.liste3sorted[i.row()][4] = None
                 self.liste2.append(self.liste3sorted[i.row()])
         # Liste mit Umlauten korrekt sortieren: üblicherweise
         # sorted(self.liste2, key=locale.strxfrm), bei Liste von Listen mit
