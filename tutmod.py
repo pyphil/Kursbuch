@@ -42,6 +42,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.dateEdit_3.dateChanged.connect(self.countfz)
         self.dateEdit_4.dateChanged.connect(self.countfz)
         self.pushButtonListeKlasse_1.clicked.connect(self.getKlassenFehlz)
+        self.pushButtonBlock.clicked.connect(self.block)
 
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
@@ -1875,6 +1876,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         print(datelist)
         self.db.writeTutmodDatePreset(self.klasse, datelist)
         
+    def block(self):
+        print(self.db.getBlockkomp(self.student_pk))
+
     def getKlassenFehlz(self):
         for i in self.filtered:
             liste = self.countfz(None, i[2])

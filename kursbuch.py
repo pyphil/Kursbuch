@@ -466,8 +466,13 @@ class Database:
             string = str(i[1]).split("_")
             datum = datetime.strptime(string[0], '%Y-%m-%d')
             datum = datum.strftime('%a, %d. %b %Y')
-            liste.append([str(i[0]), datum, string[1] +
-                         ". Std.", i[2], i[3], i[4]])
+            if "B" in string[1]:
+                std = string[1].split("-")[1]
+                liste.append([str(i[0]), datum, "Block (" + std + ")",
+                             i[2], i[3], i[4]])
+            else:
+                liste.append([str(i[0]), datum, string[1] +
+                             ". Std.", i[2], i[3], i[4]])
         return liste
 
     def getDatelist(self, k):
@@ -512,6 +517,22 @@ class Database:
                                        (tn,)))
         lastedit = lastedit[0][0]
         return lastedit
+
+    def getBlockkomp(self, student_pk):
+        liste = list(self.susc.execute("""PRAGMA table_info(sus)"""))
+        blockdates = []
+        for i in liste:
+            if "B" in i[1]:
+                blockdates.append(i[1])
+        blocks = []
+        for d in blockdates:
+            sfz = list(self.susc.execute("""SELECT """+'"'+d+'"'+""" FROM sus
+                                         WHERE pk = ?
+                                         """,
+                                         (student_pk,)))
+            if sfz[0][0] is not None:
+                blocks.append((d, sfz[0][0]))
+        return blocks
 
     def getDatensatz(self, pk, k):
         tn = self.get_tn(k)
@@ -1031,6 +1052,10 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
             self.message.setText("Bitte eine Stunde angeben.")
             self.message.exec_()
         else:
+            # Blockkompensation abfragen
+            if self.checkBoxBlock.isChecked() is True:
+                stunde = "B-" + stunde
+
             # Datum an Datenbankobjekt übergeben und
             # new row und new pk erhalten
 
@@ -1538,7 +1563,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
     def ok(self):
         if self.noselection == 1:
             self.close()
-        else:  
+        else:
             # Zugangsdatum aus Dialog holen
             zugdatum = self.dateEdit.date().toPyDate()
             # Zur Liste des einzelnen Schülers hinzufügen
@@ -1564,7 +1589,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.liste2, key=lambda i: locale.strxfrm(i[0]))
 
                 self.susverw.liste2 = self.susverw.liste2sorted
-                
+
                 z = 0
                 for i in self.susverw.liste2sorted:
                     self.susverw.tableWidget_2.setRowCount(z+1)
@@ -1580,7 +1605,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.tableWidget_2.setItem(
                         z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
-                #print(self.susverw.liste2sorted)
+                # print(self.susverw.liste2sorted)
                 # z = 0
                 # for i in self.susverw.liste2sorted:
                 #     self.susverw.tableWidget_2.setRowCount(z+1)

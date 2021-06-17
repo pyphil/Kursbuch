@@ -77,7 +77,6 @@ def getData(tn, dbpath, nosus):
     c.close()
     verbindung.close()
 
-
     liste = []
     liste.append(["Datum", "Stundeninhalt", "Lernzeit- /<br/>Hausaufgabe", "Fehlzeiten", "Krzl", "Ausf.",""])
     z = 0
@@ -85,7 +84,11 @@ def getData(tn, dbpath, nosus):
         string = str(i[0]).split("_")
         datum = datetime.strptime(string[0], '%Y-%m-%d')
         datum = datum.strftime('%a, %d. %b %Y')
-        datum = datum + "<br/> - " + string[1] +". Std. -"
+        if "B" in string[1]:
+            std = string[1].split("-")[1]
+            datum = datum + "<br/> " + "BLOCK (" + std + ". Std.)"
+        else:
+            datum = datum + "<br/> - " + string[1] +". Std. -"
         # if i[4] == 1:
         #     datum = datum + "<br/><b/>KOMPENSATION"
         if nosus == 0:
