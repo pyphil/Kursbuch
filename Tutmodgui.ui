@@ -1616,7 +1616,7 @@
         <string notr="true">color: rgb(89, 209, 117);</string>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1641,7 +1641,7 @@
         <string notr="true">color: rgb(216, 109, 109);</string>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1688,7 +1688,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1861,7 +1861,7 @@
         <string notr="true">color: rgb(89, 209, 117);</string>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1886,7 +1886,7 @@
         <string notr="true">color: rgb(216, 109, 109);</string>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1933,7 +1933,7 @@
         <string notr="true"/>
        </property>
        <property name="text">
-        <string>111</string>
+        <string>0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
