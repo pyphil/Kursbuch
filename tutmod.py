@@ -1881,9 +1881,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         print(self.db.getBlockkomp(self.student_pk))
 
     def getKlassenFehlz(self):
-        fzlist = []
+        fzlist = [("Nachname", "Vorname", "Fehlstunden gesamt",
+                    "davon unentschuldigt")]
         for i in self.filtered:
             liste = self.countfz(None, i[2])
             print(i[0], i[1],"Gesamt:", liste[0], "unentschuldigt:", liste[1])
             fzlist.append((i[0], i[1], liste[0], liste[1]))
-        reportFehlz.makeFzUebersicht(fzlist)
+        print(fzlist)
+        reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse)

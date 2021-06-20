@@ -26,11 +26,11 @@ import threading
 #         susc = susverbindung.cursor()
 
 #     # Daten aus der lokalen Datenbank lesen
-#     text = list(c.execute("""SELECT Datum, Inhalt, Hausaufgabe, Ausfall, Kompensation 
+#     text = list(c.execute("""SELECT Datum, Inhalt, Hausaufgabe, Ausfall, Kompensation
 #                              FROM """+tn+"""
 #                              ORDER BY Datum ASC;
 #                           """))
-   
+
 #     datumsliste = []
 #     for i in text:
 #         #print(i[0])
@@ -39,8 +39,8 @@ import threading
 #     # Liste der Primary Keys holen
 #     kurssus = tn+"_sus"
 
-#     pkliste = list(c.execute("""SELECT pk 
-#                             FROM """+kurssus+""" 
+#     pkliste = list(c.execute("""SELECT pk
+#                             FROM """+kurssus+"""
 #                             """))
 
 #     fehlzeiten = []
@@ -51,13 +51,13 @@ import threading
 #             d = '"'+d+'"'
 #             f = ""
 #             for pk in pkliste:
-    
-#                 item = list(susc.execute("""SELECT Name,Vorname,"""+d+""" 
+
+#                 item = list(susc.execute("""SELECT Name,Vorname,"""+d+"""
 #                                                 FROM "sus"
 #                                                 WHERE pk = ?;
 #                                             """,
 #                                             (pk[0],)))
-        
+
 #                 # nur den ersten Buchstaben des Vornamens verwenden [:1]
 #                 if item[0][2] == "1":
 #                     f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
@@ -100,7 +100,7 @@ import threading
 #     return liste
 
 
-def makeFzUebersicht(fz):
+def makeFzUebersicht(fz, dbpath, klasse):
 
     styles = getSampleStyleSheet()
     smallerStyle = ParagraphStyle('small',
@@ -113,17 +113,15 @@ def makeFzUebersicht(fz):
     #                               leading=13,
     #                               textColor=colors.gray,)
 
-    my_data_raw = fz
-
     my_data = []
 
-    for i in my_data_raw: 
+    for i in fz:
         P1 = Paragraph(i[0], smallerStyle)
         P2 = Paragraph(i[1], smallerStyle)
-        P3 = Paragraph(i[2], smallerStyle)
-        P4 = Paragraph(i[3], smallerStyle)
+        P3 = Paragraph(str(i[2]), smallerStyle)
+        P4 = Paragraph(str(i[3]), smallerStyle)
 
-        my_data.append([P1,P2,P3,P4])
+        my_data.append([P1, P2, P3, P4])
 
     # if path.exists("U:\\Kursbuch-Export") == False:
     #     system("mkdir U:\\Kursbuch-Export")
@@ -133,28 +131,30 @@ def makeFzUebersicht(fz):
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)
     story = []
-    #story.append(Paragraph('Kurs: '+krz+" "+k, styles['Normal']))
+    story.append(Paragraph("Klasse/Stufe: " + klasse, styles['Normal']))
+    story.append(Paragraph("ausgedruckt: " +
+                           str(datetime.now().date()), styles['Normal']))
     t = Table(my_data, repeatRows=1)
-    t._argW[0]=95
-    t._argW[1]=160
-    t._argW[2]=100
-    t._argW[3]=120
+    t._argW[0] = 95
+    t._argW[1] = 160
+    t._argW[2] = 100
+    t._argW[3] = 120
     t.hAlign = 'LEFT'
-    t.spaceBefore =  10
+    t.spaceBefore = 10
     t.spaceAfter = 10
     t.setStyle(TableStyle(
-        [('BOX', (0,0), (-1,-1), 0.5, colors.black),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.black),
-        ('VALIGN', (0,0), (-1,-1),'TOP'),
-        ('BACKGROUND', (0,0), (4,0), colors.lightgrey),]))
+        [('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+         ('INNERGRID', (0, 0), (-1, -1), 0.5, colors.black),
+         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+         ('BACKGROUND', (0, 0), (4, 0), colors.lightgrey), ]))
     story.append(t)
     story.append(Paragraph('', styles['Normal']))
     doc.build(story)
 
     # def openChrome():
-        #CREATE_NO_WINDOW = 0x08000000
-        #subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
-    
+    #CREATE_NO_WINDOW = 0x08000000
+    #subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
+
     if sys.platform == "win32":
         # if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
         #     thread = threading.Thread(target=openChrome, daemon=True)
@@ -163,10 +163,10 @@ def makeFzUebersicht(fz):
         #     startfile(filename)
         os.startfile(filename)
     elif sys.platform == "darwin":
-        subprocess.call(('open',filename))
+        subprocess.call(('open', filename))
     elif sys.platform == "linux":
-        subprocess.call(('xdg-open',filename))
-    
+        subprocess.call(('xdg-open', filename))
+
 
 if __name__ == "__main__":
-    makeKursbuch("Tabellenname", "Kursname", "Kürzel", "1", "","0")
+    makeFzUebersicht([("Vorname", "Nachname", "15", "3")])
