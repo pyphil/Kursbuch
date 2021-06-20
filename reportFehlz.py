@@ -100,7 +100,7 @@ import threading
 #     return liste
 
 
-def makeFzUebersicht(fz, dbpath, klasse):
+def makeFzUebersicht(fz, dbpath, klasse, hj):
 
     styles = getSampleStyleSheet()
     smallerStyle = ParagraphStyle('small',
@@ -116,12 +116,14 @@ def makeFzUebersicht(fz, dbpath, klasse):
     my_data = []
 
     for i in fz:
-        P1 = Paragraph(i[0], smallerStyle)
+        P1 = Paragraph("<para align=right>" + str(i[0]) +
+                       "</para>", smallerStyle)
         P2 = Paragraph(i[1], smallerStyle)
-        P3 = Paragraph(str(i[2]), smallerStyle)
+        P3 = Paragraph(i[2], smallerStyle)
         P4 = Paragraph(str(i[3]), smallerStyle)
+        P5 = Paragraph(str(i[4]), smallerStyle)
 
-        my_data.append([P1, P2, P3, P4])
+        my_data.append([P1, P2, P3, P4, P5])
 
     # if path.exists("U:\\Kursbuch-Export") == False:
     #     system("mkdir U:\\Kursbuch-Export")
@@ -131,14 +133,17 @@ def makeFzUebersicht(fz, dbpath, klasse):
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
                             rightMargin=20, topMargin=20, bottomMargin=20)
     story = []
-    story.append(Paragraph("Klasse/Stufe: " + klasse, styles['Normal']))
-    story.append(Paragraph("ausgedruckt: " +
+    story.append(Paragraph("<b><u>Fehlzeitenliste </u></b>", styles['Normal']))
+    story.append(Paragraph("<b>Klasse/Stufe: </b>" + klasse, styles['Normal']))
+    story.append(Paragraph("<b>Halbjahr: </b>" + hj, styles['Normal']))
+    story.append(Paragraph("<b>ausgedruckt: </b>" +
                            str(datetime.now().date()), styles['Normal']))
     t = Table(my_data, repeatRows=1)
-    t._argW[0] = 95
-    t._argW[1] = 160
-    t._argW[2] = 100
-    t._argW[3] = 120
+    t._argW[0] = 35
+    t._argW[1] = 150
+    t._argW[2] = 150
+    t._argW[3] = 80
+    t._argW[4] = 80
     t.hAlign = 'LEFT'
     t.spaceBefore = 10
     t.spaceAfter = 10
@@ -169,4 +174,4 @@ def makeFzUebersicht(fz, dbpath, klasse):
 
 
 if __name__ == "__main__":
-    makeFzUebersicht([("Vorname", "Nachname", "15", "3")])
+    pass
