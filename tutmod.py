@@ -4,6 +4,7 @@ from datetime import date, timedelta, datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 import locale
+import reportFehlz
 
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
@@ -1880,7 +1881,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         print(self.db.getBlockkomp(self.student_pk))
 
     def getKlassenFehlz(self):
+        fzlist = []
         for i in self.filtered:
             liste = self.countfz(None, i[2])
             print(i[0], i[1],"Gesamt:", liste[0], "unentschuldigt:", liste[1])
-        
+            fzlist.append((i[0], i[1], liste[0], liste[1]))
+        reportFehlz.makeFzUebersicht(fzlist)
