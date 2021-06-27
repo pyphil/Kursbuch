@@ -523,15 +523,21 @@ class Database:
         blockdates = []
         for i in liste:
             if "B" in i[1]:
-                blockdates.append(i[1])
+                string = str(i[1]).split("_")
+                datum = datetime.strptime(string[0], '%Y-%m-%d')
+                datum = datum.strftime('%a, %d. %b %Y')
+                std = string[1].split("-")[1]
+                blockdates.append((i[1], datum + " (" + std + ". Blockstd.)"))
+        blockdates.sort())
         blocks = []
         for d in blockdates:
-            sfz = list(self.susc.execute("""SELECT """+'"'+d+'"'+""" FROM sus
+            sfz = list(self.susc.execute("""SELECT """+'"'+d[0]+'"'+""" FROM sus
                                          WHERE pk = ?
                                          """,
                                          (student_pk,)))
+            # print(sfz)
             if sfz[0][0] is not None:
-                blocks.append((d, sfz[0][0]))
+                blocks.append((d[1], sfz[0][0]))
         return blocks
 
     def getDatensatz(self, pk, k):

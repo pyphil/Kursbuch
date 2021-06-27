@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 import locale
 import reportFehlz
+from BlockGui import Ui_BlockKomp
 
 locale.setlocale(locale.LC_ALL, 'deu_deu')
 
@@ -2310,7 +2311,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.db.writeTutmodDatePreset(self.klasse, datelist)
 
     def block(self):
-        print(self.db.getBlockkomp(self.student_pk))
+        self.blockdial = Block(self.db, self.student_pk, self)
 
     def getKlassenFehlz_1(self):
         fzlist = [("Nr.", "Nachname", "Vorname", "Fehlstunden gesamt",
@@ -2334,3 +2335,39 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             fzlist.append((z, i[0], i[1], liste[2], liste[3]))
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "2. Halbjahr")
+
+class Block(Ui_BlockKomp, QtWidgets.QDialog):
+    def __init__(self, db, spk, tut):
+        super(Block, self).__init__(tut)
+        self.db = db
+        self.student_pk = spk
+        self.tutmod = tut
+        self.setupUi(self)
+        self.show()
+        
+        # Liste der Blockkompensationen holen
+        # TODO: Datumsbereich der Halbjahre berücksichtigen
+        liste = self.db.getBlockkomp(self.student_pk)
+
+        z = 0
+        for i in liste:
+            self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+            self.label.setAlignment(
+                QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+            self.label.setObjectName("label_" + str(z))
+            self.gridLayout.addWidget(self.label, z, 0, 1, 1)
+            self.button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+            sizePolicy = QtWidgets.QSizePolicy(
+                QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+            sizePolicy.setHorizontalStretch(0)
+            sizePolicy.setVerticalStretch(0)
+            sizePolicy.setHeightForWidth(
+                self.button.sizePolicy().hasHeightForWidth())
+            self.button.setSizePolicy(sizePolicy)
+            self.button.setMinimumSize(QtCore.QSize(40, 40))
+            self.button.setMaximumSize(QtCore.QSize(40, 40))
+            self.button.setText(i[1])
+            self.button.setObjectName("button_" + str(z))
+            self.label.setText(i[0])
+            self.gridLayout.addWidget(self.button, z, 1, 1, 1)
+            z += 1
