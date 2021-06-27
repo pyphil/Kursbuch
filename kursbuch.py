@@ -528,7 +528,7 @@ class Database:
                 datum = datum.strftime('%a, %d. %b %Y')
                 std = string[1].split("-")[1]
                 blockdates.append((i[1], datum + " (" + std + ". Blockstd.)"))
-        blockdates.sort())
+        blockdates.sort()
         blocks = []
         for d in blockdates:
             sfz = list(self.susc.execute("""SELECT """+'"'+d[0]+'"'+""" FROM sus
