@@ -537,7 +537,7 @@ class Database:
                                          (student_pk,)))
             # print(sfz)
             if sfz[0][0] is not None:
-                blocks.append((d[1], sfz[0][0]))
+                blocks.append((d[1], sfz[0][0], d[0]))
         return blocks
 
     def getDatensatz(self, pk, k):

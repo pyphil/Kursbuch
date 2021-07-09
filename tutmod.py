@@ -2336,6 +2336,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "2. Halbjahr")
 
+
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
     def __init__(self, db, spk, tut):
         super(Block, self).__init__(tut)
@@ -2367,7 +2368,13 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
             self.button.setMinimumSize(QtCore.QSize(40, 40))
             self.button.setMaximumSize(QtCore.QSize(40, 40))
             self.button.setText(i[1])
-            self.button.setObjectName("button_" + str(z))
+            self.button.setObjectName("button_" + str(z) + str(i))
             self.label.setText(i[0])
             self.gridLayout.addWidget(self.button, z, 1, 1, 1)
             z += 1
+
+            self.button.clicked.connect(self.click)
+
+    def click(self):
+        sender = self.button.sender().objectName()
+        print(sender)
