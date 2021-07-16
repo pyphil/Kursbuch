@@ -2367,11 +2367,28 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
             self.button.setSizePolicy(sizePolicy)
             self.button.setMinimumSize(QtCore.QSize(40, 40))
             self.button.setMaximumSize(QtCore.QSize(40, 40))
-            self.button.setText(i[1])
+            # self.button.setText(i[1])
             self.button.setObjectName("button_" + str(z) + str(i))
             self.label.setText(i[0])
             self.gridLayout.addWidget(self.button, z, 1, 1, 1)
             z += 1
+
+            if i[1] == "1":
+                self.button.setStyleSheet(
+                    "background-color: rgb(216, 109, 109);")
+                self.button.setText("u")
+            elif i[1] == "2":
+                self.button.setStyleSheet(
+                    "background-color: rgb(89, 209, 117);")
+                self.button.setText("e")
+            elif i[1] == "3":
+                self.button.setStyleSheet(
+                    "background-color: rgb(255, 255, 127);")
+                self.button.setText("S")
+            elif i[1] == "4":
+                self.button.setStyleSheet(
+                    "background-color: rgb(160, 209, 255);")
+                self.button.setText("Q")
 
             self.button.clicked.connect(self.click)
 
