@@ -2345,7 +2345,9 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
         self.tutmod = tut
         self.setupUi(self)
         self.show()
+        self.getBlockKomp()
         
+    def getBlockKomp(self):
         # Liste der Blockkompensationen holen
         # TODO: Datumsbereich der Halbjahre berücksichtigen
         liste = self.db.getBlockkomp(self.student_pk)
@@ -2368,7 +2370,8 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
             self.button.setMinimumSize(QtCore.QSize(40, 40))
             self.button.setMaximumSize(QtCore.QSize(40, 40))
             # self.button.setText(i[1])
-            self.button.setObjectName("button_" + str(z) + str(i))
+            # self.button.setObjectName("button_" + str(z) + str(i))
+            self.button.setObjectName(str(i[1]) + "," + str(i[2]))
             self.label.setText(i[0])
             self.gridLayout.addWidget(self.button, z, 1, 1, 1)
             z += 1
@@ -2394,4 +2397,14 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
 
     def click(self):
         sender = self.button.sender().objectName()
-        print(sender)
+        sender = sender.split(",")
+        f = int(sender[0])
+        if f == 4:
+            f = 0
+        else:
+            f += 1
+
+        print(sender[0])
+        print(sender[1])
+        self.db.writeFehlzeiten(self.student_pk, f, sender[1])
+        self.getBlockKomp()
