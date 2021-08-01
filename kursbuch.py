@@ -107,7 +107,7 @@ class Database:
             # Datenbank vom Server laden, wenn Synchronisation an
             # Wenn self.pw = None -> Passwort erneut abfragen durch Übergabe
             # an Gui Objekt
-            if self.sync == 2 and pw != None:
+            if self.sync == 2 and pw is not None:
                 self.info = Infobox(
                     "Datenbank wird synchronisiert ...", self.ui)
                 # semi-professinal way to keep ui responsive:
@@ -118,7 +118,7 @@ class Database:
                 access = None
 
             if self.sync == 2:
-                if pw == None:
+                if pw is None:
                     msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_pw.setIcon(QtWidgets.QMessageBox.Information)
                     msg_pw.setWindowTitle("Zugangsdaten")
@@ -128,7 +128,7 @@ class Database:
                                    "erneut eingeben")
                     msg_pw.exec_()
                     self.ui.sync()
-                if access == False:
+                if access is False:
                     msg_access = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_access.setIcon(QtWidgets.QMessageBox.Information)
                     msg_access.setWindowTitle("Zugangsdaten")
@@ -147,7 +147,7 @@ class Database:
                         "Servername falsch oder Server nicht erreichbar.")
                     msg_host.exec_()
                     self.ui.sync()
-                if access == True:
+                if access is True:
                     self.ui.statusBar.showMessage(
                         "Datenbank erfolgreich synchronisiert.")
                     # Fill Kursauswahl combobox again with new data
@@ -178,12 +178,12 @@ class Database:
     def loadkursdb(self):
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
-            if path.exists(home+"\\pyKursbuch") == False:
+            if path.exists(home+"\\pyKursbuch") is False:
                 mkdir(home+"\\pyKursbuch")
             self.dbpath = home+"\\pyKursbuch\\"
         elif sys.platform == "darwin" or sys.platform == "linux":
             home = environ['HOME']
-            if path.exists(home+"/pyKursbuch") == False:
+            if path.exists(home+"/pyKursbuch") is False:
                 mkdir(home+"/pyKursbuch")
             self.dbpath = home+"/pyKursbuch/"
 
@@ -280,7 +280,7 @@ class Database:
             self.verbindung.commit()
             self.sync = s
             access = self.get_FTPS_db()
-            if access == False:
+            if access is False:
                 msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_pw.setIcon(QtWidgets.QMessageBox.Critical)
                 msg_pw.setWindowTitle("Fehler")
@@ -297,7 +297,7 @@ class Database:
                     "Servername falsch oder Server nicht erreichbar.")
                 msg_host.exec_()
                 gui.sync()
-            if access == True:
+            if access is True:
                 self.ui.statusBar.showMessage(
                     "Datenbank erfolgreich synchronisiert.")
                 gui.kursauswahlMenue()
@@ -692,7 +692,7 @@ class Database:
         date = '"'+date+'"'
 
         # Wenn aus Tutorenmodus aufgerufen
-        if tut == True:
+        if tut is True:
             self.addTableDate(date)
 
         self.susc.execute("""UPDATE "sus"
@@ -1035,19 +1035,19 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
         dbdatelist = self.db.getDatelist(self.kurs)
         stunde = 0
-        if self.radioButton.isChecked() == True:
+        if self.radioButton.isChecked() is True:
             stunde = "1"
-        if self.radioButton_2.isChecked() == True:
+        if self.radioButton_2.isChecked() is True:
             stunde = "2"
-        if self.radioButton_3.isChecked() == True:
+        if self.radioButton_3.isChecked() is True:
             stunde = "3"
-        if self.radioButton_4.isChecked() == True:
+        if self.radioButton_4.isChecked() is True:
             stunde = "4"
-        if self.radioButton_5.isChecked() == True:
+        if self.radioButton_5.isChecked() is True:
             stunde = "5"
-        if self.radioButton_6.isChecked() == True:
+        if self.radioButton_6.isChecked() is True:
             stunde = "6"
-        if self.radioButton_7.isChecked() == True:
+        if self.radioButton_7.isChecked() is True:
             stunde = "7"
         # Hinweis, wenn keine Stunde ausgewählt wurde
         if stunde == 0:
@@ -1077,7 +1077,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
                 else:
                     pass
             else:
-                if self.checkBox.isChecked() == True:
+                if self.checkBox.isChecked() is True:
                     komp = 1
                 else:
                     komp = 0
@@ -1085,7 +1085,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
                     datum, stunde, self.kurs, komp)
             # Serientermine
             x = int(self.spinBox.text())
-            if self.checkBox.isChecked() == True:
+            if self.checkBox.isChecked() is True:
                 komp = 1
             else:
                 komp = 0
@@ -1653,9 +1653,9 @@ class Kursbuch_Dialog(Ui_PdfExportieren, QtWidgets.QDialog):
             self.abbrechen()
 
     def ok(self):
-        if self.radioButtonMitFs.isChecked() == True:
+        if self.radioButtonMitFs.isChecked() is True:
             var = "1"
-        if self.radioButtonOhneFS.isChecked() == True:
+        if self.radioButtonOhneFS.isChecked() is True:
             var = "2"
         self.close()
         report.makeKursbuch(self.tn, self.kurs, self.krzl,
@@ -1936,11 +1936,11 @@ class Gui(Ui_MainWindow):
         # lastedit auswählen wenn Kurs gerade ausgewählt
         if lastedit == 1:
             lastpk = self.db.getLastedit(self.kurs)
-            if lastpk == "" or lastpk == None:
+            if lastpk == "" or lastpk is None:
                 pass
             else:
                 dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
-                if dateofpk != None:
+                if dateofpk is not None:
                     row = self.db.getRowOfDate(self.kurs, dateofpk)
                     self.tableWidget.selectRow(row)
                     self.tableWidget.scrollToItem(

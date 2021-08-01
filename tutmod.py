@@ -1,7 +1,8 @@
 
 from calendar import Calendar
 from datetime import date, timedelta, datetime
-from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 import locale
 import reportFehlz
@@ -104,7 +105,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.dateEdit_2.setEnabled(False)
         self.dateEdit_3.setEnabled(False)
         self.dateEdit_4.setEnabled(False)
-        
+
     def enableButtons(self):
         self.comboBoxMonat.setEnabled(True)
         self.dateEditJahr.setEnabled(True)
@@ -233,7 +234,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.weeks.append(oneweek)
             w += 1
 
-        if set == True:
+        if set is True:
             # Wenn zu Beginn aus datensatz_anzeigen aufgerufen,
             # aktuelle Woche setzen
             self.weekno = currentweek
@@ -248,7 +249,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
     def weekbefore(self):
         if self.weekno <= 0:
-            # Wenn am Anfang der Wochenliste angekommen, in vorherigen Monat wechseln
+            # Wenn am Anfang der Wochenliste angekommen, in vorherigen
+            # Monat wechseln
             previousmonth = self.comboBoxMonat.currentIndex()
             if previousmonth >= 1:
                 monat = date(9999, previousmonth, 1).strftime("%B")
@@ -279,11 +281,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             self.set_fehlzeiten()
 
     def weekafter(self, set=None):
-        if self.weekno+1 <= len(self.weeks)-1 or set == True:
+        if self.weekno+1 <= len(self.weeks)-1 or set is True:
             self.resetButtons()
             # Wenn zu Beginn aus setmonth aufgerufen, aktuelle Woche benutzen.
             # Nur wenn Button wurde gedrückt, eine Woche weiter
-            if set != True:
+            if set is not True:
                 self.weekno += 1
 
             self.set_weeks()
@@ -292,7 +294,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         # Wenn am Ende der Wochenliste angekommen, in nächsten Monat wechseln,
         # außer wenn aus setmonth aufgerufen
         else:
-            if set != True:
+            if set is not True:
                 nextmonth = self.comboBoxMonat.currentIndex()+2
                 if nextmonth <= 12:
                     monat = date(9999, nextmonth, 1).strftime("%B")
@@ -314,7 +316,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 # Woche vor
                 if aktmo == self.label_Mo.text():
                     self.weekafter()
-        if set == True:
+        if set is True:
             pass
         else:
             self.set_fehlzeiten()
@@ -377,7 +379,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
             for d in datelist:
                 d = '"'+d+'"'
-                item = list(self.db.susc.execute("""SELECT """+d+""" 
+                item = list(self.db.susc.execute("""SELECT """+d+"""
                                                 FROM "sus"
                                                 WHERE pk = ?;
                                             """,
@@ -431,7 +433,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.set7_5(setlist[4][6][0][0])
 
     def set1_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button1_1.text() == '':
                 self.button1_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -481,7 +483,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_1.setText("Q")
 
     def set1_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button1_2.text() == '':
                 self.button1_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -531,7 +533,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_2.setText("Q")
 
     def set1_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button1_3.text() == '':
                 self.button1_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -581,7 +583,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_3.setText("Q")
 
     def set1_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button1_4.text() == '':
                 self.button1_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -631,7 +633,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_4.setText("Q")
 
     def set1_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button1_5.text() == '':
                 self.button1_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -681,7 +683,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_5.setText("Q")
 
     def set2_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button2_1.text() == '':
                 self.button2_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -731,7 +733,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_1.setText("Q")
 
     def set2_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button2_2.text() == '':
                 self.button2_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -781,7 +783,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_2.setText("Q")
 
     def set2_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button2_3.text() == '':
                 self.button2_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -831,7 +833,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_3.setText("Q")
 
     def set2_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button2_4.text() == '':
                 self.button2_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -881,7 +883,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_4.setText("Q")
 
     def set2_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button2_5.text() == '':
                 self.button2_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -931,7 +933,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_5.setText("Q")
 
     def set3_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button3_1.text() == '':
                 self.button3_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -981,7 +983,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_1.setText("Q")
 
     def set3_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button3_2.text() == '':
                 self.button3_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1031,7 +1033,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_2.setText("Q")
 
     def set3_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button3_3.text() == '':
                 self.button3_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1081,7 +1083,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_3.setText("Q")
 
     def set3_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button3_4.text() == '':
                 self.button3_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1131,7 +1133,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_4.setText("Q")
 
     def set3_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button3_5.text() == '':
                 self.button3_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1181,7 +1183,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_5.setText("Q")
 
     def set4_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button4_1.text() == '':
                 self.button4_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1231,7 +1233,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_1.setText("Q")
 
     def set4_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button4_2.text() == '':
                 self.button4_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1281,7 +1283,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_2.setText("Q")
 
     def set4_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button4_3.text() == '':
                 self.button4_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1331,7 +1333,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_3.setText("Q")
 
     def set4_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button4_4.text() == '':
                 self.button4_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1381,7 +1383,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_4.setText("Q")
 
     def set4_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button4_5.text() == '':
                 self.button4_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1431,7 +1433,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_5.setText("Q")
 
     def set5_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button5_1.text() == '':
                 self.button5_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1481,7 +1483,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_1.setText("Q")
 
     def set5_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button5_2.text() == '':
                 self.button5_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1531,7 +1533,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_2.setText("Q")
 
     def set5_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button5_3.text() == '':
                 self.button5_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1581,7 +1583,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_3.setText("Q")
 
     def set5_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button5_4.text() == '':
                 self.button5_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1631,7 +1633,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_4.setText("Q")
 
     def set5_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button5_5.text() == '':
                 self.button5_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1681,7 +1683,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_5.setText("Q")
 
     def set6_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button6_1.text() == '':
                 self.button6_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1731,7 +1733,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_1.setText("Q")
 
     def set6_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button6_2.text() == '':
                 self.button6_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1781,7 +1783,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_2.setText("Q")
 
     def set6_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button6_3.text() == '':
                 self.button6_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1831,7 +1833,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_3.setText("Q")
 
     def set6_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button6_4.text() == '':
                 self.button6_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1881,7 +1883,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_4.setText("Q")
 
     def set6_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button6_5.text() == '':
                 self.button6_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1931,7 +1933,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_5.setText("Q")
 
     def set7_1(self, val=None):
-        if val == False:
+        if val is False:
             if self.button7_1.text() == '':
                 self.button7_1.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -1981,7 +1983,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_1.setText("Q")
 
     def set7_2(self, val=None):
-        if val == False:
+        if val is False:
             if self.button7_2.text() == '':
                 self.button7_2.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -2031,7 +2033,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_2.setText("Q")
 
     def set7_3(self, val=None):
-        if val == False:
+        if val is False:
             if self.button7_3.text() == '':
                 self.button7_3.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -2081,7 +2083,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_3.setText("Q")
 
     def set7_4(self, val=None):
-        if val == False:
+        if val is False:
             if self.button7_4.text() == '':
                 self.button7_4.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -2131,7 +2133,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_4.setText("Q")
 
     def set7_5(self, val=None):
-        if val == False:
+        if val is False:
             if self.button7_5.text() == '':
                 self.button7_5.setStyleSheet(
                     "background-color: rgb(216, 109, 109);")
@@ -2260,7 +2262,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.button7_5.setText("")
 
     def countfz(self, event=None, student=None):
-        if student == None:
+        if student is None:
             columns = self.db.getSFehlzeiten(self.student_pk)
         else:
             columns = self.db.getSFehlzeiten(student)
@@ -2269,7 +2271,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         e = 0
         u_2 = 0
         e_2 = 0
-        if event == None:
+        if event is None:
             try:
                 datelist = self.db.getTutmodDatePreset(self.klasse).split(",")
                 self.dateEdit.setDate(
@@ -2306,7 +2308,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                         u_2 += 1
                     if columns[0][0][i] == "2":
                         e_2 += 1
-        if student == None:
+        if student is None:
             self.label_16.setText(str(e))
             self.label_17.setText(str(u))
             self.label_19.setText(str(u+e))
@@ -2339,7 +2341,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                                      "1. Halbjahr")
 
     def getKlassenFehlz_2(self):
-        fzlist = [("Nr.","Nachname", "Vorname", "Fehlstunden gesamt",
+        fzlist = [("Nr.", "Nachname", "Vorname", "Fehlstunden gesamt",
                    "davon unentschuldigt")]
         z = 0
         for i in self.filtered:
@@ -2359,7 +2361,7 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
         self.setupUi(self)
         self.show()
         self.getBlockKomp()
-        
+
     def getBlockKomp(self):
         # Liste der Blockkompensationen holen
         # TODO: Datumsbereich der Halbjahre berücksichtigen
@@ -2369,7 +2371,9 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
         for i in liste:
             self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
             self.label.setAlignment(
-                QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+                QtCore.Qt.AlignLeading |
+                QtCore.Qt.AlignLeft |
+                QtCore.Qt.AlignVCenter)
             self.label.setObjectName("label_" + str(z))
             self.gridLayout.addWidget(self.label, z, 0, 1, 1)
             self.button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
