@@ -99,7 +99,12 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekbefore.setEnabled(False)
         self.pushButtonListeKlasse_1.setEnabled(False)
         self.pushButtonListeKlasse_2.setEnabled(False)
-
+        self.pushButtonBlock.setEnabled(False)
+        self.dateEdit.setEnabled(False)
+        self.dateEdit_2.setEnabled(False)
+        self.dateEdit_3.setEnabled(False)
+        self.dateEdit_4.setEnabled(False)
+        
     def enableButtons(self):
         self.comboBoxMonat.setEnabled(True)
         self.dateEditJahr.setEnabled(True)
@@ -107,6 +112,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekbefore.setEnabled(True)
         self.pushButtonListeKlasse_1.setEnabled(True)
         self.pushButtonListeKlasse_2.setEnabled(True)
+        self.pushButtonBlock.setEnabled(True)
+        self.dateEdit.setEnabled(True)
+        self.dateEdit_2.setEnabled(True)
+        self.dateEdit_3.setEnabled(True)
+        self.dateEdit_4.setEnabled(True)
 
         self.button1_1.setEnabled(True)
         self.button1_2.setEnabled(True)
@@ -152,6 +162,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
+
+        # Buttons zunächst deaktivieren
+        self.disableButtons()
 
         # gefilterte Liste bei jedem Aufruf leer bereitstellen
         self.filtered = []
