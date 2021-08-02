@@ -2322,7 +2322,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         datelist = str(self.dateEdit.date().toPyDate())+","+str(self.dateEdit_2.date().toPyDate()) + \
             ","+str(self.dateEdit_3.date().toPyDate())+"," + \
             str(self.dateEdit_4.date().toPyDate())
-        print(datelist)
         self.db.writeTutmodDatePreset(self.klasse, datelist)
 
     def block(self):

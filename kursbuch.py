@@ -535,7 +535,6 @@ class Database:
                                          WHERE pk = ?
                                          """,
                                          (student_pk,)))
-            # print(sfz)
             if sfz[0][0] is not None:
                 blocks.append((d[1], sfz[0][0], d[0]))
         return blocks
@@ -648,32 +647,55 @@ class Database:
 
         return susliste
 
-    def getSuS(self, date, k):
+    def getSuS(self, dateraw, k):
         """ Über diese Methode erhält die Fehlzeitenanzeige die Daten zu einem
-        bestimmten Datum ohne Abgänger
+        bestimmten Datum, wobei Abgänger und Zugänger gefiltert werden
         """
 
         tn = self.get_tn(k)
         # Anführungsstriche um das Datum setzen
-        date = '"'+date+'"'
+        date = '"'+dateraw+'"'
         kurssus = tn+"_sus"
 
-        pkliste = list(self.c.execute("""SELECT pk
+        pkliste = list(self.c.execute("""SELECT pk, zuab, Datum
                                          FROM """+kurssus+"""
-                                         WHERE zuab = 0
                                       """))
-
         self.addTableDate(date)
 
         liste = []
         for i in pkliste:
-            item = list(self.susc.execute(
-                        """SELECT pk, Name, Vorname, """+date+"""
-                           FROM "sus"
-                           WHERE pk = ?;
-                        """,
-                        (i[0],)))
-            liste.append(item[0])
+            if i[1] == 0 and i[2] is None:
+                item = list(self.susc.execute(
+                            """SELECT pk, Name, Vorname, """+date+"""
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
+                            (i[0],)))
+                liste.append(item[0])
+            # Zugänger filtern (Datum vorhanden)
+            elif i[1] == 0 and i[2] is not None:
+                start = datetime.strptime(i[2], "%Y-%m-%d")
+                dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                if start <= dateobj:
+                    item = list(self.susc.execute(
+                            """SELECT pk, Name, Vorname, """+date+"""
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
+                            (i[0],)))
+                    liste.append(item[0])
+            # Abgänger filtern (zuab = 1 und Datum vorhanden)
+            elif i[1] == 1 and i[2] is not None:
+                start = datetime.strptime(i[2], "%Y-%m-%d")
+                dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                if start >= dateobj:
+                    item = list(self.susc.execute(
+                            """SELECT pk, Name, Vorname, """+date+"""
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
+                            (i[0],)))
+                    liste.append(item[0])
         return liste
 
     def addTableDate(self, date):
@@ -769,7 +791,6 @@ class Database:
 
     def writeTutmodDatePreset(self, klasse, datelist):
         kategorie = "TutmodDatePreset_"+klasse
-        print(kategorie)
 
         self.c.execute("""DELETE FROM settings
                           WHERE Kategorie = ?
@@ -1423,7 +1444,6 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.save()
 
     def save(self):
-        print(self.liste2sorted)
         self.db.writeSuSListe(self.kurs, self.liste2sorted)
         self.db.addAbgaenger(self.kurs, self.liste3sorted)
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
@@ -1583,10 +1603,8 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
             else:
                 # Einträge aus Liste 2 löschen
                 # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-                print(self.susverw.liste2)
                 for i in sorted(self.susverw.selection, reverse=True):
                     del self.susverw.liste2[i.row()]
-                print(self.susverw.liste2)
                 self.close()
                 # Liste mit Umlauten korrekt sortieren: üblicherweise
                 # bei Liste von Listen mit
@@ -1611,15 +1629,6 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.tableWidget_2.setItem(
                         z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
-                # print(self.susverw.liste2sorted)
-                # z = 0
-                # for i in self.susverw.liste2sorted:
-                #     self.susverw.tableWidget_2.setRowCount(z+1)
-                #     self.susverw.tableWidget_2.setItem(
-                #         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-                #     self.susverw.tableWidget_2.setItem(
-                #         z, 1, QtWidgets.QTableWidgetItem(i[3]))
-                #     z += 1
 
                 # Auswahl wieder aufheben
                 self.susverw.tableWidget_2.clearSelection()
