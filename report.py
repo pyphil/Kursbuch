@@ -39,34 +39,76 @@ def getData(tn, dbpath, nosus):
     # Liste der Primary Keys holen
     kurssus = tn+"_sus"
 
-    pkliste = list(c.execute("""SELECT pk 
+    pkliste = list(c.execute("""SELECT pk, zuab, Datum
                             FROM """+kurssus+""" 
                             """))
 
     fehlzeiten = []
 
     if nosus == 0:
-        for d in datumsliste:
+        for dateraw in datumsliste:
             # Anführungsstriche um das Datum setzen
-            d = '"'+d+'"'
+            date = '"'+dateraw+'"'
             f = ""
-            for pk in pkliste:
-    
-                item = list(susc.execute("""SELECT Name,Vorname,"""+d+""" 
-                                                FROM "sus"
-                                                WHERE pk = ?;
-                                            """,
-                                            (pk[0],)))
+            for i in pkliste:
+                if i[1] == 0 and i[2] is None:
+                    item = list(susc.execute(
+                                """SELECT Name, Vorname, """+date+"""
+                                FROM "sus"
+                                WHERE pk = ?;
+                                """,
+                                (i[0],)))
+                    # nur den ersten Buchstaben des Vornamens verwenden [:1]
+                    if item[0][2] == "1":
+                        f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
+                    if item[0][2] == "2":
+                        f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
+                    if item[0][2] == "3":
+                        f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+                    if item[0][2] == "4":
+                        f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+
+                # Zugänger filtern (Datum vorhanden)
+                elif i[1] == 0 and i[2] is not None:
+                    start = datetime.strptime(i[2], "%Y-%m-%d")
+                    dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                    if start <= dateobj:
+                        item = list(susc.execute(
+                                """SELECT Name, Vorname, """+date+"""
+                                FROM "sus"
+                                WHERE pk = ?;
+                                """,
+                                (i[0],)))
+                        # nur den ersten Buchstaben des Vornamens verwenden [:1]
+                        if item[0][2] == "1":
+                            f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
+                        if item[0][2] == "2":
+                            f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
+                        if item[0][2] == "3":
+                            f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+                        if item[0][2] == "4":
+                            f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
         
-                # nur den ersten Buchstaben des Vornamens verwenden [:1]
-                if item[0][2] == "1":
-                    f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
-                if item[0][2] == "2":
-                    f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
-                if item[0][2] == "3":
-                    f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
-                if item[0][2] == "4":
-                    f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+                # Abgänger filtern (zuab = 1 und Datum vorhanden)
+                elif i[1] == 1 and i[2] is not None:
+                    start = datetime.strptime(i[2], "%Y-%m-%d")
+                    dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                    if start >= dateobj:
+                        item = list(susc.execute(
+                                """SELECT Name, Vorname, """+date+"""
+                                FROM "sus"
+                                WHERE pk = ?;
+                                """,
+                                (i[0],)))
+                        # nur den ersten Buchstaben des Vornamens verwenden [:1]
+                        if item[0][2] == "1":
+                            f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+".<br/>")
+                        if item[0][2] == "2":
+                            f += ("a) "+item[0][0]+", "+str(item[0][1])[:1]+". (e)<br/>")
+                        if item[0][2] == "3":
+                            f += ("b) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
+                        if item[0][2] == "4":
+                            f += ("Q) "+item[0][0]+", "+str(item[0][1])[:1]+". <br/>")
 
             fehlzeiten.append(f)
     else:
