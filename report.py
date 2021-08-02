@@ -218,17 +218,16 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     story.append(Paragraph('', styles['Normal']))
     doc.build(story)
 
-    # def openChrome():
-        #CREATE_NO_WINDOW = 0x08000000
-        #subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
+    def openChrome():
+        CREATE_NO_WINDOW = 0x08000000
+        subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
     
     if sys.platform == "win32":
-        # if path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
-        #     thread = threading.Thread(target=openChrome, daemon=True)
-        #     thread.start()
-        # else:
-        #     startfile(filename)
-        os.startfile(filename)
+        if os.path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") is True:
+            thread = threading.Thread(target=openChrome, daemon=True)
+            thread.start()
+        else:
+            os.startfile(filename)
     elif sys.platform == "darwin":
         subprocess.call(('open',filename))
     elif sys.platform == "linux":
