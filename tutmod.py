@@ -2282,7 +2282,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                     QtCore.QDate.fromString(datelist[2], "yyyy-MM-dd"))
                 self.dateEdit_4.setDate(
                     QtCore.QDate.fromString(datelist[3], "yyyy-MM-dd"))
-            except:
+            except Exception:
                 pass
         for i in range(len(columns[1])):
             if i >= 6:
@@ -2420,8 +2420,8 @@ class Block(Ui_BlockKomp, QtWidgets.QDialog):
             f = 0
         else:
             f += 1
-
-        print(sender[0])
-        print(sender[1])
+        # Änderung in DB schreiben
         self.db.writeFehlzeiten(self.student_pk, f, sender[1])
+        # Ansicht aktualisieren TODO: Inhalte liegen übereinander
         self.getBlockKomp()
+        self.tutmod.countfz()
