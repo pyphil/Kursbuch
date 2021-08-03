@@ -1811,6 +1811,7 @@ class Gui(Ui_MainWindow):
         # Menu
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
         self.actionTutorenmodus.triggered.connect(self.start_tutmod)
+        self.actionKursliste_CSV.triggered.connect(self.exportKursliste)
 
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1, False)
@@ -1878,6 +1879,7 @@ class Gui(Ui_MainWindow):
             self.pushButtonKursmitglieder.setEnabled(True)
         self.pushButtonNeueStd.setEnabled(True)
         self.pushButtonKursheftAnzeigen.setEnabled(True)
+        self.menuExport.setEnabled(True)
 
     def disableFieldsKurs(self):
         self.pushButtonDelKurs.setEnabled(False)
@@ -2227,6 +2229,22 @@ class Gui(Ui_MainWindow):
         self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs,
                                        self.db.krzl, self.db.dbpath,
                                        self.db.nosus, self)
+
+    def exportKursliste(self):
+        kursliste = self.db.getSuSListe(self.kurs, "normal")
+        print(kursliste)
+        
+
+        if sys.platform == "win32":
+            home = environ['HOMEDRIVE']+environ['HOMEPATH']
+        elif sys.platform == "darwin" or sys.platform == "linux":
+            home = environ['HOME']
+        fname = QtWidgets.QFileDialog.getSaveFileName(
+            self.MainWindow, "CSV speichern unter...", home, "CSV (*.csv)")
+        if fname[0] != "":
+            with open(fname[0], 'w') as f:
+                for i in kursliste:
+                    f.write(i[0] + ", " + i[1] + ", " + i[3] + "\n")
 
 
 if __name__ == "__main__":
