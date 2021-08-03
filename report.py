@@ -211,7 +211,8 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     filename = dbpath+str(tn+"-"+str(datetime.now().date())+".pdf")
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
-                            rightMargin=20, topMargin=20, bottomMargin=40)
+                            rightMargin=20, topMargin=20, bottomMargin=40,
+                            title=krz + " " + k)
     story = []
     story.append(Paragraph('Kurs: '+krz+" "+k, styles['Normal']))
     t = Table(my_data, repeatRows=1)
