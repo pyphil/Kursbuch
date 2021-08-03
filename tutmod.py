@@ -1,6 +1,7 @@
 
 from calendar import Calendar
-from datetime import date, timedelta, datetime
+# from datetime import date, timedelta, datetime
+from datetime import date, datetime
 # from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtCore, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
