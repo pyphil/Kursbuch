@@ -2,6 +2,7 @@ from reportlab.platypus import Paragraph, Table, TableStyle, SimpleDocTemplate
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
+from reportlab.pdfgen import canvas
 import sqlite3
 from datetime import datetime
 import locale
@@ -141,6 +142,19 @@ def getData(tn, dbpath, nosus):
 
     return liste
 
+def footer(canvas, doc):
+    styles = getSampleStyleSheet()
+    styleN = ParagraphStyle('small',
+                            parent=styles['BodyText'],
+                            fontSize=8,
+                            leading=13,
+                            alignment=2,)
+    canvas.saveState()
+    P = Paragraph("Kenntnisnahme der Abteilungsleitung: __________ ",
+                  styleN)
+    w, h = P.wrap(doc.width, doc.bottomMargin)
+    P.drawOn(canvas, doc.leftMargin, h)
+    canvas.restoreState()
 
 def makeKursbuch(tn, k, krz, var, dbpath, nosus):
 
@@ -197,7 +211,7 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
     filename = dbpath+str(tn+"-"+str(datetime.now().date())+".pdf")
 
     doc = SimpleDocTemplate(filename, pagesize=A4, leftMargin=60,
-                            rightMargin=20, topMargin=20, bottomMargin=20)
+                            rightMargin=20, topMargin=20, bottomMargin=40)
     story = []
     story.append(Paragraph('Kurs: '+krz+" "+k, styles['Normal']))
     t = Table(my_data, repeatRows=1)
@@ -216,7 +230,7 @@ def makeKursbuch(tn, k, krz, var, dbpath, nosus):
         ('BACKGROUND', (0,0), (4,0), colors.lightgrey),]))
     story.append(t)
     story.append(Paragraph('', styles['Normal']))
-    doc.build(story)
+    doc.build(story, onFirstPage=footer, onLaterPages=footer)
 
     def openChrome():
         CREATE_NO_WINDOW = 0x08000000
