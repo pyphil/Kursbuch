@@ -2233,7 +2233,6 @@ class Gui(Ui_MainWindow):
     def exportKursliste(self):
         kursliste = self.db.getSuSListe(self.kurs, "normal")
         print(kursliste)
-        
 
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
