@@ -678,11 +678,11 @@ class Database:
                 dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
                 if start <= dateobj:
                     item = list(self.susc.execute(
-                            """SELECT pk, Name, Vorname, """+date+"""
+                        """SELECT pk, Name, Vorname, """+date+"""
                             FROM "sus"
                             WHERE pk = ?;
                             """,
-                            (i[0],)))
+                        (i[0],)))
                     liste.append(item[0])
             # Abgänger filtern (zuab = 1 und Datum vorhanden)
             elif i[1] == 1 and i[2] is not None:
@@ -690,11 +690,11 @@ class Database:
                 dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
                 if start >= dateobj:
                     item = list(self.susc.execute(
-                            """SELECT pk, Name, Vorname, """+date+"""
+                        """SELECT pk, Name, Vorname, """+date+"""
                             FROM "sus"
                             WHERE pk = ?;
                             """,
-                            (i[0],)))
+                        (i[0],)))
                     liste.append(item[0])
         return liste
 
