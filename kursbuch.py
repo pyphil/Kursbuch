@@ -154,7 +154,14 @@ class Database:
                     # from downloaded db
                     self.ui.kursauswahlMenue()
             if self.sync == 0:
-                self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
+                # self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
+                # write local timestamp and start interval_save as daemon
+                self.timestamp = str(time())
+                with open(self.dbpath+"timestamp", "w") as f:
+                    f.write(self.timestamp)
+            self.save_thread = threading.Thread(
+                target=self.interval_save, daemon=True)
+            self.save_thread.start()
 
             # Auf neue Version prüfen
             try:
@@ -849,6 +856,27 @@ class Database:
                 self.upload()
                 self.ui.statusBar.showMessage(
                     "Letzte Synchronisation: "+datetime.now().strftime(
+                        "%d.%m.%Y, %H:%M:%S"))
+            else:
+                self.app.quit()
+
+    def interval_save(self):
+        """ started as daemon in thread to save to db
+        regularly and quit app if another instance has written
+        a newer timestamp to prevent overwriting content """
+
+        while True:
+            sleep(30)
+            # Get timestamp and compare
+            with open(self.dbpath+"timestamp", "r") as f:
+                currentstamp = f.read()
+            if self.timestamp == currentstamp:
+                try:
+                    self.ui.datensatzSpeichernIntervalThread()
+                except Exception:
+                    pass
+                self.ui.statusBar.showMessage(
+                    "Automatische Sicherung: "+datetime.now().strftime(
                         "%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
@@ -2112,16 +2140,16 @@ class Gui(Ui_MainWindow):
         verbindung_thread = sqlite3.connect(self.db.dbpath+"kurs.db")
         c_thread = verbindung_thread.cursor()
         tabellenname = list(c_thread.execute("""SELECT tname FROM settings
-                                         WHERE Inhalt = ?;
-                                      """,
+                                             WHERE Inhalt = ?;
+                                             """,
                                              (self.kurs,)))
         tn = tabellenname[0][0]
         c_thread.execute(""" UPDATE """+tn+"""
-                    SET Inhalt = ?,
-                    Hausaufgabe = ?,
-                    Planung = ?
-                    WHERE pk = ?;
-                    """,
+                         SET Inhalt = ?,
+                         Hausaufgabe = ?,
+                         Planung = ?
+                         WHERE pk = ?;
+                         """,
                          (inhaltNeu, haNeu, planungNeu, self.pk))
         verbindung_thread.commit()
         c_thread.close()
