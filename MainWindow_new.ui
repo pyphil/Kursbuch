@@ -508,11 +508,12 @@ selection-color: rgb(255, 255, 255);</string>
     </property>
     <widget class="QMenu" name="menuExport">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="title">
       <string>Export</string>
      </property>
+     <addaction name="actionKursheft_anzeigen"/>
      <addaction name="actionKursliste_CSV"/>
     </widget>
     <addaction name="actionTutorenmodus"/>
@@ -524,6 +525,9 @@ selection-color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>Bearbeiten</string>
     </property>
+    <addaction name="actionKopieren"/>
+    <addaction name="actionEinfuegen"/>
+    <addaction name="actionAusschneiden"/>
    </widget>
    <widget class="QMenu" name="menuExtras">
     <property name="title">
@@ -535,7 +539,7 @@ selection-color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>Hilfe</string>
     </property>
-    <addaction name="action_ber"/>
+    <addaction name="actionUeber"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuBearbeiten"/>
@@ -562,13 +566,13 @@ selection-color: rgb(255, 255, 255);</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNeuen_Kurs_anlegen"/>
+   <addaction name="actionKursneu"/>
    <addaction name="actionDelKurs"/>
    <addaction name="separator"/>
    <addaction name="actionKursmitglieder"/>
    <addaction name="separator"/>
-   <addaction name="actionNeue_Stunde"/>
-   <addaction name="actionStunde_l_schen"/>
+   <addaction name="actionNeueStunde"/>
+   <addaction name="actionDelStunde"/>
    <addaction name="separator"/>
    <addaction name="actionKursheft_anzeigen"/>
    <addaction name="separator"/>
@@ -596,7 +600,7 @@ selection-color: rgb(255, 255, 255);</string>
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;sdfsdf&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
-  <action name="actionNeuen_Kurs_anlegen">
+  <action name="actionKursneu">
    <property name="icon">
     <iconset>
      <normaloff>new_course.png</normaloff>new_course.png</iconset>
@@ -609,6 +613,9 @@ selection-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionDelKurs">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>delcourse.png</normaloff>delcourse.png</iconset>
@@ -621,6 +628,9 @@ selection-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionKursmitglieder">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>kursmitglieder.png</normaloff>kursmitglieder.png</iconset>
@@ -632,7 +642,10 @@ selection-color: rgb(255, 255, 255);</string>
     <string>Kursmitglieder verwalten</string>
    </property>
   </action>
-  <action name="actionNeue_Stunde">
+  <action name="actionNeueStunde">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>neuestunde.png</normaloff>neuestunde.png</iconset>
@@ -644,7 +657,10 @@ selection-color: rgb(255, 255, 255);</string>
     <string>Neue Stunde oder Serie hinzufügen</string>
    </property>
   </action>
-  <action name="actionStunde_l_schen">
+  <action name="actionDelStunde">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>delstunde.png</normaloff>delstunde.png</iconset>
@@ -657,6 +673,9 @@ selection-color: rgb(255, 255, 255);</string>
    </property>
   </action>
   <action name="actionKursheft_anzeigen">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>pdf.png</normaloff>pdf.png</iconset>
@@ -673,9 +692,24 @@ selection-color: rgb(255, 255, 255);</string>
     <string>Beenden</string>
    </property>
   </action>
-  <action name="action_ber">
+  <action name="actionUeber">
    <property name="text">
     <string>Über</string>
+   </property>
+  </action>
+  <action name="actionKopieren">
+   <property name="text">
+    <string>Kopieren</string>
+   </property>
+  </action>
+  <action name="actionEinfuegen">
+   <property name="text">
+    <string>Einfügen</string>
+   </property>
+  </action>
+  <action name="actionAusschneiden">
+   <property name="text">
+    <string>Ausschneiden</string>
    </property>
   </action>
  </widget>

@@ -16,7 +16,7 @@ from ftps_conn import FTPS_conn
 from os import path, environ, mkdir
 from urllib.request import urlopen
 from PyQt5 import QtCore, QtGui, QtWidgets
-from MainWindow import Ui_MainWindow
+from MainWindow_new import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
@@ -1828,18 +1828,25 @@ class Gui(Ui_MainWindow):
         # Signals and slots
         self.comboBoxKurs.activated.connect(self.kursAnzeigen)
         self.tableWidget.clicked.connect(self.datensatzAnzeigen)
-        self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
-        self.pushButtonDelKurs.clicked.connect(self.kursDel)
-        self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
-        self.pushButtonNeueStd.clicked.connect(self.neueStunde)
-        self.pushButtonDelStd.clicked.connect(self.stundeDel)
-        self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
+        # self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
+        # self.pushButtonDelKurs.clicked.connect(self.kursDel)
+        # self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
+        # self.pushButtonNeueStd.clicked.connect(self.neueStunde)
+        # self.pushButtonDelStd.clicked.connect(self.stundeDel)
+        # self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
 
-        # Menu
+        # Menu and toolbar
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
         self.actionTutorenmodus.triggered.connect(self.start_tutmod)
         self.actionKursliste_CSV.triggered.connect(self.exportKursliste)
+        self.actionKursneu.triggered.connect(self.kursNeu)
+        self.actionDelKurs.triggered.connect(self.kursDel)
+        self.actionKursmitglieder.triggered.connect(self.schuelerVerw)
+        self.actionNeueStunde.triggered.connect(self.neueStunde)
+        self.actionDelStunde.triggered.connect(self.stundeDel)
+        self.actionKursheft_anzeigen.triggered.connect(self.kursheftAnzeigen)
+
 
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1, False)
@@ -1890,7 +1897,8 @@ class Gui(Ui_MainWindow):
         self.checkBox_2.setChecked(0)
         self.checkBox_3.setEnabled(False)
         self.checkBox_3.setChecked(0)
-        self.pushButtonDelStd.setEnabled(False)
+        # self.pushButtonDelStd.setEnabled(False)
+        self.actionDelStunde.setEnabled(False)
 
     def enableFieldsStd(self):
         self.textEditKurshefteintrag.setEnabled(True)
@@ -1899,21 +1907,30 @@ class Gui(Ui_MainWindow):
         self.checkBox.setEnabled(True)
         self.checkBox_2.setEnabled(True)
         self.checkBox_3.setEnabled(True)
-        self.pushButtonDelStd.setEnabled(True)
+        # self.pushButtonDelStd.setEnabled(True)
+        self.actionDelStunde.setEnabled(True)
 
     def enableFieldsKurs(self):
-        self.pushButtonDelKurs.setEnabled(True)
+        # self.pushButtonDelKurs.setEnabled(True)
+        self.actionDelKurs.setEnabled(True)
         if self.db.nosus == 0:
-            self.pushButtonKursmitglieder.setEnabled(True)
-        self.pushButtonNeueStd.setEnabled(True)
-        self.pushButtonKursheftAnzeigen.setEnabled(True)
+        #     self.pushButtonKursmitglieder.setEnabled(True)
+            self.actionKursmitglieder.setEnabled(True)
+        # self.pushButtonNeueStd.setEnabled(True)
+        self.actionNeueStunde.setEnabled(True)
+        # self.pushButtonKursheftAnzeigen.setEnabled(True)
+        self.actionKursheft_anzeigen.setEnabled(True)
         self.menuExport.setEnabled(True)
 
     def disableFieldsKurs(self):
-        self.pushButtonDelKurs.setEnabled(False)
-        self.pushButtonKursmitglieder.setEnabled(False)
-        self.pushButtonNeueStd.setEnabled(False)
-        self.pushButtonKursheftAnzeigen.setEnabled(False)
+        # self.pushButtonDelKurs.setEnabled(False)
+        self.actionDelKurs.setEnabled(False)
+        # self.pushButtonKursmitglieder.setEnabled(False)
+        self.actionKursmitglieder.setEnabled(False)
+        # self.pushButtonNeueStd.setEnabled(False)
+        self.actionNeueStunde.setEnabled(False)
+        # self.pushButtonKursheftAnzeigen.setEnabled(False)
+        self.actionKursheft_anzeigen.setEnabled(False)
 
     def kursAnzeigen(self):
         """ setzt die aktuelle Combobox-Auswahl als Kursvariable
