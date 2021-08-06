@@ -6,11 +6,12 @@ from datetime import date, datetime
 from PyQt5 import QtCore, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 import locale
+import sys
 import reportFehlz
 from BlockGui import Ui_BlockKomp
 
-locale.setlocale(locale.LC_ALL, 'deu_deu')
-
+if sys.platform == "win32":
+    locale.setlocale(locale.LC_ALL, 'deu_deu')
 
 class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
     def __init__(self, db, gui):
