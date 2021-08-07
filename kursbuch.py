@@ -1868,7 +1868,6 @@ class Gui(Ui_MainWindow):
         self.abouttoclose = 0
 
     def closeEvent(self, event=None):
-        print(event)
         self.abouttoclose = 1
         if self.kurs != "":
             self.datensatzSpeichern()
@@ -2326,7 +2325,6 @@ class Gui(Ui_MainWindow):
 
     def exportKursliste(self):
         kursliste = self.db.getSuSListe(self.kurs, "normal")
-        print(kursliste)
 
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
