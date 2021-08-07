@@ -1846,6 +1846,11 @@ class Gui(Ui_MainWindow):
         self.actionNeueStunde.triggered.connect(self.neueStunde)
         self.actionDelStunde.triggered.connect(self.stundeDel)
         self.actionKursheft_anzeigen.triggered.connect(self.kursheftAnzeigen)
+        self.actionKopieren.triggered.connect(self.copy_text)
+        self.actionEinfuegen.triggered.connect(self.paste_text)
+        self.actionAusschneiden.triggered.connect(self.cut_text)
+        self.actionUndo.triggered.connect(self.undo)
+        self.actionBeenden.triggered.connect(self.closeEvent)
 
 
         if self.db.nosus == 1:
@@ -1862,11 +1867,14 @@ class Gui(Ui_MainWindow):
 
         self.abouttoclose = 0
 
-    def closeEvent(self, event):
+    def closeEvent(self, event=None):
+        print(event)
         self.abouttoclose = 1
         if self.kurs != "":
             self.datensatzSpeichern()
         self.db.close()
+        if event is False:
+            self.db.app.quit()
 
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
@@ -1931,6 +1939,7 @@ class Gui(Ui_MainWindow):
         self.actionNeueStunde.setEnabled(False)
         # self.pushButtonKursheftAnzeigen.setEnabled(False)
         self.actionKursheft_anzeigen.setEnabled(False)
+        self.actionKursliste_CSV.setEnabled(False)
 
     def kursAnzeigen(self):
         """ setzt die aktuelle Combobox-Auswahl als Kursvariable
@@ -1954,6 +1963,46 @@ class Gui(Ui_MainWindow):
         pass
         # self.datensatzSpeichern()
         # self.fillListbox()
+
+    def copy_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.copy()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.copy()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.copy()
+
+    def cut_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.cut()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.cut()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.cut()
+
+    def paste_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.paste()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.paste()
+            
+        if self.textEdit.hasFocus():
+            self.textEdit.paste()
+
+    def undo(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.undo()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.undo()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.undo()
 
     def fillListbox(self, lastedit=None):
         self.stdliste = self.db.getListe(self.kurs)
