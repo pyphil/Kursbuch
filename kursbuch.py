@@ -1854,7 +1854,6 @@ class Gui(Ui_MainWindow):
         self.actionUndo.triggered.connect(self.undo)
         self.actionBeenden.triggered.connect(self.closeEvent)
 
-
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1, False)
             self.actionTutorenmodus.setDisabled(True)

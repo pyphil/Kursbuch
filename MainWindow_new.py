@@ -36,7 +36,6 @@ class Ui_MainWindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setMinimumSize(QtCore.QSize(245, 0))
         self.tableWidget.setMaximumSize(QtCore.QSize(400, 16777215))
-        self.tableWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.tableWidget.setStyleSheet("selection-background-color: rgb(85, 170, 255);\n"
 "selection-color: rgb(255, 255, 255);")
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
