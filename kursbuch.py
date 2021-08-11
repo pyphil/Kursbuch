@@ -783,7 +783,7 @@ class Database:
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
-        s = list(self.susc.execute("""SELECT pk, Name, Vorname, Klasse
+        s = list(self.susc.execute("""SELECT pk, Name, Vorname, Klasse, Abgang
                                       FROM sus"""))
         return s
 
@@ -1269,7 +1269,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         alle = self.db.getGesamtliste()
         z = 0
         for i in alle:
-            if i[3] == klasse:
+            # Wenn richtige Klasse und kein Abgänger:
+            if i[3] == klasse and i[4] == 0:
                 self.filtered.append([i[1], i[2], i[0], i[3], None])
                 z += 1
         # Sortiertung nach Nachname
