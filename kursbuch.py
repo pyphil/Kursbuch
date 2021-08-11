@@ -466,7 +466,7 @@ class Database:
         tn = self.get_tn(k)
         listedb = list(self.c.execute(""" SELECT pk, Datum, Ausfall, Kompensation, Pruefung
                                           FROM """+tn+"""
-                                          ORDER BY Datum DESC;
+                                          ORDER BY Datum;
                                       """))
         liste = []
         for i in listedb:
@@ -949,6 +949,7 @@ class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
         jahre = ["2020/21", "2021/22", "2022/23"]
 
         self.comboBoxSchuljahr.addItems(jahre)
+        self.comboBoxSchuljahr.setCurrentIndex(1)
 
         # signals and slots
         self.pushButtonAnlegen.clicked.connect(self.neu)
