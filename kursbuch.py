@@ -443,7 +443,7 @@ class Database:
         tn = self.get_tn(k)
         listedb = list(self.c.execute(""" SELECT Datum
                                           FROM """+tn+"""
-                                          ORDER BY Datum DESC;
+                                          ORDER BY Datum;
                                       """))
         i = 0
         for datum in listedb:
