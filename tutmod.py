@@ -9,6 +9,7 @@ import locale
 import sys
 import reportFehlz
 from BlockGui import Ui_BlockKomp
+from kursbuch import Infobox
 
 if sys.platform == "win32":
     locale.setlocale(locale.LC_ALL, 'deu_deu')
@@ -2330,6 +2331,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.blockdial = Block(self.db, self.student_pk, self)
 
     def getKlassenFehlz_1(self):
+        self.info = Infobox("Fehlzeitenübersicht wird generiert...", self.gui)
+        # semi-professional way to keep ui responsive:
+        QtWidgets.QApplication.processEvents()
+
         fzlist = [("Nr.", "Nachname", "Vorname", "Fehlstunden gesamt",
                    "davon unentschuldigt")]
         z = 0
@@ -2338,10 +2343,16 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             liste = self.countfz(None, i[2])
             fzlist.append((z, i[0], i[1], liste[0], liste[1]))
 
+        self.info.close()
+
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "1. Halbjahr")
 
     def getKlassenFehlz_2(self):
+        self.info = Infobox("Fehlzeitenübersicht wird generiert...", self.gui)
+        # semi-professional way to keep ui responsive:
+        QtWidgets.QApplication.processEvents()
+
         fzlist = [("Nr.", "Nachname", "Vorname", "Fehlstunden gesamt",
                    "davon unentschuldigt")]
         z = 0
@@ -2349,6 +2360,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             z += 1
             liste = self.countfz(None, i[2])
             fzlist.append((z, i[0], i[1], liste[2], liste[3]))
+
+        self.info.close()
+
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "2. Halbjahr")
 
