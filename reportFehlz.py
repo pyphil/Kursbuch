@@ -156,12 +156,20 @@ def makeFzUebersicht(fz, dbpath, klasse, hj):
     story.append(Paragraph('', styles['Normal']))
     doc.build(story)
 
+    def openChrome_x86():
+        CREATE_NO_WINDOW = 0x08000000
+        subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe " +
+                        filename, creationflags=CREATE_NO_WINDOW)
     def openChrome():
         CREATE_NO_WINDOW = 0x08000000
-        subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename, creationflags=CREATE_NO_WINDOW)
+        subprocess.call("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe " +
+                        filename, creationflags=CREATE_NO_WINDOW)
 
     if sys.platform == "win32":
-        if os.path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") == True:
+        if os.path.isfile("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe") is True:
+            thread = threading.Thread(target=openChrome_x86, daemon=True)
+            thread.start()
+        elif os.path.isfile("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") is True:
             thread = threading.Thread(target=openChrome, daemon=True)
             thread.start()
         else:
