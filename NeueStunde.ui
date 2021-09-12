@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>440</width>
-    <height>446</height>
+    <width>375</width>
+    <height>469</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -139,6 +139,26 @@
         </item>
        </layout>
       </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>als Kompensation markieren</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="checkBoxBlock">
+        <property name="text">
+         <string>Block-Kompensation anlegen (Stunde = Nummer der Blockstunde)</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -215,19 +235,6 @@
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>als Kompensation markieren</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>

@@ -2106,6 +2106,26 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonBlock">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>460</y>
+     <width>31</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Blockkompensation einsehen</string>
+   </property>
+   <property name="text">
+    <string>B
+L
+O
+C
+K</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

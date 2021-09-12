@@ -16,7 +16,7 @@ from ftps_conn import FTPS_conn
 from os import path, environ, mkdir
 from urllib.request import urlopen
 from PyQt5 import QtCore, QtGui, QtWidgets
-from MainWindow import Ui_MainWindow
+from MainWindow_new import Ui_MainWindow
 from KursAnlegen import Ui_KursAnlegen
 from NeueStunde import Ui_Form
 from PDFdialog import Ui_PdfExportieren
@@ -61,7 +61,7 @@ class Database:
         self.feriendaten = ""
         self.nosus = 0
         self.req_dbversion = 1
-        current_version = "1.2.0"
+        current_version = "1.3.0beta6"
 
         # Verbindung zur lokalen Datenbank herstellen
         self.loadkursdb()
@@ -107,7 +107,7 @@ class Database:
             # Datenbank vom Server laden, wenn Synchronisation an
             # Wenn self.pw = None -> Passwort erneut abfragen durch Übergabe
             # an Gui Objekt
-            if self.sync == 2 and pw != None:
+            if self.sync == 2 and pw is not None:
                 self.info = Infobox(
                     "Datenbank wird synchronisiert ...", self.ui)
                 # semi-professinal way to keep ui responsive:
@@ -118,7 +118,7 @@ class Database:
                 access = None
 
             if self.sync == 2:
-                if pw == None:
+                if pw is None:
                     msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_pw.setIcon(QtWidgets.QMessageBox.Information)
                     msg_pw.setWindowTitle("Zugangsdaten")
@@ -128,7 +128,7 @@ class Database:
                                    "erneut eingeben")
                     msg_pw.exec_()
                     self.ui.sync()
-                if access == False:
+                if access is False:
                     msg_access = QtWidgets.QMessageBox(self.ui.MainWindow)
                     msg_access.setIcon(QtWidgets.QMessageBox.Information)
                     msg_access.setWindowTitle("Zugangsdaten")
@@ -147,14 +147,21 @@ class Database:
                         "Servername falsch oder Server nicht erreichbar.")
                     msg_host.exec_()
                     self.ui.sync()
-                if access == True:
+                if access is True:
                     self.ui.statusBar.showMessage(
                         "Datenbank erfolgreich synchronisiert.")
                     # Fill Kursauswahl combobox again with new data
                     # from downloaded db
                     self.ui.kursauswahlMenue()
             if self.sync == 0:
-                self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
+                # self.ui.statusBar.showMessage("FTPS-Synchronisation AUS")
+                # write local timestamp and start interval_save as daemon
+                self.timestamp = str(time())
+                with open(self.dbpath+"timestamp", "w") as f:
+                    f.write(self.timestamp)
+            self.save_thread = threading.Thread(
+                target=self.interval_save, daemon=True)
+            self.save_thread.start()
 
             # Auf neue Version prüfen
             try:
@@ -178,12 +185,12 @@ class Database:
     def loadkursdb(self):
         if sys.platform == "win32":
             home = environ['HOMEDRIVE']+environ['HOMEPATH']
-            if path.exists(home+"\\pyKursbuch") == False:
+            if path.exists(home+"\\pyKursbuch") is False:
                 mkdir(home+"\\pyKursbuch")
             self.dbpath = home+"\\pyKursbuch\\"
         elif sys.platform == "darwin" or sys.platform == "linux":
             home = environ['HOME']
-            if path.exists(home+"/pyKursbuch") == False:
+            if path.exists(home+"/pyKursbuch") is False:
                 mkdir(home+"/pyKursbuch")
             self.dbpath = home+"/pyKursbuch/"
 
@@ -280,7 +287,7 @@ class Database:
             self.verbindung.commit()
             self.sync = s
             access = self.get_FTPS_db()
-            if access == False:
+            if access is False:
                 msg_pw = QtWidgets.QMessageBox(self.ui.MainWindow)
                 msg_pw.setIcon(QtWidgets.QMessageBox.Critical)
                 msg_pw.setWindowTitle("Fehler")
@@ -297,7 +304,7 @@ class Database:
                     "Servername falsch oder Server nicht erreichbar.")
                 msg_host.exec_()
                 gui.sync()
-            if access == True:
+            if access is True:
                 self.ui.statusBar.showMessage(
                     "Datenbank erfolgreich synchronisiert.")
                 gui.kursauswahlMenue()
@@ -436,7 +443,7 @@ class Database:
         tn = self.get_tn(k)
         listedb = list(self.c.execute(""" SELECT Datum
                                           FROM """+tn+"""
-                                          ORDER BY Datum DESC;
+                                          ORDER BY Datum;
                                       """))
         i = 0
         for datum in listedb:
@@ -459,15 +466,20 @@ class Database:
         tn = self.get_tn(k)
         listedb = list(self.c.execute(""" SELECT pk, Datum, Ausfall, Kompensation, Pruefung
                                           FROM """+tn+"""
-                                          ORDER BY Datum DESC;
+                                          ORDER BY Datum;
                                       """))
         liste = []
         for i in listedb:
             string = str(i[1]).split("_")
             datum = datetime.strptime(string[0], '%Y-%m-%d')
             datum = datum.strftime('%a, %d. %b %Y')
-            liste.append([str(i[0]), datum, string[1] +
-                         ". Std.", i[2], i[3], i[4]])
+            if "B" in string[1]:
+                std = string[1].split("-")[1]
+                liste.append([str(i[0]), datum, "Block (" + std + ")",
+                             i[2], i[3], i[4]])
+            else:
+                liste.append([str(i[0]), datum, string[1] +
+                             ". Std.", i[2], i[3], i[4]])
         return liste
 
     def getDatelist(self, k):
@@ -512,6 +524,27 @@ class Database:
                                        (tn,)))
         lastedit = lastedit[0][0]
         return lastedit
+
+    def getBlockkomp(self, student_pk):
+        liste = list(self.susc.execute("""PRAGMA table_info(sus)"""))
+        blockdates = []
+        for i in liste:
+            if "B" in i[1]:
+                string = str(i[1]).split("_")
+                datum = datetime.strptime(string[0], '%Y-%m-%d')
+                datum = datum.strftime('%a, %d. %b %Y')
+                std = string[1].split("-")[1]
+                blockdates.append((i[1], datum + " (" + std + ". Blockstd.)"))
+        blockdates.sort()
+        blocks = []
+        for d in blockdates:
+            sfz = list(self.susc.execute("""SELECT """+'"'+d[0]+'"'+""" FROM sus
+                                         WHERE pk = ?
+                                         """,
+                                         (student_pk,)))
+            if sfz[0][0] is not None:
+                blocks.append((d[1], sfz[0][0], d[0]))
+        return blocks
 
     def getDatensatz(self, pk, k):
         tn = self.get_tn(k)
@@ -621,32 +654,55 @@ class Database:
 
         return susliste
 
-    def getSuS(self, date, k):
+    def getSuS(self, dateraw, k):
         """ Über diese Methode erhält die Fehlzeitenanzeige die Daten zu einem
-        bestimmten Datum ohne Abgänger
+        bestimmten Datum, wobei Abgänger und Zugänger gefiltert werden
         """
 
         tn = self.get_tn(k)
         # Anführungsstriche um das Datum setzen
-        date = '"'+date+'"'
+        date = '"'+dateraw+'"'
         kurssus = tn+"_sus"
 
-        pkliste = list(self.c.execute("""SELECT pk
+        pkliste = list(self.c.execute("""SELECT pk, zuab, Datum
                                          FROM """+kurssus+"""
-                                         WHERE zuab = 0
                                       """))
-
         self.addTableDate(date)
 
         liste = []
         for i in pkliste:
-            item = list(self.susc.execute(
+            if i[1] == 0 and i[2] is None:
+                item = list(self.susc.execute(
+                            """SELECT pk, Name, Vorname, """+date+"""
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
+                            (i[0],)))
+                liste.append(item[0])
+            # Zugänger filtern (Datum vorhanden)
+            elif i[1] == 0 and i[2] is not None:
+                start = datetime.strptime(i[2], "%Y-%m-%d")
+                dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                if start <= dateobj:
+                    item = list(self.susc.execute(
                         """SELECT pk, Name, Vorname, """+date+"""
-                           FROM "sus"
-                           WHERE pk = ?;
-                        """,
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
                         (i[0],)))
-            liste.append(item[0])
+                    liste.append(item[0])
+            # Abgänger filtern (zuab = 1 und Datum vorhanden)
+            elif i[1] == 1 and i[2] is not None:
+                start = datetime.strptime(i[2], "%Y-%m-%d")
+                dateobj = datetime.strptime(dateraw.split("_")[0], "%Y-%m-%d")
+                if start >= dateobj:
+                    item = list(self.susc.execute(
+                        """SELECT pk, Name, Vorname, """+date+"""
+                            FROM "sus"
+                            WHERE pk = ?;
+                            """,
+                        (i[0],)))
+                    liste.append(item[0])
         return liste
 
     def addTableDate(self, date):
@@ -665,7 +721,7 @@ class Database:
         date = '"'+date+'"'
 
         # Wenn aus Tutorenmodus aufgerufen
-        if tut == True:
+        if tut is True:
             self.addTableDate(date)
 
         self.susc.execute("""UPDATE "sus"
@@ -727,7 +783,7 @@ class Database:
 
     def getGesamtliste(self):
         """Holt die Gesamtliste aller SuS für Zuordnung zum Kurs"""
-        s = list(self.susc.execute("""SELECT pk, Name, Vorname, Klasse
+        s = list(self.susc.execute("""SELECT pk, Name, Vorname, Klasse, Abgang
                                       FROM sus"""))
         return s
 
@@ -742,7 +798,6 @@ class Database:
 
     def writeTutmodDatePreset(self, klasse, datelist):
         kategorie = "TutmodDatePreset_"+klasse
-        print(kategorie)
 
         self.c.execute("""DELETE FROM settings
                           WHERE Kategorie = ?
@@ -801,6 +856,27 @@ class Database:
                 self.upload()
                 self.ui.statusBar.showMessage(
                     "Letzte Synchronisation: "+datetime.now().strftime(
+                        "%d.%m.%Y, %H:%M:%S"))
+            else:
+                self.app.quit()
+
+    def interval_save(self):
+        """ started as daemon in thread to save to db
+        regularly and quit app if another instance has written
+        a newer timestamp to prevent overwriting content """
+
+        while True:
+            sleep(30)
+            # Get timestamp and compare
+            with open(self.dbpath+"timestamp", "r") as f:
+                currentstamp = f.read()
+            if self.timestamp == currentstamp:
+                try:
+                    self.ui.datensatzSpeichernIntervalThread()
+                except Exception:
+                    pass
+                self.ui.statusBar.showMessage(
+                    "Automatische Sicherung: "+datetime.now().strftime(
                         "%d.%m.%Y, %H:%M:%S"))
             else:
                 self.app.quit()
@@ -873,6 +949,7 @@ class KursAnlegen(QtWidgets.QDialog, Ui_KursAnlegen):
         jahre = ["2020/21", "2021/22", "2022/23"]
 
         self.comboBoxSchuljahr.addItems(jahre)
+        self.comboBoxSchuljahr.setCurrentIndex(1)
 
         # signals and slots
         self.pushButtonAnlegen.clicked.connect(self.neu)
@@ -1008,19 +1085,19 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
         datum = str(self.calendarWidget.selectedDate().toPyDate())
         dbdatelist = self.db.getDatelist(self.kurs)
         stunde = 0
-        if self.radioButton.isChecked() == True:
+        if self.radioButton.isChecked() is True:
             stunde = "1"
-        if self.radioButton_2.isChecked() == True:
+        if self.radioButton_2.isChecked() is True:
             stunde = "2"
-        if self.radioButton_3.isChecked() == True:
+        if self.radioButton_3.isChecked() is True:
             stunde = "3"
-        if self.radioButton_4.isChecked() == True:
+        if self.radioButton_4.isChecked() is True:
             stunde = "4"
-        if self.radioButton_5.isChecked() == True:
+        if self.radioButton_5.isChecked() is True:
             stunde = "5"
-        if self.radioButton_6.isChecked() == True:
+        if self.radioButton_6.isChecked() is True:
             stunde = "6"
-        if self.radioButton_7.isChecked() == True:
+        if self.radioButton_7.isChecked() is True:
             stunde = "7"
         # Hinweis, wenn keine Stunde ausgewählt wurde
         if stunde == 0:
@@ -1031,6 +1108,10 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
             self.message.setText("Bitte eine Stunde angeben.")
             self.message.exec_()
         else:
+            # Blockkompensation abfragen
+            if self.checkBoxBlock.isChecked() is True:
+                stunde = "B-" + stunde
+
             # Datum an Datenbankobjekt übergeben und
             # new row und new pk erhalten
 
@@ -1046,7 +1127,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
                 else:
                     pass
             else:
-                if self.checkBox.isChecked() == True:
+                if self.checkBox.isChecked() is True:
                     komp = 1
                 else:
                     komp = 0
@@ -1054,7 +1135,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
                     datum, stunde, self.kurs, komp)
             # Serientermine
             x = int(self.spinBox.text())
-            if self.checkBox.isChecked() == True:
+            if self.checkBox.isChecked() is True:
                 komp = 1
             else:
                 komp = 0
@@ -1188,7 +1269,8 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         alle = self.db.getGesamtliste()
         z = 0
         for i in alle:
-            if i[3] == klasse:
+            # Wenn richtige Klasse und kein Abgänger:
+            if i[3] == klasse and i[4] == 0:
                 self.filtered.append([i[1], i[2], i[0], i[3], None])
                 z += 1
         # Sortiertung nach Nachname
@@ -1392,7 +1474,6 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         self.save()
 
     def save(self):
-        print(self.liste2sorted)
         self.db.writeSuSListe(self.kurs, self.liste2sorted)
         self.db.addAbgaenger(self.kurs, self.liste3sorted)
         # Wenn Fehlzeitenanzeige offen, direkt aktualisieren
@@ -1538,7 +1619,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
     def ok(self):
         if self.noselection == 1:
             self.close()
-        else:  
+        else:
             # Zugangsdatum aus Dialog holen
             zugdatum = self.dateEdit.date().toPyDate()
             # Zur Liste des einzelnen Schülers hinzufügen
@@ -1552,10 +1633,8 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
             else:
                 # Einträge aus Liste 2 löschen
                 # in umgekehrter Reihenfolge, da sonst die indexes verrutschen
-                print(self.susverw.liste2)
                 for i in sorted(self.susverw.selection, reverse=True):
                     del self.susverw.liste2[i.row()]
-                print(self.susverw.liste2)
                 self.close()
                 # Liste mit Umlauten korrekt sortieren: üblicherweise
                 # bei Liste von Listen mit
@@ -1564,7 +1643,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.liste2, key=lambda i: locale.strxfrm(i[0]))
 
                 self.susverw.liste2 = self.susverw.liste2sorted
-                
+
                 z = 0
                 for i in self.susverw.liste2sorted:
                     self.susverw.tableWidget_2.setRowCount(z+1)
@@ -1580,15 +1659,6 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
                     self.susverw.tableWidget_2.setItem(
                         z, 2, QtWidgets.QTableWidgetItem(datumstr))
                     z += 1
-                #print(self.susverw.liste2sorted)
-                # z = 0
-                # for i in self.susverw.liste2sorted:
-                #     self.susverw.tableWidget_2.setRowCount(z+1)
-                #     self.susverw.tableWidget_2.setItem(
-                #         z, 0, QtWidgets.QTableWidgetItem(i[0]+", "+i[1]))
-                #     self.susverw.tableWidget_2.setItem(
-                #         z, 1, QtWidgets.QTableWidgetItem(i[3]))
-                #     z += 1
 
                 # Auswahl wieder aufheben
                 self.susverw.tableWidget_2.clearSelection()
@@ -1622,9 +1692,9 @@ class Kursbuch_Dialog(Ui_PdfExportieren, QtWidgets.QDialog):
             self.abbrechen()
 
     def ok(self):
-        if self.radioButtonMitFs.isChecked() == True:
+        if self.radioButtonMitFs.isChecked() is True:
             var = "1"
-        if self.radioButtonOhneFS.isChecked() == True:
+        if self.radioButtonOhneFS.isChecked() is True:
             var = "2"
         self.close()
         report.makeKursbuch(self.tn, self.kurs, self.krzl,
@@ -1760,17 +1830,29 @@ class Gui(Ui_MainWindow):
         # Signals and slots
         self.comboBoxKurs.activated.connect(self.kursAnzeigen)
         self.tableWidget.clicked.connect(self.datensatzAnzeigen)
-        self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
-        self.pushButtonDelKurs.clicked.connect(self.kursDel)
-        self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
-        self.pushButtonNeueStd.clicked.connect(self.neueStunde)
-        self.pushButtonDelStd.clicked.connect(self.stundeDel)
-        self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
+        # self.pushButtonNeuerKurs.clicked.connect(self.kursNeu)
+        # self.pushButtonDelKurs.clicked.connect(self.kursDel)
+        # self.pushButtonKursmitglieder.clicked.connect(self.schuelerVerw)
+        # self.pushButtonNeueStd.clicked.connect(self.neueStunde)
+        # self.pushButtonDelStd.clicked.connect(self.stundeDel)
+        # self.pushButtonKursheftAnzeigen.clicked.connect(self.kursheftAnzeigen)
         self.tabWidget.tabBarClicked.connect(self.fehlzeitenAnzeige)
 
-        # Menu
+        # Menu and toolbar
         self.actionSynchronisation_einrichten.triggered.connect(self.sync)
         self.actionTutorenmodus.triggered.connect(self.start_tutmod)
+        self.actionKursliste_CSV.triggered.connect(self.exportKursliste)
+        self.actionKursneu.triggered.connect(self.kursNeu)
+        self.actionDelKurs.triggered.connect(self.kursDel)
+        self.actionKursmitglieder.triggered.connect(self.schuelerVerw)
+        self.actionNeueStunde.triggered.connect(self.neueStunde)
+        self.actionDelStunde.triggered.connect(self.stundeDel)
+        self.actionKursheft_anzeigen.triggered.connect(self.kursheftAnzeigen)
+        self.actionKopieren.triggered.connect(self.copy_text)
+        self.actionEinfuegen.triggered.connect(self.paste_text)
+        self.actionAusschneiden.triggered.connect(self.cut_text)
+        self.actionUndo.triggered.connect(self.undo)
+        self.actionBeenden.triggered.connect(self.closeEvent)
 
         if self.db.nosus == 1:
             self.tabWidget.setTabEnabled(1, False)
@@ -1786,11 +1868,13 @@ class Gui(Ui_MainWindow):
 
         self.abouttoclose = 0
 
-    def closeEvent(self, event):
+    def closeEvent(self, event=None):
         self.abouttoclose = 1
         if self.kurs != "":
             self.datensatzSpeichern()
         self.db.close()
+        if event is False:
+            self.db.app.quit()
 
     def leave(self, old, new):
         # prüfen welche Felder welchen Fokuswechsel haben
@@ -1821,7 +1905,8 @@ class Gui(Ui_MainWindow):
         self.checkBox_2.setChecked(0)
         self.checkBox_3.setEnabled(False)
         self.checkBox_3.setChecked(0)
-        self.pushButtonDelStd.setEnabled(False)
+        # self.pushButtonDelStd.setEnabled(False)
+        self.actionDelStunde.setEnabled(False)
 
     def enableFieldsStd(self):
         self.textEditKurshefteintrag.setEnabled(True)
@@ -1830,20 +1915,31 @@ class Gui(Ui_MainWindow):
         self.checkBox.setEnabled(True)
         self.checkBox_2.setEnabled(True)
         self.checkBox_3.setEnabled(True)
-        self.pushButtonDelStd.setEnabled(True)
+        # self.pushButtonDelStd.setEnabled(True)
+        self.actionDelStunde.setEnabled(True)
 
     def enableFieldsKurs(self):
-        self.pushButtonDelKurs.setEnabled(True)
+        # self.pushButtonDelKurs.setEnabled(True)
+        self.actionDelKurs.setEnabled(True)
         if self.db.nosus == 0:
-            self.pushButtonKursmitglieder.setEnabled(True)
-        self.pushButtonNeueStd.setEnabled(True)
-        self.pushButtonKursheftAnzeigen.setEnabled(True)
+        #     self.pushButtonKursmitglieder.setEnabled(True)
+            self.actionKursmitglieder.setEnabled(True)
+        # self.pushButtonNeueStd.setEnabled(True)
+        self.actionNeueStunde.setEnabled(True)
+        # self.pushButtonKursheftAnzeigen.setEnabled(True)
+        self.actionKursheft_anzeigen.setEnabled(True)
+        self.menuExport.setEnabled(True)
 
     def disableFieldsKurs(self):
-        self.pushButtonDelKurs.setEnabled(False)
-        self.pushButtonKursmitglieder.setEnabled(False)
-        self.pushButtonNeueStd.setEnabled(False)
-        self.pushButtonKursheftAnzeigen.setEnabled(False)
+        # self.pushButtonDelKurs.setEnabled(False)
+        self.actionDelKurs.setEnabled(False)
+        # self.pushButtonKursmitglieder.setEnabled(False)
+        self.actionKursmitglieder.setEnabled(False)
+        # self.pushButtonNeueStd.setEnabled(False)
+        self.actionNeueStunde.setEnabled(False)
+        # self.pushButtonKursheftAnzeigen.setEnabled(False)
+        self.actionKursheft_anzeigen.setEnabled(False)
+        self.actionKursliste_CSV.setEnabled(False)
 
     def kursAnzeigen(self):
         """ setzt die aktuelle Combobox-Auswahl als Kursvariable
@@ -1867,6 +1963,46 @@ class Gui(Ui_MainWindow):
         pass
         # self.datensatzSpeichern()
         # self.fillListbox()
+
+    def copy_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.copy()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.copy()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.copy()
+
+    def cut_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.cut()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.cut()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.cut()
+
+    def paste_text(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.paste()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.paste()
+            
+        if self.textEdit.hasFocus():
+            self.textEdit.paste()
+
+    def undo(self):
+        if self.textEditKurshefteintrag.hasFocus():
+            self.textEditKurshefteintrag.undo()
+
+        if self.textEditHausaufgaben.hasFocus():
+            self.textEditHausaufgaben.undo()
+
+        if self.textEdit.hasFocus():
+            self.textEdit.undo()
 
     def fillListbox(self, lastedit=None):
         self.stdliste = self.db.getListe(self.kurs)
@@ -1905,11 +2041,11 @@ class Gui(Ui_MainWindow):
         # lastedit auswählen wenn Kurs gerade ausgewählt
         if lastedit == 1:
             lastpk = self.db.getLastedit(self.kurs)
-            if lastpk == "" or lastpk == None:
+            if lastpk == "" or lastpk is None:
                 pass
             else:
                 dateofpk = self.db.getDateOfPk(self.kurs, lastpk)
-                if dateofpk != None:
+                if dateofpk is not None:
                     row = self.db.getRowOfDate(self.kurs, dateofpk)
                     self.tableWidget.selectRow(row)
                     self.tableWidget.scrollToItem(
@@ -2070,16 +2206,16 @@ class Gui(Ui_MainWindow):
         verbindung_thread = sqlite3.connect(self.db.dbpath+"kurs.db")
         c_thread = verbindung_thread.cursor()
         tabellenname = list(c_thread.execute("""SELECT tname FROM settings
-                                         WHERE Inhalt = ?;
-                                      """,
+                                             WHERE Inhalt = ?;
+                                             """,
                                              (self.kurs,)))
         tn = tabellenname[0][0]
         c_thread.execute(""" UPDATE """+tn+"""
-                    SET Inhalt = ?,
-                    Hausaufgabe = ?,
-                    Planung = ?
-                    WHERE pk = ?;
-                    """,
+                         SET Inhalt = ?,
+                         Hausaufgabe = ?,
+                         Planung = ?
+                         WHERE pk = ?;
+                         """,
                          (inhaltNeu, haNeu, planungNeu, self.pk))
         verbindung_thread.commit()
         c_thread.close()
@@ -2187,6 +2323,20 @@ class Gui(Ui_MainWindow):
         self.kdialog = Kursbuch_Dialog(self.db.get_tn(self.kurs), self.kurs,
                                        self.db.krzl, self.db.dbpath,
                                        self.db.nosus, self)
+
+    def exportKursliste(self):
+        kursliste = self.db.getSuSListe(self.kurs, "normal")
+
+        if sys.platform == "win32":
+            home = environ['HOMEDRIVE']+environ['HOMEPATH']
+        elif sys.platform == "darwin" or sys.platform == "linux":
+            home = environ['HOME']
+        fname = QtWidgets.QFileDialog.getSaveFileName(
+            self.MainWindow, "CSV speichern unter...", home, "CSV (*.csv)")
+        if fname[0] != "":
+            with open(fname[0], 'w') as f:
+                for i in kursliste:
+                    f.write(i[0] + ", " + i[1] + ", " + i[3] + "\n")
 
 
 if __name__ == "__main__":
