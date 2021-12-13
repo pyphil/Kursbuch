@@ -36,7 +36,7 @@ else:
 if sys.platform == "win32":
     from keyring.backends import Windows
     # import necessary for pyinstaller
-    import win32timezone
+    # import win32timezone
     keyring.set_keyring(Windows.WinVaultKeyring())
 
 if sys.platform == "darwin":
