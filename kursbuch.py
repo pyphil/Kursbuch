@@ -61,7 +61,7 @@ class Database:
         self.feriendaten = ""
         self.nosus = 0
         self.req_dbversion = 1
-        current_version = "1.3.0beta6"
+        current_version = "1.3.1"
 
         # Verbindung zur lokalen Datenbank herstellen
         self.loadkursdb()
@@ -1273,7 +1273,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
             if i[3] == klasse and i[4] == 0:
                 self.filtered.append([i[1], i[2], i[0], i[3], None])
                 z += 1
-        # Sortiertung nach Nachname
+        # Sortierung nach Nachname
         self.filtered = sorted(
             self.filtered, key=lambda i: locale.strxfrm(i[0]))
 
@@ -1922,7 +1922,7 @@ class Gui(Ui_MainWindow):
         # self.pushButtonDelKurs.setEnabled(True)
         self.actionDelKurs.setEnabled(True)
         if self.db.nosus == 0:
-        #     self.pushButtonKursmitglieder.setEnabled(True)
+            # self.pushButtonKursmitglieder.setEnabled(True)
             self.actionKursmitglieder.setEnabled(True)
         # self.pushButtonNeueStd.setEnabled(True)
         self.actionNeueStunde.setEnabled(True)
@@ -1990,7 +1990,7 @@ class Gui(Ui_MainWindow):
 
         if self.textEditHausaufgaben.hasFocus():
             self.textEditHausaufgaben.paste()
-            
+
         if self.textEdit.hasFocus():
             self.textEdit.paste()
 
