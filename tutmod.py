@@ -53,6 +53,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonListeKlasse_2.clicked.connect(self.getKlassenFehlz_2)
         self.pushButtonBlock.clicked.connect(self.block)
 
+        # TODO only for testing:
+        self.label_Mo.mousePressEvent = self.getStudentOverview
+
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
         self.button1_3.clicked.connect(self.set1_3)
@@ -2371,8 +2374,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "2. Halbjahr")
 
-    def getStudentOverview(self):
-        pass
+    def getStudentOverview(self, var=None):
+        print("pressed")
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
