@@ -303,6 +303,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         else:
             if set is not True:
                 nextmonth = self.comboBoxMonat.currentIndex()+2
+                # Datum des aktuellen Montags speichern
+                aktmo = self.label_Mo.text()
                 if nextmonth <= 12:
                     monat = date(9999, nextmonth, 1).strftime("%B")
                     self.comboBoxMonat.setCurrentText(monat)
@@ -315,8 +317,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                     nextyear = str(nextyear).split("-")
                     nextyear = int(nextyear[0])+1
                     self.dateEditJahr.setDate(QtCore.QDate(nextyear, 1, 1))
-                # Datum des aktuellen Montags speichern
-                aktmo = self.label_Mo.text()
                 # neuen Monat setzen
                 self.setMonth()
                 # wenn der neue Montag in der gleichen Woche liegt, noch eine
