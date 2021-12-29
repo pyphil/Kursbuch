@@ -164,21 +164,21 @@ class Database:
             self.save_thread.start()
 
             # Auf neue Version prüfen
-            try:
-                content = urlopen(
-                    "https://raw.githubusercontent.com/pyphil/Kursbuch/" +
-                    "main/version")
-                version = str(content.read())
-                version = version.split("'")[1].split("\\")[0]
-                if current_version == version:
-                    print("pyKursbuch ist aktuell.")
-                else:
-                    print(
-                        "Eine neue Version ist verfügbar: " +
-                        "https://github.com/pyphil/Kursbuch/releases/tag/v"
-                        + version)
-            except Exception:
-                print("No network connection for update check.")
+            # try:
+            #     content = urlopen(
+            #         "https://raw.githubusercontent.com/pyphil/Kursbuch/" +
+            #         "main/version")
+            #     version = str(content.read())
+            #     version = version.split("'")[1].split("\\")[0]
+            #     if current_version == version:
+            #         print("pyKursbuch ist aktuell.")
+            #     else:
+            #         print(
+            #             "Eine neue Version ist verfügbar: " +
+            #             "https://github.com/pyphil/Kursbuch/releases/tag/v"
+            #             + version)
+            # except Exception:
+            #     print("No network connection for update check.")
 
             sys.exit(self.app.exec_())
 
