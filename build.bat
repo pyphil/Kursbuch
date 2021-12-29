@@ -35,4 +35,5 @@ rem copy LICENSE dist\kursbuch\
 rem copy ferien.db dist\kursbuch\
 rem xcopy /E .\curl\ .\dist\kursbuch\curl\
 cd dist
-powershell Compress-Archive kursbuch\* kursbuch.zip
+powershell sleep 10
+powershell Compress-Archive kursbuch\* kursbuch3.1.2.zip
