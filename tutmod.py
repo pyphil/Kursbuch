@@ -14,6 +14,7 @@ from kursbuch import Infobox
 if sys.platform == "win32":
     locale.setlocale(locale.LC_ALL, 'deu_deu')
 
+
 class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
     def __init__(self, db, gui):
         super(Tutmod, self).__init__(gui.MainWindow)
@@ -220,13 +221,13 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             z = 1
             oneweek = []
             date_fr = ""
-            for date in week:
-                if str(date) == datetime.now().strftime("%Y-%m-%d"):
+            for d in week:
+                if str(d) == datetime.now().strftime("%Y-%m-%d"):
                     currentweek = w
                 if z <= 5:
-                    oneweek.append(str(date))
+                    oneweek.append(str(d))
                 if z == 5:
-                    date_fr = str(date)
+                    date_fr = str(d)
                 z += 1
             # Nur wenn der Freitag der ersten Woche auch noch im ausgewählten
             # Monat liegt, anhängen an weeks
@@ -2369,6 +2370,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
 
         reportFehlz.makeFzUebersicht(fzlist, self.db.dbpath, self.klasse,
                                      "2. Halbjahr")
+
+    def getStudentOverview(self):
+        pass
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
