@@ -2395,11 +2395,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_1 = self.db.getFehlzeitDatumStd(studentpk, i+"_1")[0][0]
             if std_1 == "1":
                 sublist.append("u")
-            if std_1 == "2":
+            elif std_1 == "2":
                 sublist.append("e")
-            if std_1 == "3":
+            elif std_1 == "3":
                 sublist.append("S")
-            if std_1 == 4:
+            elif std_1 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
@@ -2407,11 +2407,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_2 = self.db.getFehlzeitDatumStd(studentpk, i+"_2")[0][0]
             if std_2 == "1":
                 sublist.append("u")
-            if std_2 == "2":
+            elif std_2 == "2":
                 sublist.append("e")
-            if std_2 == "3":
+            elif std_2 == "3":
                 sublist.append("S")
-            if std_2 == "4":
+            elif std_2 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
@@ -2419,11 +2419,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_3 = self.db.getFehlzeitDatumStd(studentpk, i+"_3")[0][0]
             if std_3 == "1":
                 sublist.append("u")
-            if std_3 == "2":
+            elif std_3 == "2":
                 sublist.append("e")
-            if std_3 == "3":
+            elif std_3 == "3":
                 sublist.append("S")
-            if std_3 == "4":
+            elif std_3 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
@@ -2431,11 +2431,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_4 = self.db.getFehlzeitDatumStd(studentpk, i+"_4")[0][0]
             if std_4 == "1":
                 sublist.append("u")
-            if std_4 == "2":
+            elif std_4 == "2":
                 sublist.append("e")
-            if std_4 == "3":
+            elif std_4 == "3":
                 sublist.append("S")
-            if std_4 == "4":
+            elif std_4 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")       
@@ -2443,11 +2443,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_5 = self.db.getFehlzeitDatumStd(studentpk, i+"_5")[0][0]
             if std_5 == "1":
                 sublist.append("u")
-            if std_5 == "2":
+            elif std_5 == "2":
                 sublist.append("e")
-            if std_5 == "3":
+            elif std_5 == "3":
                 sublist.append("S")
-            if std_5 == "4":
+            elif std_5 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")  
@@ -2455,11 +2455,11 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_6 = self.db.getFehlzeitDatumStd(studentpk, i+"_6")[0][0]
             if std_6 == "1":
                 sublist.append("u")
-            if std_6 == "2":
+            elif std_6 == "2":
                 sublist.append("e")
-            if std_6 == "3":
+            elif std_6 == "3":
                 sublist.append("S")
-            if std_6 == "4":
+            elif std_6 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
@@ -2467,15 +2467,15 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             std_7 = self.db.getFehlzeitDatumStd(studentpk, i+"_7")[0][0]
             if std_7 == "1":
                 sublist.append("u")
-            if std_7 == "2":
+            elif std_7 == "2":
                 sublist.append("e")
-            if std_7 == "3":
+            elif std_7 == "3":
                 sublist.append("S")
-            if std_7 == "4":
+            elif std_7 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
-            
+            print(sublist)
             # check if list is empty with 'any()'
             state = any(sublist)
             # append the date
@@ -2490,9 +2490,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             sublist = []
 
         # output in message box
-        text = ""
+        text = "['1', '2', '3', '4', '5', '6', '7', 'DATUM'] \n"
         for i in fzlist:
-            # text += i[8] + "|" + i[0] + "|" + i[1] + "|" + i[2] + "\n"
             text += str(i) + "\n"
         self.message = QtWidgets.QMessageBox(self)
         self.message.setWindowTitle("Fehlzeitenübersicht")
