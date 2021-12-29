@@ -5,7 +5,7 @@ from datetime import date, datetime
 from re import sub
 from time import strptime
 # from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
 import locale
 import sys
@@ -2377,7 +2377,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                                      "2. Halbjahr")
 
     def getStudentOverview(self, var=None):
-        studentpk = 1
+        studentpk = self.student_pk
         columns = self.db.getSFehlzeiten(studentpk)
         datelist = []
         for i in range(len(columns[1])):
@@ -2393,7 +2393,6 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         sublist = []
         for i in datelist:
             std_1 = self.db.getFehlzeitDatumStd(studentpk, i+"_1")[0][0]
-            print(std_1)
             if std_1 == "1":
                 sublist.append("u")
             if std_1 == "2":
@@ -2480,7 +2479,9 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # check if list is empty with 'any()'
             state = any(sublist)
             # append the date
-            sublist.append(i)
+            datum = datetime.strptime(i, '%Y-%m-%d')
+            datum = datum.strftime('%a, %d. %b %Y')
+            sublist.append(datum)
             # only if sublist is not empty append to fzlist
             if state is True:
                 fzlist.append(sublist)
@@ -2488,7 +2489,17 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # provide empty sublist for next run
             sublist = []
 
-        print(fzlist)
+        # output in message box
+        text = ""
+        for i in fzlist:
+            # text += i[8] + "|" + i[0] + "|" + i[1] + "|" + i[2] + "\n"
+            text += str(i) + "\n"
+        self.message = QtWidgets.QMessageBox(self)
+        self.message.setWindowTitle("Fehlzeitenübersicht")
+        self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
+        self.message.setText(text)
+        self.message.exec_()        
+
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
