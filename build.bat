@@ -1,7 +1,7 @@
 @echo off
 rmdir build /s /q
 rmdir dist /s
-rem pyinstaller --icon kursbuch.ico -w kursbuch.py
+
 python.exe -OO -m PyInstaller ^
     --windowed ^
     --icon kursbuch.ico ^
@@ -26,14 +26,7 @@ python.exe -OO -m PyInstaller ^
     --add-data LICENSE;. ^
     --add-data ferien.db;. ^
     kursbuch.py
-rem copy add-member.png dist\kursbuch\
-rem copy add-members.png dist\kursbuch\
-rem copy delete-member.png dist\kursbuch\
-rem copy delete-members.png dist\kursbuch\
-rem copy kursbuch.ico dist\kursbuch\
-rem copy LICENSE dist\kursbuch\
-rem copy ferien.db dist\kursbuch\
-rem xcopy /E .\curl\ .\dist\kursbuch\curl\
-@REM cd dist
-@REM powershell sleep 10
-@REM powershell Compress-Archive kursbuch\* kursbuch3.1.2.zip
+
+cd dist
+powershell sleep 10
+powershell Compress-Archive kursbuch\* kursbuch3.1.2.zip
