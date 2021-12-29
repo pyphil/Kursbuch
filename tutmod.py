@@ -26,13 +26,14 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.db = db
         self.gui = gui
 
-        klassen = ["5a", "5b", "5c", "5d", "5e",
-                   "6a", "6b", "6c", "6d", "6e",
-                   "7a", "7b", "7c", "7d", "7e",
-                   "8a", "8b", "8c", "8d", "8e",
-                   "9a", "9b", "9c", "9d", "9e",
+        klassen = ["Abgänger", "Q2", "Q1", "EF", 
                    "10a", "10b", "10c", "10d", "10e",
-                   "EF", "Q1", "Q2"]
+                   "9a", "9b", "9c", "9d", "9e",
+                   "8a", "8b", "8c", "8d", "8e",
+                   "7a", "7b", "7c", "7d", "7e",
+                   "6a", "6b", "6c", "6d", "6e",
+                   "5a", "5b", "5c", "5d", "5e"]
+                   
         self.comboBoxKlasse.addItems(klassen)
         # let non editable combobox in fusion style still respect maxitems
         self.comboBoxKlasse.setStyleSheet("combobox-popup: 0;")
