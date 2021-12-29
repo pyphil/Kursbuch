@@ -54,9 +54,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonListeKlasse_1.clicked.connect(self.getKlassenFehlz_1)
         self.pushButtonListeKlasse_2.clicked.connect(self.getKlassenFehlz_2)
         self.pushButtonBlock.clicked.connect(self.block)
-
-        # TODO only for testing:
-        self.label_Mo.mousePressEvent = self.getStudentOverview
+        self.pushButtonUebersicht.clicked.connect(self.getStudentOverview)
 
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
@@ -107,6 +105,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.dateEditJahr.setEnabled(False)
         self.pushButtonWeekafter.setEnabled(False)
         self.pushButtonWeekbefore.setEnabled(False)
+        self.pushButtonUebersicht.setEnabled(False)
+        self.pushButtonUebersicht_2.setEnabled(False)
         self.pushButtonListeKlasse_1.setEnabled(False)
         self.pushButtonListeKlasse_2.setEnabled(False)
         self.pushButtonBlock.setEnabled(False)
@@ -122,6 +122,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonWeekbefore.setEnabled(True)
         self.pushButtonListeKlasse_1.setEnabled(True)
         self.pushButtonListeKlasse_2.setEnabled(True)
+        self.pushButtonUebersicht.setEnabled(True)
+        self.pushButtonUebersicht_2.setEnabled(True)
         self.pushButtonBlock.setEnabled(True)
         self.dateEdit.setEnabled(True)
         self.dateEdit_2.setEnabled(True)
@@ -2475,7 +2477,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 sublist.append("Q")
             else:
                 sublist.append("")
-            print(sublist)
+
             # check if list is empty with 'any()'
             state = any(sublist)
             # append the date
@@ -2497,8 +2499,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.message.setWindowTitle("Fehlzeitenübersicht")
         self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
         self.message.setText(text)
-        self.message.exec_()        
-
+        self.message.exec_()
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
