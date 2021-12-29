@@ -796,6 +796,14 @@ class Database:
 
         return sfz, names
 
+    def getFehlzeitDatumStd(self, studentpk, datumStd):
+        datumStd = '"'+datumStd+'"'
+        fz = list(self.susc.execute("""SELECT """+datumStd+""" FROM sus
+                                      WHERE pk = ?
+                                    """,
+                                     (studentpk,)))
+        return fz
+
     def writeTutmodDatePreset(self, klasse, datelist):
         kategorie = "TutmodDatePreset_"+klasse
 

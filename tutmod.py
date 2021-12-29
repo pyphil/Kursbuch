@@ -2,6 +2,8 @@
 from calendar import Calendar
 # from datetime import date, timedelta, datetime
 from datetime import date, datetime
+from re import sub
+from time import strptime
 # from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtCore, QtWidgets
 from Tutmodgui import Ui_Tutmodgui
@@ -2375,7 +2377,118 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                                      "2. Halbjahr")
 
     def getStudentOverview(self, var=None):
-        print("pressed")
+        studentpk = 1
+        columns = self.db.getSFehlzeiten(studentpk)
+        datelist = []
+        for i in range(len(columns[1])):
+            if i >= 6:
+                # date = datetime.strptime(
+                #         columns[1][i][1].split("_")[0], "%Y-%m-%d")
+                date = columns[1][i][1].split("_")[0]
+                if date not in datelist:
+                    datelist.append(date)
+        datelist.sort()
+        
+        fzlist = []
+        sublist = []
+        for i in datelist:
+            std_1 = self.db.getFehlzeitDatumStd(studentpk, i+"_1")[0][0]
+            print(std_1)
+            if std_1 == "1":
+                sublist.append("u")
+            if std_1 == "2":
+                sublist.append("e")
+            if std_1 == "3":
+                sublist.append("S")
+            if std_1 == 4:
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_2 = self.db.getFehlzeitDatumStd(studentpk, i+"_2")[0][0]
+            if std_2 == "1":
+                sublist.append("u")
+            if std_2 == "2":
+                sublist.append("e")
+            if std_2 == "3":
+                sublist.append("S")
+            if std_2 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+            
+            std_3 = self.db.getFehlzeitDatumStd(studentpk, i+"_3")[0][0]
+            if std_3 == "1":
+                sublist.append("u")
+            if std_3 == "2":
+                sublist.append("e")
+            if std_3 == "3":
+                sublist.append("S")
+            if std_3 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_4 = self.db.getFehlzeitDatumStd(studentpk, i+"_4")[0][0]
+            if std_4 == "1":
+                sublist.append("u")
+            if std_4 == "2":
+                sublist.append("e")
+            if std_4 == "3":
+                sublist.append("S")
+            if std_4 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")       
+            
+            std_5 = self.db.getFehlzeitDatumStd(studentpk, i+"_5")[0][0]
+            if std_5 == "1":
+                sublist.append("u")
+            if std_5 == "2":
+                sublist.append("e")
+            if std_5 == "3":
+                sublist.append("S")
+            if std_5 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")  
+            
+            std_6 = self.db.getFehlzeitDatumStd(studentpk, i+"_6")[0][0]
+            if std_6 == "1":
+                sublist.append("u")
+            if std_6 == "2":
+                sublist.append("e")
+            if std_6 == "3":
+                sublist.append("S")
+            if std_6 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+            
+            std_7 = self.db.getFehlzeitDatumStd(studentpk, i+"_7")[0][0]
+            if std_7 == "1":
+                sublist.append("u")
+            if std_7 == "2":
+                sublist.append("e")
+            if std_7 == "3":
+                sublist.append("S")
+            if std_7 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+            
+            # check if list is empty with 'any()'
+            state = any(sublist)
+            # append the date
+            sublist.append(i)
+            # only if sublist is not empty append to fzlist
+            if state is True:
+                fzlist.append(sublist)
+            
+            # provide empty sublist for next run
+            sublist = []
+
+        print(fzlist)
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):
