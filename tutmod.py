@@ -205,7 +205,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         """ füllt die Schülernamen der gewählten Klasse ein"""
         pass
 
-    def setMonth(self, set=True):
+    def setMonth(self, set=None):
         y = str(self.dateEditJahr.date().toPyDate())
         y = y.split("-")
         y = int(y[0])
