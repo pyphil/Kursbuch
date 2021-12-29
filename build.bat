@@ -29,4 +29,4 @@ python.exe -OO -m PyInstaller ^
 
 cd dist
 powershell sleep 10
-powershell Compress-Archive kursbuch\* kursbuch3.1.2.zip
+powershell Compress-Archive kursbuch\* kursbuch1.3.2.zip
