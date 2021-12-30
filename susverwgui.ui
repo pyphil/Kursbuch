@@ -438,7 +438,7 @@
           </font>
          </property>
          <property name="text">
-          <string>als Abgänger/Kurswechsler führen</string>
+          <string>als Kursabgänger/Kurswechsler führen</string>
          </property>
         </widget>
         <widget class="QWidget" name="verticalLayoutWidget">
