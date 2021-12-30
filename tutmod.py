@@ -188,14 +188,24 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         # Filtern nach Klasse
         alle = self.db.getGesamtliste()
         z = 0
-        for i in alle:
-            # Wenn richtige Klasse und kein Abgänger:
-            if i[3] == self.klasse and i[4] == 0:
-                self.filtered.append([i[1], i[2], i[0], i[3]])
-                z += 1
-        # Sortierung nach Nachname
-        self.filtered = sorted(
-            self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        if self.klasse != "Abgänger":
+            for i in alle:
+                # Wenn richtige Klasse und kein Abgänger:
+                if i[3] == self.klasse and i[4] == 0:
+                    self.filtered.append([i[1], i[2], i[0], i[3]])
+                    z += 1
+            # Sortierung nach Nachname
+            self.filtered = sorted(
+                self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        elif self.klasse == "Abgänger":
+            for i in alle:
+                # Nur wenn Abgänger:
+                if i[4] == 1:
+                    self.filtered.append([i[1], i[2], i[0], i[3]])
+                    z += 1
+            # Sortierung nach Nachname
+            self.filtered = sorted(
+                self.filtered, key=lambda i: locale.strxfrm(i[0]))
 
         # Ausgabe in TableWidget
         z = 0

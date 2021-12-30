@@ -1266,7 +1266,7 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
 
     def zeigeKlasse(self):
         """ Zeigt die Liste der Schüler der ausgewählten Klasse """
-
+        # TODO Filter und DB Abfrage für Abgänger erstellen
         # gefilterte Liste bei jedem Aufruf leer bereitstellen
         self.filtered = []
 
@@ -1276,14 +1276,24 @@ class SuSVerw(Ui_Susverwgui, QtWidgets.QDialog):
         # Filtern nach Klasse
         alle = self.db.getGesamtliste()
         z = 0
-        for i in alle:
-            # Wenn richtige Klasse und kein Abgänger:
-            if i[3] == klasse and i[4] == 0:
-                self.filtered.append([i[1], i[2], i[0], i[3], None])
-                z += 1
-        # Sortierung nach Nachname
-        self.filtered = sorted(
-            self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        if klasse != "Abgänger":
+            for i in alle:
+                # Wenn richtige Klasse und kein Abgänger:
+                if i[3] == klasse and i[4] == 0:
+                    self.filtered.append([i[1], i[2], i[0], i[3], None])
+                    z += 1
+            # Sortierung nach Nachname
+            self.filtered = sorted(
+                self.filtered, key=lambda i: locale.strxfrm(i[0]))
+        elif klasse == "Abgänger":
+            for i in alle:
+                # Nur wenn Abgänger:
+                if i[4] == 1:
+                    self.filtered.append([i[1], i[2], i[0], i[3], None])
+                    z += 1
+            # Sortierung nach Nachname
+            self.filtered = sorted(
+                self.filtered, key=lambda i: locale.strxfrm(i[0]))
 
         # Ausgabe in TableWidget
         z = 0
@@ -1599,6 +1609,7 @@ class ZugangsdatumDialog(Ui_AbZuDialog, QtWidgets.QDialog):
         self.db = db
         self.susverw = susverw
         self.setWindowTitle("Zugangsdatum festlegen")
+        self.label.setText("Zugangsdatum festlegen für:")
         self.pushButtonOK.clicked.connect(self.ok)
 
         self.item = 0
