@@ -2082,6 +2082,13 @@ class Gui(Ui_MainWindow):
         liste = self.db.getDatensatz(self.pk, self.kurs)
         # # Textvariable mit Text aus Datenbankfeld füllen
         self.textEditKurshefteintrag.setText(liste[0][2])
+        
+        # Datum neben Kurshefteintrag und in Fehlzeiten anzeigen
+        string = liste[0][1].split("_")
+        datum = datetime.strptime(string[0], '%Y-%m-%d')
+        datum = datum.strftime('%a, %d. %b %Y')
+        self.labelKurshefteintrag.setText("Kurshefteintrag vom "+ datum)
+        self.labelDatumFehlzeiten.setText("Kurshefteintrag vom\n"+ datum)
 
         # Ferien/Ausfall:
         if liste[0][3] == 1:

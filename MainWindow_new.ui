@@ -478,6 +478,23 @@ selection-color: rgb(255, 255, 255);</string>
                 </property>
                </widget>
               </widget>
+              <widget class="QLabel" name="labelDatumFehlzeiten">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>10</y>
+                 <width>115</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Kurshefteintrag vom
+...</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
              </widget>
             </item>
            </layout>
