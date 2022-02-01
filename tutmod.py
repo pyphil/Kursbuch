@@ -11,6 +11,7 @@ import locale
 import sys
 import reportFehlz
 from BlockGui import Ui_BlockKomp
+from FzOverview import Ui_DialogFzOverview
 from kursbuch import Infobox
 
 if sys.platform == "win32":
@@ -26,14 +27,14 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.db = db
         self.gui = gui
 
-        klassen = ["Abgänger", "Q2", "Q1", "EF", 
+        klassen = ["Abgänger", "Q2", "Q1", "EF",
                    "10a", "10b", "10c", "10d", "10e",
                    "9a", "9b", "9c", "9d", "9e",
                    "8a", "8b", "8c", "8d", "8e",
                    "7a", "7b", "7c", "7d", "7e",
                    "6a", "6b", "6c", "6d", "6e",
                    "5a", "5b", "5c", "5d", "5e"]
-                   
+
         self.comboBoxKlasse.addItems(klassen)
         # let non editable combobox in fusion style still respect maxitems
         self.comboBoxKlasse.setStyleSheet("combobox-popup: 0;")
@@ -55,7 +56,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.pushButtonListeKlasse_1.clicked.connect(self.getKlassenFehlz_1)
         self.pushButtonListeKlasse_2.clicked.connect(self.getKlassenFehlz_2)
         self.pushButtonBlock.clicked.connect(self.block)
-        self.pushButtonUebersicht.clicked.connect(self.getStudentOverview)
+        self.pushButtonUebersicht.clicked.connect(
+            lambda: self.getStudentOverview(1))
+        self.pushButtonUebersicht_2.clicked.connect(
+            lambda: self.getStudentOverview(2))
 
         self.button1_1.clicked.connect(self.set1_1)
         self.button1_2.clicked.connect(self.set1_2)
@@ -2390,18 +2394,35 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                                      "2. Halbjahr")
 
     def getStudentOverview(self, var=None):
+        self.info = Infobox("Fehlzeitenübersicht wird generiert...", self.gui)
+        # semi-professional way to keep ui responsive:
+        QtWidgets.QApplication.processEvents()
+        
         studentpk = self.student_pk
         columns = self.db.getSFehlzeiten(studentpk)
         datelist = []
         for i in range(len(columns[1])):
             if i >= 6:
-                # date = datetime.strptime(
-                #         columns[1][i][1].split("_")[0], "%Y-%m-%d")
-                date = columns[1][i][1].split("_")[0]
-                if date not in datelist:
-                    datelist.append(date)
+                if var == 1:
+                    start = datetime.strptime(
+                        str(self.dateEdit.date().toPyDate()), "%Y-%m-%d")
+                    end = datetime.strptime(
+                        str(self.dateEdit_2.date().toPyDate()), "%Y-%m-%d")
+                    date = datetime.strptime(
+                        columns[1][i][1].split("_")[0], "%Y-%m-%d")
+                elif var == 2:
+                    start = datetime.strptime(
+                        str(self.dateEdit_3.date().toPyDate()), "%Y-%m-%d")
+                    end = datetime.strptime(
+                        str(self.dateEdit_4.date().toPyDate()), "%Y-%m-%d")
+                    date = datetime.strptime(
+                        columns[1][i][1].split("_")[0], "%Y-%m-%d")
+                if start <= date <= end:
+                    d = columns[1][i][1].split("_")[0]
+                    if d not in datelist:
+                        datelist.append(d)
         datelist.sort()
-        
+
         fzlist = []
         sublist = []
         for i in datelist:
@@ -2428,7 +2449,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 sublist.append("Q")
             else:
                 sublist.append("")
-            
+
             std_3 = self.db.getFehlzeitDatumStd(studentpk, i+"_3")[0][0]
             if std_3 == "1":
                 sublist.append("u")
@@ -2451,8 +2472,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             elif std_4 == "4":
                 sublist.append("Q")
             else:
-                sublist.append("")       
-            
+                sublist.append("")
+
             std_5 = self.db.getFehlzeitDatumStd(studentpk, i+"_5")[0][0]
             if std_5 == "1":
                 sublist.append("u")
@@ -2463,8 +2484,8 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             elif std_5 == "4":
                 sublist.append("Q")
             else:
-                sublist.append("")  
-            
+                sublist.append("")
+
             std_6 = self.db.getFehlzeitDatumStd(studentpk, i+"_6")[0][0]
             if std_6 == "1":
                 sublist.append("u")
@@ -2476,7 +2497,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 sublist.append("Q")
             else:
                 sublist.append("")
-            
+
             std_7 = self.db.getFehlzeitDatumStd(studentpk, i+"_7")[0][0]
             if std_7 == "1":
                 sublist.append("u")
@@ -2485,6 +2506,54 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             elif std_7 == "3":
                 sublist.append("S")
             elif std_7 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_B1 = self.db.getFehlzeitDatumStd(studentpk, i+"_B-1")[0][0]
+            if std_B1 == "1":
+                sublist.append("u")
+            elif std_B1 == "2":
+                sublist.append("e")
+            elif std_B1 == "3":
+                sublist.append("S")
+            elif std_B1 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_B2 = self.db.getFehlzeitDatumStd(studentpk, i+"_B-2")[0][0]
+            if std_B2 == "1":
+                sublist.append("u")
+            elif std_B2 == "2":
+                sublist.append("e")
+            elif std_B2 == "3":
+                sublist.append("S")
+            elif std_B2 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_B3 = self.db.getFehlzeitDatumStd(studentpk, i+"_B-3")[0][0]
+            if std_B3 == "1":
+                sublist.append("u")
+            elif std_B3 == "2":
+                sublist.append("e")
+            elif std_B3 == "3":
+                sublist.append("S")
+            elif std_B3 == "4":
+                sublist.append("Q")
+            else:
+                sublist.append("")
+
+            std_B4 = self.db.getFehlzeitDatumStd(studentpk, i+"_B-4")[0][0]
+            if std_B4 == "1":
+                sublist.append("u")
+            elif std_B4 == "2":
+                sublist.append("e")
+            elif std_B4 == "3":
+                sublist.append("S")
+            elif std_B4 == "4":
                 sublist.append("Q")
             else:
                 sublist.append("")
@@ -2498,19 +2567,46 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # only if sublist is not empty append to fzlist
             if state is True:
                 fzlist.append(sublist)
-            
+
             # provide empty sublist for next run
             sublist = []
 
-        # output in message box
-        text = "['1', '2', '3', '4', '5', '6', '7', 'DATUM'] \n"
+        # output in FzOverview Dialogue
+        self.info.close()
+        overview = FzOverview(fzlist, self)
+
+
+class FzOverview(Ui_DialogFzOverview, QtWidgets.QDialog):
+    def __init__(self, fzlist, tut):
+        super(FzOverview, self).__init__(tut)
+        self.setupUi(self)
+        self.show()
+
+        self.pushButtonSchliessen.clicked.connect(self.schliessen)
+
+        self.tableWidget.setRowCount(len(fzlist))
+        self.tableWidget.setColumnWidth(0, 200)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(
+            0, QtWidgets.QHeaderView.Stretch)
+
+        z = 0
         for i in fzlist:
-            text += str(i) + "\n"
-        self.message = QtWidgets.QMessageBox(self)
-        self.message.setWindowTitle("Fehlzeitenübersicht")
-        self.message.setWindowIcon(QtGui.QIcon('kursbuch.ico'))
-        self.message.setText(text)
-        self.message.exec_()
+            self.tableWidget.setItem(z, 0, QtWidgets.QTableWidgetItem(i[11]))
+            self.tableWidget.setItem(z, 1, QtWidgets.QTableWidgetItem(i[0]))
+            self.tableWidget.setItem(z, 2, QtWidgets.QTableWidgetItem(i[1]))
+            self.tableWidget.setItem(z, 3, QtWidgets.QTableWidgetItem(i[2]))
+            self.tableWidget.setItem(z, 4, QtWidgets.QTableWidgetItem(i[3]))
+            self.tableWidget.setItem(z, 5, QtWidgets.QTableWidgetItem(i[4]))
+            self.tableWidget.setItem(z, 6, QtWidgets.QTableWidgetItem(i[5]))
+            self.tableWidget.setItem(z, 7, QtWidgets.QTableWidgetItem(i[6]))
+            self.tableWidget.setItem(z, 8, QtWidgets.QTableWidgetItem(i[7]))
+            self.tableWidget.setItem(z, 9, QtWidgets.QTableWidgetItem(i[8]))
+            self.tableWidget.setItem(z, 10, QtWidgets.QTableWidgetItem(i[9]))
+            self.tableWidget.setItem(z, 11, QtWidgets.QTableWidgetItem(i[10]))
+            z += 1
+
+    def schliessen(self):
+        self.close()
 
 
 class Block(Ui_BlockKomp, QtWidgets.QDialog):

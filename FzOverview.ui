@@ -1,27 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>DialogFzOverview</class>
+ <widget class="QDialog" name="DialogFzOverview">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>692</width>
-    <height>608</height>
+    <width>780</width>
+    <height>588</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Fehlzeitenübersicht aktuelle*r Schueler*in</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>kursbuch.ico</normaloff>kursbuch.ico</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QTableWidget" name="tableWidget"/>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButtonSchliessen">
+     <property name="text">
+      <string>Schließen</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>PushButton</string>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>50</number>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Datum</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>1.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>2.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>3.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>4.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>5.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>6.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>7.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>B 1.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>B 2.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>B 3.</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>B 4.</string>
+      </property>
+     </column>
     </widget>
    </item>
   </layout>
