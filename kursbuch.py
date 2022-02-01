@@ -1061,7 +1061,7 @@ class StundeAnlegen(Ui_Form, QtWidgets.QDialog):
         self.comboBoxSerie.setCurrentIndex(0)
 
         # let non editable combobox in fusion style still respect maxitems
-        self.comboBoxSerie.setStyleSheet("combobox-popup: 0;")
+        #self.comboBoxSerie.setStyleSheet("combobox-popup: 0;")
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Return or e.key() == QtCore.Qt.Key_Enter:
