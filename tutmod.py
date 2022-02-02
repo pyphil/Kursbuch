@@ -2397,9 +2397,10 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
         self.info = Infobox("Fehlzeitenübersicht wird generiert...", self.gui)
         # semi-professional way to keep ui responsive:
         QtWidgets.QApplication.processEvents()
-        
+
         studentpk = self.student_pk
         columns = self.db.getSFehlzeiten(studentpk)
+        sname = columns[0][0][4] + " " + columns[0][0][3]
         datelist = []
         for i in range(len(columns[1])):
             if i >= 6:
@@ -2571,18 +2572,21 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
             # provide empty sublist for next run
             sublist = []
 
-        # output in FzOverview Dialogue
         self.info.close()
-        overview = FzOverview(fzlist, self)
+        # output in FzOverview Dialogue
+        overview = FzOverview(fzlist, sname, start, end, self)
 
 
 class FzOverview(Ui_DialogFzOverview, QtWidgets.QDialog):
-    def __init__(self, fzlist, tut):
+    def __init__(self, fzlist, sname, start, end, tut):
         super(FzOverview, self).__init__(tut)
         self.setupUi(self)
         self.show()
 
         self.pushButtonSchliessen.clicked.connect(self.schliessen)
+        self.label.setText("Fehlzeitenübersicht für " + sname + " vom " +
+                           start.strftime('%d. %b %Y') + " bis " +
+                           end.strftime('%d. %b %Y') + ":")
 
         self.tableWidget.setRowCount(len(fzlist))
         self.tableWidget.setColumnWidth(0, 200)

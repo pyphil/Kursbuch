@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DialogFzOverview(object):
     def setupUi(self, DialogFzOverview):
         DialogFzOverview.setObjectName("DialogFzOverview")
-        DialogFzOverview.resize(780, 588)
+        DialogFzOverview.resize(780, 647)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(".\\kursbuch.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DialogFzOverview.setWindowIcon(icon)
@@ -53,14 +53,19 @@ class Ui_DialogFzOverview(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(11, item)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(50)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(25)
+        self.tableWidget.verticalHeader().setMinimumSectionSize(25)
         self.gridLayout.addWidget(self.tableWidget, 1, 0, 1, 1)
+        self.label = QtWidgets.QLabel(DialogFzOverview)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
         self.retranslateUi(DialogFzOverview)
         QtCore.QMetaObject.connectSlotsByName(DialogFzOverview)
 
     def retranslateUi(self, DialogFzOverview):
         _translate = QtCore.QCoreApplication.translate
-        DialogFzOverview.setWindowTitle(_translate("DialogFzOverview", "Fehlzeitenübersicht aktuelle*r Schueler*in"))
+        DialogFzOverview.setWindowTitle(_translate("DialogFzOverview", "Fehlzeitenübersicht aktuelle*r Schüler*in"))
         self.pushButtonSchliessen.setText(_translate("DialogFzOverview", "Schließen"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("DialogFzOverview", "Datum"))
@@ -86,6 +91,7 @@ class Ui_DialogFzOverview(object):
         item.setText(_translate("DialogFzOverview", "B 3."))
         item = self.tableWidget.horizontalHeaderItem(11)
         item.setText(_translate("DialogFzOverview", "B 4."))
+        self.label.setText(_translate("DialogFzOverview", "Fehlzeitenübersicht Schueler*in vom ... bis ..."))
 
 
 if __name__ == "__main__":
