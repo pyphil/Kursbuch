@@ -314,8 +314,8 @@ selection-color: rgb(255, 255, 255);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>733</width>
-             <height>635</height>
+             <width>730</width>
+             <height>639</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
@@ -483,7 +483,7 @@ selection-color: rgb(255, 255, 255);</string>
                 <rect>
                  <x>10</x>
                  <y>10</y>
-                 <width>115</width>
+                 <width>141</width>
                  <height>31</height>
                 </rect>
                </property>
@@ -494,7 +494,7 @@ selection-color: rgb(255, 255, 255);</string>
                 </font>
                </property>
                <property name="text">
-                <string>Kurshefteintrag vom
+                <string>Kurshefteintrag von
 ...</string>
                </property>
                <property name="wordWrap">
@@ -511,7 +511,7 @@ selection-color: rgb(255, 255, 255);</string>
                 </rect>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Legende&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;anw = anwesend&lt;br/&gt;uFs = unentsch. Fehlstd.&lt;br/&gt;eFs = entsch. Fehlstd.&lt;br/&gt;S/K = Schulveran-staltung oder Klausur&lt;br/&gt;Q = Quarantäne&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Klausuren&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Fehlen SuS in anderen Stunden durch Klausuren im eigenen Fach, werden diese Stunden, wenn sie dafür ganz ausfallen, einzeln angelegt und nur die Klausurschreiber in diesen Stunden auf S/K gestellt. Fehlen Klausurschreiber, fehlen sie in allen dieser Klausurstunden. &lt;br/&gt;&lt;br/&gt;ACHTUNG: Eventuelle Fehlzeiten der Nicht-Klausurschreiber müssen unangetastet bleiben.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Legende&lt;/span&gt;&lt;/p&gt;&lt;p&gt;anw = anwesend&lt;br/&gt;uFs = unentsch. Fehlstd.&lt;br/&gt;eFs = entsch. Fehlstd.&lt;br/&gt;S/K = Schulveran-staltung oder Klausur&lt;br/&gt;Q = Quarantäne&lt;br/&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Klausuren&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Fehlen SuS in &lt;span style=&quot; font-weight:600;&quot;&gt;anderen Stunden &lt;/span&gt;durch Klausuren im eigenen Fach, werden diese Stunden, wenn sie dafür ganz ausfallen, einzeln bei den jeweiligen SuS &lt;span style=&quot; font-weight:600;&quot;&gt;im Tutorenmodus&lt;/span&gt; auf &amp;quot;S/K&amp;quot; gestellt oder wenn sie als Klausurschreiber die Klausur versäumen auf &amp;quot;u&amp;quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -564,7 +564,7 @@ selection-color: rgb(255, 255, 255);</string>
      <x>0</x>
      <y>0</y>
      <width>1045</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatei">
