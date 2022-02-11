@@ -61,7 +61,7 @@ class Database:
         self.feriendaten = ""
         self.nosus = 0
         self.req_dbversion = 1
-        current_version = "1.3.2"
+        current_version = "1.3.4"
 
         # Verbindung zur lokalen Datenbank herstellen
         self.loadkursdb()
