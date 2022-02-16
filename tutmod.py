@@ -482,7 +482,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][0], True)
-            elif self.button1_1.text() == 'S':
+            elif self.button1_1.text() == 'S/K':
                 self.button1_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button1_1.setText("Q")
@@ -532,7 +532,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][0], True)
-            elif self.button1_2.text() == 'S':
+            elif self.button1_2.text() == 'S/K':
                 self.button1_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button1_2.setText("Q")
@@ -582,7 +582,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][0], True)
-            elif self.button1_3.text() == 'S':
+            elif self.button1_3.text() == 'S/K':
                 self.button1_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button1_3.setText("Q")
@@ -632,7 +632,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][0], True)
-            elif self.button1_4.text() == 'S':
+            elif self.button1_4.text() == 'S/K':
                 self.button1_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button1_4.setText("Q")
@@ -682,7 +682,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button1_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][0], True)
-            elif self.button1_5.text() == 'S':
+            elif self.button1_5.text() == 'S/K':
                 self.button1_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button1_5.setText("Q")
@@ -732,7 +732,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][1], True)
-            elif self.button2_1.text() == 'S':
+            elif self.button2_1.text() == 'S/K':
                 self.button2_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button2_1.setText("Q")
@@ -782,7 +782,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][1], True)
-            elif self.button2_2.text() == 'S':
+            elif self.button2_2.text() == 'S/K':
                 self.button2_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button2_2.setText("Q")
@@ -832,7 +832,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][1], True)
-            elif self.button2_3.text() == 'S':
+            elif self.button2_3.text() == 'S/K':
                 self.button2_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button2_3.setText("Q")
@@ -882,7 +882,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][1], True)
-            elif self.button2_4.text() == 'S':
+            elif self.button2_4.text() == 'S/K':
                 self.button2_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button2_4.setText("Q")
@@ -932,7 +932,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button2_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][1], True)
-            elif self.button2_5.text() == 'S':
+            elif self.button2_5.text() == 'S/K':
                 self.button2_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button2_5.setText("Q")
@@ -982,7 +982,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][2], True)
-            elif self.button3_1.text() == 'S':
+            elif self.button3_1.text() == 'S/K':
                 self.button3_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button3_1.setText("Q")
@@ -1032,7 +1032,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][2], True)
-            elif self.button3_2.text() == 'S':
+            elif self.button3_2.text() == 'S/K':
                 self.button3_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button3_2.setText("Q")
@@ -1082,7 +1082,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][2], True)
-            elif self.button3_3.text() == 'S':
+            elif self.button3_3.text() == 'S/K':
                 self.button3_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button3_3.setText("Q")
@@ -1132,7 +1132,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][2], True)
-            elif self.button3_4.text() == 'S':
+            elif self.button3_4.text() == 'S/K':
                 self.button3_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button3_4.setText("Q")
@@ -1182,7 +1182,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button3_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][2], True)
-            elif self.button3_5.text() == 'S':
+            elif self.button3_5.text() == 'S/K':
                 self.button3_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button3_5.setText("Q")
@@ -1232,7 +1232,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][3], True)
-            elif self.button4_1.text() == 'S':
+            elif self.button4_1.text() == 'S/K':
                 self.button4_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button4_1.setText("Q")
@@ -1282,7 +1282,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][3], True)
-            elif self.button4_2.text() == 'S':
+            elif self.button4_2.text() == 'S/K':
                 self.button4_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button4_2.setText("Q")
@@ -1332,7 +1332,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][3], True)
-            elif self.button4_3.text() == 'S':
+            elif self.button4_3.text() == 'S/K':
                 self.button4_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button4_3.setText("Q")
@@ -1382,7 +1382,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][3], True)
-            elif self.button4_4.text() == 'S':
+            elif self.button4_4.text() == 'S/K':
                 self.button4_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button4_4.setText("Q")
@@ -1432,7 +1432,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button4_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][3], True)
-            elif self.button4_5.text() == 'S':
+            elif self.button4_5.text() == 'S/K':
                 self.button4_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button4_5.setText("Q")
@@ -1482,7 +1482,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][4], True)
-            elif self.button5_1.text() == 'S':
+            elif self.button5_1.text() == 'S/K':
                 self.button5_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button5_1.setText("Q")
@@ -1532,7 +1532,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][4], True)
-            elif self.button5_2.text() == 'S':
+            elif self.button5_2.text() == 'S/K':
                 self.button5_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button5_2.setText("Q")
@@ -1582,7 +1582,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][4], True)
-            elif self.button5_3.text() == 'S':
+            elif self.button5_3.text() == 'S/K':
                 self.button5_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button5_3.setText("Q")
@@ -1632,7 +1632,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][4], True)
-            elif self.button5_4.text() == 'S':
+            elif self.button5_4.text() == 'S/K':
                 self.button5_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button5_4.setText("Q")
@@ -1682,7 +1682,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button5_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][4], True)
-            elif self.button5_5.text() == 'S':
+            elif self.button5_5.text() == 'S/K':
                 self.button5_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button5_5.setText("Q")
@@ -1732,7 +1732,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][5], True)
-            elif self.button6_1.text() == 'S':
+            elif self.button6_1.text() == 'S/K':
                 self.button6_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button6_1.setText("Q")
@@ -1782,7 +1782,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][5], True)
-            elif self.button6_2.text() == 'S':
+            elif self.button6_2.text() == 'S/K':
                 self.button6_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button6_2.setText("Q")
@@ -1832,7 +1832,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][5], True)
-            elif self.button6_3.text() == 'S':
+            elif self.button6_3.text() == 'S/K':
                 self.button6_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button6_3.setText("Q")
@@ -1882,7 +1882,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][5], True)
-            elif self.button6_4.text() == 'S':
+            elif self.button6_4.text() == 'S/K':
                 self.button6_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button6_4.setText("Q")
@@ -1932,7 +1932,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button6_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][5], True)
-            elif self.button6_5.text() == 'S':
+            elif self.button6_5.text() == 'S/K':
                 self.button6_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button6_5.setText("Q")
@@ -1982,7 +1982,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_1.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[0][6], True)
-            elif self.button7_1.text() == 'S':
+            elif self.button7_1.text() == 'S/K':
                 self.button7_1.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button7_1.setText("Q")
@@ -2032,7 +2032,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_2.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[1][6], True)
-            elif self.button7_2.text() == 'S':
+            elif self.button7_2.text() == 'S/K':
                 self.button7_2.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button7_2.setText("Q")
@@ -2082,7 +2082,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_3.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[2][6], True)
-            elif self.button7_3.text() == 'S':
+            elif self.button7_3.text() == 'S/K':
                 self.button7_3.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button7_3.setText("Q")
@@ -2132,7 +2132,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_4.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[3][6], True)
-            elif self.button7_4.text() == 'S':
+            elif self.button7_4.text() == 'S/K':
                 self.button7_4.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button7_4.setText("Q")
@@ -2182,7 +2182,7 @@ class Tutmod(Ui_Tutmodgui, QtWidgets.QDialog):
                 self.button7_5.setText("S/K")
                 self.db.writeFehlzeiten(
                     self.student_pk, 3, self.datelistweek[4][6], True)
-            elif self.button7_5.text() == 'S':
+            elif self.button7_5.text() == 'S/K':
                 self.button7_5.setStyleSheet(
                     "background-color: rgb(160, 209, 255);")
                 self.button7_5.setText("Q")
